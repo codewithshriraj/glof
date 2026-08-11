@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SENTRY // SATELLITE FUSION ONBOARDING</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed": "#dde1ff",
+                        "tertiary": "#c3c7cc",
+                        "surface-container-highest": "#2e363e",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "outline": "#8e90a0",
+                        "surface-tint": "#b8c4ff",
+                        "on-surface-variant": "#c4c5d7",
+                        "on-primary": "#002486",
+                        "on-secondary": "#00363e",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed": "#a2eeff",
+                        "surface-container-high": "#232b33",
+                        "tertiary-fixed": "#e0e2e8",
+                        "on-tertiary-fixed": "#181c20",
+                        "surface-container": "#182028",
+                        "surface-container-low": "#141c24",
+                        "surface": "#0c141c",
+                        "background": "#0c141c",
+                        "on-error": "#690005",
+                        "inverse-surface": "#dbe3ee",
+                        "on-primary-container": "#001f76",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed-variant": "#0036bc",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "on-secondary-fixed": "#001f25",
+                        "primary-container": "#6c88ff",
+                        "tertiary-container": "#8d9196",
+                        "surface-bright": "#323a42",
+                        "secondary": "#5de6ff",
+                        "inverse-primary": "#2a50d8",
+                        "on-tertiary": "#2d3135",
+                        "surface-container-lowest": "#070f16",
+                        "secondary-container": "#00cbe6",
+                        "on-background": "#dbe3ee",
+                        "outline-variant": "#444654",
+                        "primary": "#b8c4ff",
+                        "surface-dim": "#0c141c",
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "surface-variant": "#2e363e",
+                        "on-primary-fixed": "#001355",
+                        "on-tertiary-container": "#262a2f",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "on-surface": "#dbe3ee",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#293139",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "on-secondary-container": "#00515d"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "gutter": "12px",
+                        "container-padding": "24px",
+                        "module-gap": "1px",
+                        "unit": "4px"
+                    },
+                    fontFamily: {
+                        "label-caps": ["Inter"],
+                        "data-md": ["JetBrains Mono"],
+                        "display-lg": ["Inter"],
+                        "data-lg": ["JetBrains Mono"],
+                        "meta-xs": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Inter"]
+                    },
+                    fontSize: {
+                        "label-caps": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "data-md": ["14px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-lg": ["20px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "meta-xs": ["10px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }]
+                    },
+                    backgroundImage: {
+                        'gradient-primary': 'linear-gradient(to right, #6c88ff, #00cbe6)',
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0A0E12; /* Explicit background for depth layering */
+        }
+        
+        /* Grid background pattern */
+        .grid-bg {
+            background-size: 20px 20px;
+            background-image: 
+                linear-gradient(to right, rgba(35, 43, 51, 0.3) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(35, 43, 51, 0.3) 1px, transparent 1px);
+        }
+
+        /* Scanline effect */
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            position: absolute;
+            pointer-events: none;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(93, 230, 255, 0.1) 50%, rgba(0, 0, 0, 0) 100%);
+            opacity: 0.1;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: -100px; }
+            100% { top: 100%; }
+        }
+
+        /* Pulsing indicator */
+        .status-ping {
+            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes ping {
+            75%, 100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md h-screen w-screen overflow-hidden flex flex-col relative grid-bg">
+<!-- Global Nav & Shell are SUPPRESSED per rules for Onboarding/Linear screens -->
+<!-- Ambient Overlay -->
+<div class="absolute inset-0 pointer-events-none radial-gradient-ambient"></div>
+<div class="scanline"></div>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col lg:flex-row h-full relative z-10 w-full max-w-[1440px] mx-auto p-container-padding gap-gutter">
+<!-- Left Panel: Context & Typography (The "Science") -->
+<section class="flex flex-col justify-between w-full lg:w-5/12 h-full bg-surface-container/80 backdrop-blur-sm border border-surface-container-high rounded p-container-padding relative z-10">
+<div class="space-y-6">
+<!-- Branding Header -->
+<div class="flex items-center gap-3 pb-4 border-b border-surface-container-high">
+<span class="material-symbols-outlined text-primary text-[24px]">satellite_alt</span>
+<div>
+<h1 class="font-headline-sm text-headline-sm tracking-widest text-primary uppercase">GLOF SENTRY // INITIATION</h1>
+<p class="font-meta-xs text-meta-xs text-tertiary">SYS.ONBOARDING.SEQ_01</p>
+</div>
+</div>
+<!-- Main Narrative -->
+<div class="mt-8 space-y-4">
+<h2 class="font-display-lg text-display-lg text-on-surface leading-tight">
+                        Satellite <br/>
+<span class="text-transparent bg-clip-text bg-gradient-primary">Fusion Engine</span>
+</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+                        SENTRY aggregates multi-modal orbital telemetry to monitor glacial lake outburst floods in real-time. By fusing synthetic aperture radar (SAR) and optical imagery, we calculate continuous risk vectors regardless of cloud cover or diurnal cycles.
+                    </p>
+</div>
+<!-- Technical Specs (High Density) -->
+<div class="mt-8 space-y-2 border border-surface-container-high p-4 rounded bg-surface/50 backdrop-blur-md">
+<h3 class="font-label-caps text-label-caps text-secondary mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">tune</span> TELEMETRY SOURCES
+                    </h3>
+<div class="grid grid-cols-2 gap-x-4 gap-y-2">
+<div class="flex flex-col border-b border-surface-container-high pb-1">
+<span class="font-meta-xs text-meta-xs text-tertiary">SAR.SENSOR</span>
+<span class="font-data-md text-data-md text-on-surface">Sentinel-1 (C-Band)</span>
+</div>
+<div class="flex flex-col border-b border-surface-container-high pb-1">
+<span class="font-meta-xs text-meta-xs text-tertiary">OPTICAL.SENSOR</span>
+<span class="font-data-md text-data-md text-on-surface">Sentinel-2 L2A</span>
+</div>
+<div class="flex flex-col border-b border-surface-container-high pb-1">
+<span class="font-meta-xs text-meta-xs text-tertiary">REVISIT_RATE</span>
+<span class="font-data-md text-data-md text-on-surface">~6 Days / Poles</span>
+</div>
+<div class="flex flex-col border-b border-surface-container-high pb-1">
+<span class="font-meta-xs text-meta-xs text-tertiary">RESOLUTION</span>
+<span class="font-data-md text-data-md text-on-surface">10m / Pixel</span>
+</div>
+<div class="flex flex-col col-span-2">
+<span class="font-meta-xs text-meta-xs text-tertiary">FUSION_ALGORITHM</span>
+<span class="font-data-md text-data-md text-primary">ConvLSTM_v3.2 [Active]</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Area -->
+<div class="mt-12 flex justify-between items-center pt-6 border-t border-surface-container-high">
+<div class="flex gap-2">
+<div class="w-8 h-1 bg-secondary rounded-full"></div>
+<div class="w-2 h-1 bg-surface-container-high rounded-full"></div>
+<div class="w-2 h-1 bg-surface-container-high rounded-full"></div>
+</div>
+<button class="bg-gradient-primary hover:opacity-90 text-surface-container-lowest font-label-caps text-label-caps px-6 py-3 rounded flex items-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_15px_rgba(108,136,255,0.3)]">
+                    INITIALIZE VECTORS
+                    <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Right Panel: Visualization (The "Data") -->
+<section class="hidden lg:flex flex-1 relative flex-col gap-module-gap h-full">
+<!-- Bento Layout for Visualization -->
+<div class="flex-1 grid grid-cols-12 grid-rows-6 gap-module-gap h-full">
+<!-- SAR View -->
+<div class="col-span-12 row-span-3 bg-surface-container border border-surface-container-high rounded relative overflow-hidden group">
+<div class="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-luminosity group-hover:opacity-60 transition-opacity duration-500" data-alt="High contrast black and white satellite imagery of a mountainous glacial region, typical of Synthetic Aperture Radar (SAR). Technical hud overlay with scientific measurements. Dark mode aesthetic, harsh shadows, gritty texture, industrial surveillance feel." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD2vSwaBuOdB7IzN3L4iRU1lI63w-6_pv-jc43rkLBCYR4fjfrZ_Z9RfdRjY-RD7EfNwh3SbI2szGs7qZqgbhAvyf196VoyoiL7xCTL_2q8j8zIu19O0C1PNHD738HVvUrBiiLCm_XGhATK2yeIZpdUcydhOWw6pdlBgBXvVrtgM6HBGmLwenwX9zKFLc_Qwaf8BJ8_i1z2JupnteuGUuLUl3cSXl33QCW_BnmXmraf1lg520UbyUQz')"></div>
+<div class="absolute top-4 left-4 z-10 flex items-center gap-2 bg-surface/80 backdrop-blur px-2 py-1 rounded border border-surface-container-high">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span class="font-meta-xs text-meta-xs text-secondary tracking-widest">SAR.L1_SLC</span>
+</div>
+<!-- Overlay Graphing -->
+<div class="absolute bottom-4 left-4 right-4 h-16 flex items-end gap-1 opacity-70">
+<!-- Decorative bars -->
+<div class="flex-1 h-[20%] bg-outline-variant border border-surface-container-highest"></div>
+<div class="flex-1 h-[35%] bg-outline-variant border border-surface-container-highest"></div>
+<div class="flex-1 h-[60%] bg-primary-container border border-primary-fixed-dim"></div>
+<div class="flex-1 h-[40%] bg-outline-variant border border-surface-container-highest"></div>
+<div class="flex-1 h-[80%] bg-secondary-container border border-secondary"></div>
+<div class="flex-1 h-[30%] bg-outline-variant border border-surface-container-highest"></div>
+<div class="flex-1 h-[25%] bg-outline-variant border border-surface-container-highest"></div>
+</div>
+</div>
+<!-- Optical View -->
+<div class="col-span-7 row-span-3 bg-surface-container border border-surface-container-high rounded relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center opacity-30 grayscale mix-blend-screen" data-alt="Top down optical satellite imagery of a glacial lake in the Himalayas, tinted slightly blue. Cloud cover obscures part of the view. Technical UI elements overlaid. High tech, precision scientific monitoring aesthetic, dark minimalist environment." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDaitZ-LrCp8FPDgG3WrIkGyr2Q-uInjP17VFdVedFdA-JM8Vh1t1mF4dcBOVgZgnA4HYgLUm29QnK5s9PW2LynYUgPWhWQZ44SYVAOey3QKB_My4Uc4G6GnQrys7NPHJHcz6MlP0TG67AHdrFarK3RFMuLYSDvZ-MIh1JjukbX_GlFlUmuRprcrWQNNPy06f3o7RzkU9BwIAOQ_oCSQaBa8oDpsy6zdGA2CLukzKr4pJwxMGVKqwGw')"></div>
+<div class="absolute top-4 left-4 z-10 flex items-center gap-2 bg-surface/80 backdrop-blur px-2 py-1 rounded border border-surface-container-high">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+<span class="font-meta-xs text-meta-xs text-tertiary tracking-widest">OPT.L2A_TCI</span>
+</div>
+<!-- Cloud Mask Warning -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="border border-outline-variant/50 bg-surface/40 backdrop-blur px-4 py-2 rounded flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[16px]">cloud_off</span>
+<span class="font-meta-xs text-meta-xs text-tertiary">CLOUD_MASK_ACTIVE : 42% OBSCURATION</span>
+</div>
+</div>
+</div>
+<!-- Fusion Engine Output (Risk Score) -->
+<div class="col-span-5 row-span-3 bg-surface border border-surface-container-high rounded relative p-4 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[16px]">layers</span>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">FUSION.OUT</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="relative flex h-2 w-2">
+<span class="status-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-error"></span>
+</span>
+<span class="font-meta-xs text-meta-xs text-error">LIVE</span>
+</div>
+</div>
+<div class="text-center my-auto">
+<span class="font-meta-xs text-meta-xs text-tertiary block mb-1">AGGREGATED RISK INDEX</span>
+<div class="font-display-lg text-[48px] leading-none font-bold text-transparent bg-clip-text bg-gradient-to-b from-error to-error-container tracking-tighter">
+                            0.84
+                        </div>
+<span class="font-data-md text-data-md text-error block mt-2">DELTA: +0.12 (48H)</span>
+</div>
+<div class="border-t border-surface-container-high pt-3">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant block mb-1">PROBABILITY DENSITY</span>
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-error w-[84%] relative">
+<div class="absolute right-0 top-0 bottom-0 w-4 bg-white/30 skew-x-[-45deg]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Connection Lines (SVG overlay for HUD feel) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none z-20" preserveaspectratio="none">
+<!-- Line from SAR down to Fusion -->
+<path d="M 50% 50% L 50% 55% L 80% 55% L 80% 60%" fill="none" stroke="#232b33" stroke-dasharray="4 2" stroke-width="1"></path>
+</svg>
+</section>
+</main>
+</body></html>

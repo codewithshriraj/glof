@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GLOF Sentry | System Initializing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#dde1ff",
+                        "tertiary": "#c3c7cc",
+                        "surface-container-highest": "#2e363e",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "outline": "#8e90a0",
+                        "surface-tint": "#b8c4ff",
+                        "on-surface-variant": "#c4c5d7",
+                        "on-primary": "#002486",
+                        "on-secondary": "#00363e",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed": "#a2eeff",
+                        "surface-container-high": "#232b33",
+                        "tertiary-fixed": "#e0e2e8",
+                        "on-tertiary-fixed": "#181c20",
+                        "surface-container": "#182028",
+                        "surface-container-low": "#141c24",
+                        "surface": "#0c141c",
+                        "background": "#0c141c",
+                        "on-error": "#690005",
+                        "inverse-surface": "#dbe3ee",
+                        "on-primary-container": "#001f76",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed-variant": "#0036bc",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "on-secondary-fixed": "#001f25",
+                        "primary-container": "#6c88ff",
+                        "tertiary-container": "#8d9196",
+                        "surface-bright": "#323a42",
+                        "secondary": "#5de6ff",
+                        "inverse-primary": "#2a50d8",
+                        "on-tertiary": "#2d3135",
+                        "surface-container-lowest": "#070f16",
+                        "secondary-container": "#00cbe6",
+                        "on-background": "#dbe3ee",
+                        "outline-variant": "#444654",
+                        "primary": "#b8c4ff",
+                        "surface-dim": "#0c141c",
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "surface-variant": "#2e363e",
+                        "on-primary-fixed": "#001355",
+                        "on-tertiary-container": "#262a2f",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "on-surface": "#dbe3ee",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#293139",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "on-secondary-container": "#00515d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "12px",
+                        "container-padding": "24px",
+                        "module-gap": "1px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "data-md": ["JetBrains Mono"],
+                        "display-lg": ["Inter"],
+                        "data-lg": ["JetBrains Mono"],
+                        "meta-xs": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "data-md": ["14px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-lg": ["20px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "meta-xs": ["10px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .grid-bg {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(142, 144, 160, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(142, 144, 160, 0.05) 1px, transparent 1px);
+        }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        
+        .status-ping::after {
+            content: '';
+            position: absolute;
+            left: -2px;
+            top: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 50%;
+            border: 1px solid currentColor;
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        .progress-bar-fill {
+            animation: progress 4s ease-in-out forwards;
+        }
+
+        .hud-border {
+            border: 1px solid theme('colors.surface-container-high');
+        }
+        
+        .text-glow {
+            text-shadow: 0 0 10px rgba(184, 196, 255, 0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface h-screen w-screen overflow-hidden flex flex-col justify-center items-center relative grid-bg">
+<!-- Top Left Telemetry -->
+<div class="absolute top-container-padding left-container-padding flex flex-col gap-unit">
+<span class="font-meta-xs text-meta-xs text-outline-variant">GLOF-SYS // UPLINK</span>
+<span class="font-data-md text-data-md text-primary">CONN_SECURE_T</span>
+</div>
+<!-- Top Right Version -->
+<div class="absolute top-container-padding right-container-padding flex flex-col gap-unit items-end">
+<span class="font-meta-xs text-meta-xs text-outline-variant">VERSION BUILD</span>
+<span class="font-data-md text-data-md text-secondary">v4.2.1-stable</span>
+</div>
+<!-- Central Hub -->
+<main class="flex flex-col items-center justify-center w-full max-w-md px-container-padding z-10">
+<!-- Logo Area -->
+<div class="relative w-32 h-32 mb-12 flex items-center justify-center">
+<!-- Simulated Pulse Wave -->
+<div class="absolute inset-0 rounded-full border border-primary/20 animate-[pulse-ring_3s_infinite]"></div>
+<div class="absolute inset-2 rounded-full border border-primary/40 animate-[pulse-ring_3s_infinite_1s]"></div>
+<div class="absolute inset-4 rounded-full border border-primary/60 animate-[pulse-ring_3s_infinite_2s]"></div>
+<!-- Core Icon -->
+<div class="w-16 h-16 bg-surface-container flex items-center justify-center rounded-full border border-primary z-10 shadow-[0_0_15px_rgba(184,196,255,0.2)]">
+<span class="material-symbols-outlined text-[32px] text-primary" data-icon="ac_unit" data-weight="fill" style="font-variation-settings: 'FILL' 1;">ac_unit</span>
+</div>
+</div>
+<!-- Identity -->
+<div class="text-center mb-16 flex flex-col items-center gap-2">
+<h1 class="font-display-lg text-display-lg text-primary text-glow tracking-widest uppercase">GLOF Sentry</h1>
+<p class="font-label-caps text-label-caps text-secondary tracking-[0.2em]">NATIONAL MONITORING GRID</p>
+</div>
+<!-- Initialization Sequence -->
+<div class="w-full flex flex-col gap-6">
+<div class="flex justify-between items-end w-full">
+<span class="font-meta-xs text-meta-xs text-primary" id="status-text">INITIALIZING CORE SYSTEMS...</span>
+<span class="font-data-md text-data-md text-secondary" id="progress-pct">0%</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-1 bg-surface-container-high relative overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-primary progress-bar-fill shadow-[0_0_8px_theme('colors.primary')]"></div>
+</div>
+<!-- Node Status Grid -->
+<div class="grid grid-cols-2 gap-module-gap bg-surface-container-high w-full mt-4">
+<!-- Satellite Cluster -->
+<div class="bg-surface p-4 flex flex-col gap-2 relative overflow-hidden">
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-outline">SAT CLUSTER</span>
+<div class="w-2 h-2 rounded-full bg-secondary relative status-ping text-secondary"></div>
+</div>
+<div class="flex justify-between items-end mt-2">
+<span class="font-data-md text-data-md text-on-surface">SENTINEL-A</span>
+<span class="font-meta-xs text-meta-xs text-secondary">SYNCED</span>
+</div>
+<div class="flex justify-between items-end">
+<span class="font-data-md text-data-md text-on-surface">LANDSAT-8</span>
+<span class="font-meta-xs text-meta-xs text-secondary">SYNCED</span>
+</div>
+</div>
+<!-- Ground Sensors -->
+<div class="bg-surface p-4 flex flex-col gap-2 relative overflow-hidden">
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-outline">GND ARRAY</span>
+<div class="w-2 h-2 rounded-full bg-secondary relative status-ping text-secondary" style="animation-delay: 0.5s;"></div>
+</div>
+<div class="flex justify-between items-end mt-2">
+<span class="font-data-md text-data-md text-on-surface">IMJA-G1</span>
+<span class="font-meta-xs text-meta-xs text-secondary">NOMINAL</span>
+</div>
+<div class="flex justify-between items-end">
+<span class="font-data-md text-data-md text-on-surface">TSHO-G2</span>
+<span class="font-meta-xs text-meta-xs text-secondary">NOMINAL</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Metadata -->
+<div class="absolute bottom-container-padding w-full flex justify-between px-container-padding">
+<span class="font-meta-xs text-meta-xs text-outline-variant">SYS_READY_AWAIT</span>
+<span class="font-meta-xs text-meta-xs text-outline-variant uppercase">Authorized Personnel Only</span>
+</div>
+<!-- Decorative Corner Brackets -->
+<div class="absolute top-4 left-4 w-8 h-8 border-t border-l border-outline-variant/30"></div>
+<div class="absolute top-4 right-4 w-8 h-8 border-t border-r border-outline-variant/30"></div>
+<div class="absolute bottom-4 left-4 w-8 h-8 border-b border-l border-outline-variant/30"></div>
+<div class="absolute bottom-4 right-4 w-8 h-8 border-b border-r border-outline-variant/30"></div>
+<script>
+        // Simple script to update percentage and text
+        const statusText = document.getElementById('status-text');
+        const progressPct = document.getElementById('progress-pct');
+        const statuses = [
+            "INITIALIZING CORE SYSTEMS...",
+            "ESTABLISHING SAT_UPLINK...",
+            "CALIBRATING GROUND SENSORS...",
+            "LOADING TERRAIN MESH...",
+            "SYSTEM READY"
+        ];
+        
+        let pct = 0;
+        const interval = setInterval(() => {
+            pct += 1;
+            progressPct.innerText = `${pct}%`;
+            
+            if (pct === 25) statusText.innerText = statuses[1];
+            if (pct === 50) statusText.innerText = statuses[2];
+            if (pct === 75) statusText.innerText = statuses[3];
+            
+            if (pct >= 100) {
+                clearInterval(interval);
+                statusText.innerText = statuses[4];
+                statusText.classList.remove('text-primary');
+                statusText.classList.add('text-secondary');
+            }
+        }, 40); // 40ms * 100 = 4000ms (matches css animation duration)
+    </script>
+</body></html>

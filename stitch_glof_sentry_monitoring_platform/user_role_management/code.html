@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GLOF SENTRY // NATIONAL MONITORING - Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#dde1ff",
+                        "tertiary": "#c3c7cc",
+                        "surface-container-highest": "#2e363e",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "outline": "#8e90a0",
+                        "surface-tint": "#b8c4ff",
+                        "on-surface-variant": "#c4c5d7",
+                        "on-primary": "#002486",
+                        "on-secondary": "#00363e",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed": "#a2eeff",
+                        "surface-container-high": "#232b33",
+                        "tertiary-fixed": "#e0e2e8",
+                        "on-tertiary-fixed": "#181c20",
+                        "surface-container": "#182028",
+                        "surface-container-low": "#141c24",
+                        "surface": "#0c141c",
+                        "background": "#0c141c",
+                        "on-error": "#690005",
+                        "inverse-surface": "#dbe3ee",
+                        "on-primary-container": "#001f76",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed-variant": "#0036bc",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "on-secondary-fixed": "#001f25",
+                        "primary-container": "#6c88ff",
+                        "tertiary-container": "#8d9196",
+                        "surface-bright": "#323a42",
+                        "secondary": "#5de6ff",
+                        "inverse-primary": "#2a50d8",
+                        "on-tertiary": "#2d3135",
+                        "surface-container-lowest": "#070f16",
+                        "secondary-container": "#00cbe6",
+                        "on-background": "#dbe3ee",
+                        "outline-variant": "#444654",
+                        "primary": "#b8c4ff",
+                        "surface-dim": "#0c141c",
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "surface-variant": "#2e363e",
+                        "on-primary-fixed": "#001355",
+                        "on-tertiary-container": "#262a2f",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "on-surface": "#dbe3ee",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#293139",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "on-secondary-container": "#00515d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "12px",
+                        "container-padding": "24px",
+                        "module-gap": "1px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "data-md": ["JetBrains Mono"],
+                        "display-lg": ["Inter"],
+                        "data-lg": ["JetBrains Mono"],
+                        "meta-xs": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "data-md": ["14px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-lg": ["20px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "meta-xs": ["10px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+            font-family: 'Inter', sans-serif;
+            background-image: linear-gradient(theme('colors.surface-container-high') 1px, transparent 1px),
+                              linear-gradient(90deg, theme('colors.surface-container-high') 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .hud-border {
+            border: 1px solid theme('colors.surface-container-high');
+        }
+        .glow-active {
+            box-shadow: 0 0 4px 0 rgba(93, 230, 255, 0.2);
+        }
+        /* Hide scrollbar for cleaner look */
+        ::-webkit-scrollbar { display: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col pb-14 md:pb-0 pt-16">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface-container border-b border-outline-variant">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="hub">hub</span>
+<span class="font-headline-sm text-headline-sm font-bold tracking-widest text-primary">GLOF SENTRY // NATIONAL MONITORING</span>
+</div>
+<!-- Web Nav (Hidden on Mobile) -->
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant transition-colors px-2 py-1 flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="dashboard">dashboard</span> COMMAND
+             </a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant transition-colors px-2 py-1 flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="warning">warning</span> RISK
+             </a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant transition-colors px-2 py-1 flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="map">map</span> MAP
+             </a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant transition-colors px-2 py-1 flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="analytics">analytics</span> DETAIL
+             </a>
+<a class="text-primary font-bold font-label-caps text-label-caps hover:bg-surface-variant transition-colors px-2 py-1 flex items-center gap-2 glow-active" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="admin_panel_settings">admin_panel_settings</span> ADMIN
+             </a>
+</nav>
+<div class="flex items-center">
+<span class="font-data-md text-data-md text-secondary">UTC 14:32 // NOMINAL</span>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow p-container-padding grid grid-cols-1 md:grid-cols-12 gap-module-gap bg-surface-container-high h-full overflow-hidden">
+<!-- Left Sidebar / Filters (2 Cols) -->
+<aside class="md:col-span-2 bg-surface p-4 flex flex-col gap-6">
+<div>
+<h2 class="font-label-caps text-label-caps text-outline uppercase mb-2 border-b border-surface-container-high pb-1">Directory</h2>
+<ul class="space-y-2 mt-4">
+<li><a class="font-label-caps text-label-caps text-primary bg-surface-variant px-2 py-1 block rounded-sm" href="#">Active Personnel</a></li>
+<li><a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors px-2 py-1 block" href="#">Archived</a></li>
+<li><a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors px-2 py-1 block" href="#">Pending Clearance</a></li>
+</ul>
+</div>
+<div>
+<h2 class="font-label-caps text-label-caps text-outline uppercase mb-2 border-b border-surface-container-high pb-1">Jurisdiction</h2>
+<div class="space-y-2 mt-4">
+<label class="flex items-center gap-2 font-data-md text-data-md text-on-surface">
+<input checked="" class="form-checkbox bg-surface-container border-outline text-primary rounded-sm focus:ring-0 focus:ring-offset-0 w-3 h-3" type="checkbox"/>
+                        Sector Alpha
+                    </label>
+<label class="flex items-center gap-2 font-data-md text-data-md text-on-surface">
+<input checked="" class="form-checkbox bg-surface-container border-outline text-primary rounded-sm focus:ring-0 focus:ring-offset-0 w-3 h-3" type="checkbox"/>
+                        Sector Beta
+                    </label>
+<label class="flex items-center gap-2 font-data-md text-data-md text-on-surface">
+<input class="form-checkbox bg-surface-container border-outline text-primary rounded-sm focus:ring-0 focus:ring-offset-0 w-3 h-3" type="checkbox"/>
+                        Sector Gamma
+                    </label>
+</div>
+</div>
+</aside>
+<!-- Main Data Table Area (10 Cols) -->
+<section class="md:col-span-10 bg-surface flex flex-col">
+<!-- Table Header Area -->
+<div class="p-4 border-b border-surface-container-high flex justify-between items-center bg-surface-container-lowest">
+<div>
+<h1 class="font-headline-sm text-headline-sm text-on-surface">USER &amp; ROLE MANAGEMENT</h1>
+<p class="font-meta-xs text-meta-xs text-outline mt-1">SYS_AUTH_TABLE_V2 // 14 ACTIVE RECORDS</p>
+</div>
+<div class="flex gap-4 items-center">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-outline text-sm" data-icon="search">search</span>
+<input class="bg-surface-container border-outline-variant text-on-surface font-data-md text-data-md pl-8 pr-2 py-1 focus:ring-1 focus:ring-primary focus:border-primary outline-none w-48 text-sm" placeholder="QUERY ID..." type="text"/>
+</div>
+<button class="bg-gradient-to-r from-inverse-primary to-secondary-container text-white font-label-caps text-label-caps px-4 py-2 hover:opacity-90 transition-opacity flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span> ADD PERSONNEL
+                    </button>
+</div>
+</div>
+<!-- The Table -->
+<div class="flex-grow overflow-auto">
+<table class="w-full text-left border-collapse">
+<thead class="sticky top-0 bg-surface-container-lowest z-10 border-b border-surface-container-high">
+<tr>
+<th class="p-3 font-label-caps text-label-caps text-outline w-12 text-center">STS</th>
+<th class="p-3 font-label-caps text-label-caps text-outline">ID / NAME</th>
+<th class="p-3 font-label-caps text-label-caps text-outline">JURISDICTION</th>
+<th class="p-3 font-label-caps text-label-caps text-outline">ROLE</th>
+<th class="p-3 font-label-caps text-label-caps text-outline text-center">OVERRIDE</th>
+<th class="p-3 font-label-caps text-label-caps text-outline text-center">TELEMETRY</th>
+<th class="p-3 font-label-caps text-label-caps text-outline text-right">ACTIONS</th>
+</tr>
+</thead>
+<tbody class="font-data-md text-data-md text-on-surface divide-y divide-surface-container-high">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-3 text-center">
+<div class="w-2 h-2 rounded-full bg-secondary mx-auto animate-pulse"></div>
+</td>
+<td class="p-3">
+<div class="font-bold">DR. ARIS THORNE</div>
+<div class="font-meta-xs text-meta-xs text-outline">OP-4492-A</div>
+</td>
+<td class="p-3">Sector Alpha, Sector Beta</td>
+<td class="p-3">
+<span class="px-2 py-0.5 border border-error text-error text-xs bg-error-container/10">ADMIN</span>
+</td>
+<td class="p-3 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-7 h-4 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-secondary after:border-secondary after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary-container/20 border border-outline-variant"></div>
+</label>
+</td>
+<td class="p-3 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-7 h-4 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-secondary after:border-secondary after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary-container/20 border border-outline-variant"></div>
+</label>
+</td>
+<td class="p-3 text-right">
+<button class="text-outline hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-sm" data-icon="edit">edit</span></button>
+<button class="text-outline hover:text-error transition-colors p-1 ml-1"><span class="material-symbols-outlined text-sm" data-icon="block">block</span></button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-3 text-center">
+<div class="w-2 h-2 rounded-full bg-secondary mx-auto"></div>
+</td>
+<td class="p-3">
+<div class="font-bold">CMD. J. VANCE</div>
+<div class="font-meta-xs text-meta-xs text-outline">OP-1102-S</div>
+</td>
+<td class="p-3">Sector Beta</td>
+<td class="p-3">
+<span class="px-2 py-0.5 border border-secondary text-secondary text-xs bg-secondary/10">SDMA</span>
+</td>
+<td class="p-3 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-7 h-4 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-tertiary after:border-tertiary after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary-container/20 border border-outline-variant"></div>
+</label>
+</td>
+<td class="p-3 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-7 h-4 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-secondary after:border-secondary after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary-container/20 border border-outline-variant"></div>
+</label>
+</td>
+<td class="p-3 text-right">
+<button class="text-outline hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-sm" data-icon="edit">edit</span></button>
+<button class="text-outline hover:text-error transition-colors p-1 ml-1"><span class="material-symbols-outlined text-sm" data-icon="block">block</span></button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group opacity-60">
+<td class="p-3 text-center">
+<div class="w-2 h-2 rounded-full bg-outline mx-auto"></div>
+</td>
+<td class="p-3">
+<div class="font-bold">E. RICHARDS</div>
+<div class="font-meta-xs text-meta-xs text-outline">OP-8834-F</div>
+</td>
+<td class="p-3">Sector Gamma</td>
+<td class="p-3">
+<span class="px-2 py-0.5 border border-primary text-primary text-xs bg-primary/10">FIELD</span>
+</td>
+<td class="p-3 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" disabled="" type="checkbox" value=""/>
+<div class="w-7 h-4 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-tertiary after:border-tertiary after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary-container/20 border border-outline-variant opacity-50"></div>
+</label>
+</td>
+<td class="p-3 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" disabled="" type="checkbox" value=""/>
+<div class="w-7 h-4 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-tertiary after:border-tertiary after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary-container/20 border border-outline-variant opacity-50"></div>
+</label>
+</td>
+<td class="p-3 text-right">
+<button class="text-outline hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-sm" data-icon="edit">edit</span></button>
+<button class="text-outline hover:text-error transition-colors p-1 ml-1"><span class="material-symbols-outlined text-sm" data-icon="settings_backup_restore">settings_backup_restore</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-2 border-t border-surface-container-high bg-surface-container-lowest text-right">
+<span class="font-meta-xs text-meta-xs text-outline">TABLE_SYS_OK // RENDER 14ms</span>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter h-14 bg-surface-dim border-t border-outline-variant md:hidden">
+<a class="flex flex-col items-center justify-center text-on-tertiary-container hover:text-primary transition-colors pt-1.5 w-1/5" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps mt-1 scale-75 origin-top">COMMAND</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container hover:text-primary transition-colors pt-1.5 w-1/5" href="#">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+<span class="font-label-caps text-label-caps mt-1 scale-75 origin-top">RISK</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container hover:text-primary transition-colors pt-1.5 w-1/5" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-label-caps text-label-caps mt-1 scale-75 origin-top">MAP</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container hover:text-primary transition-colors pt-1.5 w-1/5" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-caps text-label-caps mt-1 scale-75 origin-top">DETAIL</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary border-t-2 border-secondary pt-1 opacity-80 transition-opacity w-1/5" href="#">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-label-caps text-label-caps mt-1 scale-75 origin-top">ADMIN</span>
+</a>
+</nav>
+</body></html>

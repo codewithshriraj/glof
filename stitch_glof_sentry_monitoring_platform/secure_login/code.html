@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GLOF SENTRY // NATIONAL MONITORING - Secure Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#dde1ff",
+                        "tertiary": "#c3c7cc",
+                        "surface-container-highest": "#2e363e",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "outline": "#8e90a0",
+                        "surface-tint": "#b8c4ff",
+                        "on-surface-variant": "#c4c5d7",
+                        "on-primary": "#002486",
+                        "on-secondary": "#00363e",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed": "#a2eeff",
+                        "surface-container-high": "#232b33",
+                        "tertiary-fixed": "#e0e2e8",
+                        "on-tertiary-fixed": "#181c20",
+                        "surface-container": "#182028",
+                        "surface-container-low": "#141c24",
+                        "surface": "#0c141c",
+                        "background": "#0c141c",
+                        "on-error": "#690005",
+                        "inverse-surface": "#dbe3ee",
+                        "on-primary-container": "#001f76",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed-variant": "#0036bc",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "on-secondary-fixed": "#001f25",
+                        "primary-container": "#6c88ff",
+                        "tertiary-container": "#8d9196",
+                        "surface-bright": "#323a42",
+                        "secondary": "#5de6ff",
+                        "inverse-primary": "#2a50d8",
+                        "on-tertiary": "#2d3135",
+                        "surface-container-lowest": "#070f16",
+                        "secondary-container": "#00cbe6",
+                        "on-background": "#dbe3ee",
+                        "outline-variant": "#444654",
+                        "primary": "#b8c4ff",
+                        "surface-dim": "#0c141c",
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "surface-variant": "#2e363e",
+                        "on-primary-fixed": "#001355",
+                        "on-tertiary-container": "#262a2f",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "on-surface": "#dbe3ee",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#293139",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "on-secondary-container": "#00515d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "12px",
+                        "container-padding": "24px",
+                        "module-gap": "1px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "data-md": ["JetBrains Mono"],
+                        "display-lg": ["Inter"],
+                        "data-lg": ["JetBrains Mono"],
+                        "meta-xs": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "data-md": ["14px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-lg": ["20px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "meta-xs": ["10px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>/* Base Styles & Utilities */
+body {
+    background-color: #0A0E12;
+    /* Core background from style guidance */
+    color: theme("colors.on-background");
+    font-family: "Inter", sans-serif;
+    background-image: linear-gradient(rgba(10, 14, 18, 0.9), rgba(10, 14, 18, 0.95)), url(https://lh3.googleusercontent.com/aida-public/AB6AXuDfq6ga3onrjQqz12dq7yVjTPON1Lh-o6RCNVa9oBsXnCpsG-ddv6qaqlFRIq0gzDMr8FfmIVuceRZdA9_srPLgyCUCQnDQxPFnmHI0098NCuJd850BMFJx-sDcaiK-g912ar3wsZnZwmWUPSYZmQnMVIfUrOkp_yFwC7e_B-Hk4egZmafcqpLSTO-DxN846n2w-dr92k_2_4_4jm0oc4lNzCUKptv3mIuSdWRDK_jqO78auCuaAsmx);
+    background-size: cover;
+    background-position: center
+    }
+.hud-border {
+    border: 1px solid theme("colors.surface-container-high")
+    }
+.hud-border-bottom {
+    border-bottom: 1px solid theme("colors.surface-container-high")
+    }
+.glow-active:focus-within {
+    box-shadow: 0 0 4px 0 rgba(93, 230, 255, 0.2);
+    /* secondary color 20% */
+    border-color: theme("colors.secondary")
+    }
+/* Grid Background Pattern */
+.grid-bg {
+    background-size: 20px 20px;
+    background-image: linear-gradient(to right, rgba(35, 43, 51, 0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(35, 43, 51, 0.2) 1px, transparent 1px)
+    }</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col grid-bg" data-alt="A dark, high-contrast satellite view of the Himalayan mountain range at night. The terrain is rendered in deep charcoal grays and blacks, with subtle, luminescent cyan highlights outlining glacial structures and water bodies. The mood is tense and scientific, resembling a highly classified military or aerospace monitoring display.">
+<!-- JSON Component: TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface-container dark:bg-surface-container border-b border-outline-variant dark:border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-primary">hub</span>
+<span class="font-headline-sm text-headline-sm font-bold tracking-widest text-primary dark:text-primary">GLOF SENTRY // NATIONAL MONITORING</span>
+</div>
+<div>
+<span class="font-data-md text-data-md text-primary dark:text-primary uppercase">UTC 14:32 // NOMINAL</span>
+</div>
+</header>
+<!-- Main Content Area - Transactional, so navigation shell is suppressed as per rules -->
+<main class="flex-grow flex items-center justify-center pt-16 p-4 md:p-8">
+<!-- Login Module -->
+<div class="w-full max-w-md bg-surface-container hud-border relative overflow-hidden flex flex-col">
+<!-- Module Header -->
+<div class="hud-border-bottom px-6 py-4 flex items-center justify-between bg-surface-container-low">
+<h1 class="font-label-caps text-label-caps text-on-surface tracking-widest text-secondary">GOVERNMENT OF INDIA // NATIONAL DISASTER MANAGEMENT</h1>
+<span class="material-symbols-outlined text-secondary text-sm">security</span>
+</div>
+<!-- Module Body -->
+<div class="p-6 flex flex-col gap-6">
+<div class="flex flex-col gap-2">
+<h2 class="font-headline-sm text-headline-sm text-primary mb-2">SECURE SYSTEM ACCESS</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Authentication required for Level 4 environmental telemetry access.</p>
+</div>
+<form class="flex flex-col gap-5">
+<!-- Secure ID Field -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-caps text-label-caps text-tertiary-container" for="secure-id">SECURE ID</label>
+<div class="relative hud-border bg-background glow-active transition-all duration-200">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline-variant text-sm">badge</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2 bg-transparent border-none text-on-surface focus:ring-0 font-data-md text-data-md placeholder-outline-variant" id="secure-id" name="secure-id" placeholder="Enter ID" type="text"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-caps text-label-caps text-tertiary-container" for="password">AUTHORIZATION KEY</label>
+<div class="relative hud-border bg-background glow-active transition-all duration-200">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline-variant text-sm">key</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2 bg-transparent border-none text-on-surface focus:ring-0 font-data-md text-data-md placeholder-outline-variant" id="password" name="password" placeholder="••••••••••••" type="password"/>
+</div>
+</div>
+<!-- Actions -->
+<div class="pt-4 flex flex-col gap-3">
+<button class="w-full bg-gradient-to-r from-inverse-primary to-secondary-container text-white py-3 px-4 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity" type="button">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">login</span>
+<span class="font-label-caps text-label-caps">Sign in with National SSO</span>
+</button>
+<div class="flex justify-between items-center mt-2">
+<a class="font-meta-xs text-meta-xs text-outline hover:text-secondary transition-colors" href="#">REQUEST ACCESS</a>
+<a class="font-meta-xs text-meta-xs text-outline hover:text-secondary transition-colors" href="#">FORGOT CREDENTIALS?</a>
+</div>
+</div>
+</form>
+</div>
+<!-- Module Footer / Attribution -->
+<div class="absolute bottom-1 right-2">
+<span class="font-meta-xs text-meta-xs text-outline-variant">SYS-AUTH-V4.2</span>
+</div>
+<!-- Corner Accents (HUD aesthetic) -->
+<div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-secondary"></div>
+<div class="absolute top-0 right-0 w-2 h-2 border-t border-r border-secondary"></div>
+<div class="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-secondary"></div>
+<div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-secondary"></div>
+</div>
+</main>
+<!-- Bottom Nav Bar is excluded because this is a linear/transactional login screen. -->
+</body></html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notification Preferences - GLOF SENTRY</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#00cbe6",
+                        "on-primary-container": "#001f76",
+                        "on-secondary": "#00363e",
+                        "tertiary-container": "#8d9196",
+                        "on-primary-fixed": "#001355",
+                        "inverse-surface": "#dbe3ee",
+                        "on-background": "#dbe3ee",
+                        "on-secondary-fixed": "#001f25",
+                        "surface-container-high": "#232b33",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "error-container": "#93000a",
+                        "surface": "#0c141c",
+                        "on-tertiary-fixed": "#181c20",
+                        "tertiary": "#c3c7cc",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "primary-fixed": "#dde1ff",
+                        "primary-container": "#6c88ff",
+                        "surface-tint": "#b8c4ff",
+                        "surface-container-highest": "#2e363e",
+                        "surface-variant": "#2e363e",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "tertiary-fixed": "#e0e2e8",
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "surface-container-lowest": "#070f16",
+                        "inverse-on-surface": "#293139",
+                        "on-tertiary-container": "#262a2f",
+                        "on-secondary-container": "#00515d",
+                        "on-error": "#690005",
+                        "secondary-fixed": "#a2eeff",
+                        "inverse-primary": "#2a50d8",
+                        "error": "#ffb4ab",
+                        "surface-dim": "#0c141c",
+                        "on-primary-fixed-variant": "#0036bc",
+                        "secondary": "#5de6ff",
+                        "outline": "#8e90a0",
+                        "outline-variant": "#444654",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "surface-container-low": "#141c24",
+                        "on-surface-variant": "#c4c5d7",
+                        "primary": "#b8c4ff",
+                        "on-primary": "#002486",
+                        "on-surface": "#dbe3ee",
+                        "surface-container": "#182028",
+                        "surface-bright": "#323a42",
+                        "background": "#0c141c",
+                        "on-tertiary": "#2d3135"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-padding": "24px",
+                        "module-gap": "1px",
+                        "gutter": "12px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "meta-xs": ["JetBrains Mono"],
+                        "headline-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "data-md": ["JetBrains Mono"],
+                        "label-caps": ["Inter"],
+                        "data-lg": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "meta-xs": ["10px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-md": ["14px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "data-lg": ["20px", { "lineHeight": "1.2", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+            /* Grid background for technical feel */
+            background-image: linear-gradient(theme('colors.surface-container-high') 1px, transparent 1px),
+            linear-gradient(90deg, theme('colors.surface-container-high') 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        
+        .hud-border {
+            border: 1px solid theme('colors.surface-container-high');
+        }
+        
+        .hud-border-b {
+            border-bottom: 1px solid theme('colors.surface-container-high');
+        }
+        
+        /* Custom Toggle Switch for Dark Theme */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: theme('colors.primary');
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: theme('colors.primary');
+        }
+        .toggle-checkbox:checked + .toggle-label-critical {
+             background-color: theme('colors.error');
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col pt-16 pb-14 md:pb-0 font-body-md text-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface-container dark:bg-surface-container border-b border-outline-variant dark:border-outline-variant">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary dark:text-primary" style="font-variation-settings: 'FILL' 1;">hub</span>
+<h1 class="font-headline-sm text-headline-sm font-bold tracking-widest text-primary dark:text-primary m-0">GLOF SENTRY // NATIONAL MONITORING</h1>
+</div>
+<div class="hidden md:flex font-data-md text-data-md text-primary dark:text-primary">
+            UTC 14:32 // NOMINAL
+        </div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow p-container-padding max-w-7xl mx-auto w-full flex flex-col gap-gutter">
+<!-- Page Header -->
+<div class="mb-gutter">
+<h2 class="font-display-lg text-display-lg text-on-surface mb-2">NOTIFICATION PROTOCOLS</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Configure routing and delivery mechanisms for environmental telemetry alerts. Critical protocols bypass standard DND restrictions.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-[1px] bg-surface-container-high rounded-xl overflow-hidden border border-surface-container-high">
+<!-- Severity Levels (Left Column) -->
+<div class="md:col-span-8 bg-surface-container-high flex flex-col gap-[1px]">
+<!-- L4 Critical -->
+<section class="bg-surface p-container-padding relative group">
+<div class="absolute inset-0 bg-error/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+<div class="flex justify-between items-start mb-6">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">warning</span>
+<h3 class="font-label-caps text-label-caps text-error">CRITICAL ALERTS (L4)</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Imminent threat detected. Immediate evacuation or response required.</p>
+</div>
+<!-- Master Toggle -->
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-surface border-2 border-outline-variant appearance-none cursor-pointer z-10 top-[2px] left-[2px] checked:left-auto checked:right-[2px] transition-all" id="toggle-l4" name="toggle-l4" type="checkbox"/>
+<label class="toggle-label-critical block overflow-hidden h-7 rounded-full bg-error cursor-pointer border border-outline-variant transition-colors" for="toggle-l4"></label>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="hud-border p-3 h-24 rounded-DEFAULT flex flex-col items-center justify-center text-center gap-2 bg-surface-container-low hover:bg-surface-variant transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-error">smartphone</span>
+<span class="font-label-caps text-label-caps text-on-surface">APP PUSH</span>
+<div class="w-2 h-2 rounded-full bg-error mt-1 animate-pulse"></div>
+</div>
+<div class="hud-border p-3 h-24 rounded-DEFAULT flex flex-col items-center justify-center text-center gap-2 bg-surface-container-low hover:bg-surface-variant transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-error">sms</span>
+<span class="font-label-caps text-label-caps text-on-surface">SMS</span>
+<div class="w-2 h-2 rounded-full bg-error mt-1 animate-pulse"></div>
+</div>
+<div class="hud-border p-3 h-24 rounded-DEFAULT flex flex-col items-center justify-center text-center gap-2 bg-surface-container-low hover:bg-surface-variant transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-error">satellite_alt</span>
+<span class="font-label-caps text-label-caps text-on-surface">SAT RADIO</span>
+<div class="w-2 h-2 rounded-full bg-error mt-1 animate-pulse"></div>
+</div>
+<div class="hud-border p-3 h-24 rounded-DEFAULT flex flex-col items-center justify-center text-center gap-2 bg-surface-container-low hover:bg-surface-variant transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-error">campaign</span>
+<span class="font-label-caps text-label-caps text-on-surface">SIREN NET</span>
+<div class="w-2 h-2 rounded-full bg-error mt-1 animate-pulse"></div>
+</div>
+</div>
+</section>
+<!-- L3 High Risk -->
+<section class="bg-surface p-container-padding relative group">
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+<div class="flex justify-between items-start mb-6">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">error</span>
+<h3 class="font-label-caps text-label-caps text-primary">HIGH RISK (L3)</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Elevated threat metrics. Preparatory actions advised.</p>
+</div>
+<!-- Master Toggle -->
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-surface border-2 border-outline-variant appearance-none cursor-pointer z-10 top-[2px] left-[2px] checked:left-auto checked:right-[2px] transition-all" id="toggle-l3" name="toggle-l3" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-7 rounded-full bg-surface-variant cursor-pointer border border-outline-variant transition-colors" for="toggle-l3"></label>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="hud-border border-primary/50 p-3 h-24 rounded-DEFAULT flex flex-col items-center justify-center text-center gap-2 bg-primary/10 hover:bg-primary/20 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-primary">smartphone</span>
+<span class="font-label-caps text-label-caps text-primary">APP PUSH</span>
+</div>
+<div class="hud-border border-primary/50 p-3 h-24 rounded-DEFAULT flex flex-col items-center justify-center text-center gap-2 bg-primary/10 hover:bg-primary/20 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-primary">sms</span>
+<span class="font-label-caps text-label-caps text-primary">SMS</span>
+</div>
+<div class="hud-border p-3 h-24 rounded-DEFAULT flex flex-col items-center justify-center text-center gap-2 bg-surface-container-low hover:bg-surface-variant transition-colors cursor-pointer opacity-50">
+<span class="material-symbols-outlined text-on-surface-variant">satellite_alt</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">SAT RADIO</span>
+</div>
+<div class="hud-border p-3 h-24 rounded-DEFAULT flex flex-col items-center justify-center text-center gap-2 bg-surface-container-low hover:bg-surface-variant transition-colors cursor-pointer opacity-50">
+<span class="material-symbols-outlined text-on-surface-variant">campaign</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">SIREN NET</span>
+</div>
+</div>
+</section>
+<!-- L2 Advisory -->
+<section class="bg-surface p-container-padding relative group">
+<div class="absolute inset-0 bg-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+<div class="flex justify-between items-start mb-6">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-secondary">info</span>
+<h3 class="font-label-caps text-label-caps text-secondary">ADVISORY (L2)</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Anomalous telemetry detected. Ongoing monitoring.</p>
+</div>
+<!-- Master Toggle -->
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-surface border-2 border-outline-variant appearance-none cursor-pointer z-10 top-[2px] left-[2px] checked:left-auto checked:right-[2px] transition-all" id="toggle-l2" name="toggle-l2" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-7 rounded-full bg-surface-variant cursor-pointer border border-outline-variant transition-colors" for="toggle-l2"></label>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="hud-border border-secondary/50 p-3 h-24 rounded-DEFAULT flex flex-col items-center justify-center text-center gap-2 bg-secondary/10 hover:bg-secondary/20 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-secondary">smartphone</span>
+<span class="font-label-caps text-label-caps text-secondary">APP PUSH</span>
+</div>
+<div class="hud-border p-3 h-24 rounded-DEFAULT flex flex-col items-center justify-center text-center gap-2 bg-surface-container-low hover:bg-surface-variant transition-colors cursor-pointer opacity-50">
+<span class="material-symbols-outlined text-on-surface-variant">sms</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">SMS</span>
+</div>
+<div class="hud-border p-3 h-24 rounded-DEFAULT flex flex-col items-center justify-center text-center gap-2 bg-surface-container-low hover:bg-surface-variant transition-colors cursor-pointer opacity-50">
+<span class="material-symbols-outlined text-on-surface-variant">satellite_alt</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">SAT RADIO</span>
+</div>
+<div class="hud-border p-3 h-24 rounded-DEFAULT flex flex-col items-center justify-center text-center gap-2 bg-surface-container-low hover:bg-surface-variant transition-colors cursor-pointer opacity-50">
+<span class="material-symbols-outlined text-on-surface-variant">campaign</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">SIREN NET</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Settings & Telemetry (Right Column) -->
+<div class="md:col-span-4 bg-surface flex flex-col gap-[1px]">
+<!-- DND Overrides -->
+<section class="bg-surface p-container-padding flex-1">
+<h3 class="font-label-caps text-label-caps text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">do_not_disturb_off</span>
+                        QUIET HOURS / DND OVERRIDE
+                    </h3>
+<div class="flex flex-col gap-4">
+<label class="flex items-center justify-between p-3 hud-border rounded-DEFAULT cursor-pointer hover:bg-surface-variant transition-colors">
+<span class="font-body-md text-body-md text-on-surface">L4 Critical Bypass</span>
+<input checked="" class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant bg-surface-container-lowest focus:ring-primary focus:ring-offset-background" type="checkbox"/>
+</label>
+<label class="flex items-center justify-between p-3 hud-border rounded-DEFAULT cursor-pointer hover:bg-surface-variant transition-colors">
+<span class="font-body-md text-body-md text-on-surface">L3 High Risk Bypass</span>
+<input class="form-checkbox h-5 w-5 text-primary rounded border-outline-variant bg-surface-container-lowest focus:ring-primary focus:ring-offset-background" type="checkbox"/>
+</label>
+</div>
+<div class="mt-6 pt-6 hud-border-b border-t-0 border-l-0 border-r-0 border-surface-container-high">
+<h4 class="font-label-caps text-label-caps text-tertiary mb-4">QUIET HOURS SCHEDULE</h4>
+<div class="flex gap-4 items-center">
+<input class="bg-surface-container-low hud-border text-on-surface rounded font-data-md p-2 flex-1 focus:border-primary focus:ring-0" type="time" value="22:00"/>
+<span class="text-on-surface-variant font-data-md">TO</span>
+<input class="bg-surface-container-low hud-border text-on-surface rounded font-data-md p-2 flex-1 focus:border-primary focus:ring-0" type="time" value="06:00"/>
+</div>
+</div>
+</section>
+<!-- Technical Telemetry Footer -->
+<footer class="bg-surface-container-lowest p-container-padding">
+<div class="font-meta-xs text-meta-xs text-tertiary-container flex flex-col gap-1 text-right">
+<span>DELIVERY LATENCY: &lt;200ms</span>
+<span>PROTOCOL: SACHET-API v2.4</span>
+<span class="text-primary mt-2">SYS.STATE: SECURE</span>
+</div>
+</footer>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex justify-end gap-4 mt-4">
+<button class="px-6 py-2 rounded-DEFAULT font-label-caps text-label-caps hud-border text-on-surface hover:bg-surface-variant transition-colors">DISCARD CHANGES</button>
+<button class="px-6 py-2 rounded-DEFAULT font-label-caps text-label-caps bg-gradient-to-r from-inverse-primary to-secondary-container text-surface hover:opacity-90 transition-opacity">UPDATE PROTOCOLS</button>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<!-- Nav relevance: Settings/Admin page context. 'ADMIN' is the closest match for configuring system protocols -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter h-14 bg-surface-dim dark:bg-surface-dim border-t border-outline-variant dark:border-outline-variant">
+<div class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps">COMMAND</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">warning</span>
+<span class="font-label-caps text-label-caps">RISK</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-caps text-label-caps">MAP</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-caps text-label-caps">DETAIL</span>
+</div>
+<div class="flex flex-col items-center justify-center text-secondary dark:text-secondary border-t-2 border-secondary pt-1 opacity-80 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+<span class="font-label-caps text-label-caps">ADMIN</span>
+</div>
+</nav>
+</body></html>

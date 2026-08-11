@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Model Audit Trail - GLOF SENTRY</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "on-secondary-container": "#00515d",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "on-tertiary-container": "#262a2f",
+                        "tertiary-container": "#8d9196",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "primary-fixed": "#dde1ff",
+                        "on-error": "#690005",
+                        "surface-container-lowest": "#070f16",
+                        "inverse-primary": "#2a50d8",
+                        "inverse-surface": "#dbe3ee",
+                        "on-secondary": "#00363e",
+                        "secondary-fixed": "#a2eeff",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#2e363e",
+                        "surface": "#0c141c",
+                        "surface-container-low": "#141c24",
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "outline-variant": "#444654",
+                        "outline": "#8e90a0",
+                        "primary": "#b8c4ff",
+                        "surface-container-highest": "#2e363e",
+                        "surface-container-high": "#232b33",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "on-tertiary-fixed": "#181c20",
+                        "inverse-on-surface": "#293139",
+                        "on-primary-container": "#001f76",
+                        "error": "#ffb4ab",
+                        "surface-bright": "#323a42",
+                        "tertiary": "#c3c7cc",
+                        "surface-container": "#182028",
+                        "on-surface-variant": "#c4c5d7",
+                        "on-primary-fixed-variant": "#0036bc",
+                        "secondary": "#5de6ff",
+                        "surface-dim": "#0c141c",
+                        "on-primary": "#002486",
+                        "on-tertiary": "#2d3135",
+                        "secondary-container": "#00cbe6",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "on-secondary-fixed": "#001f25",
+                        "on-surface": "#dbe3ee",
+                        "surface-tint": "#b8c4ff",
+                        "background": "#0c141c",
+                        "tertiary-fixed": "#e0e2e8",
+                        "primary-container": "#6c88ff",
+                        "on-background": "#dbe3ee",
+                        "on-primary-fixed": "#001355"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-padding": "24px",
+                        "unit": "4px",
+                        "module-gap": "1px",
+                        "gutter": "12px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "body-md": ["Inter"],
+                        "meta-xs": ["JetBrains Mono"],
+                        "headline-sm": ["Inter"],
+                        "data-md": ["JetBrains Mono"],
+                        "data-lg": ["JetBrains Mono"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "meta-xs": ["10px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "data-md": ["14px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "data-lg": ["20px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        
+        .hud-grid {
+            display: grid;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            gap: 1px;
+            background-color: theme('colors.surface-container-high');
+            border: 1px solid theme('colors.surface-container-high');
+        }
+        
+        .hud-module {
+            background-color: theme('colors.surface');
+            padding: 16px;
+            position: relative;
+        }
+        
+        .hud-module::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border: 1px solid transparent;
+        }
+
+        .hud-module:hover::after {
+            border-color: rgba(93, 230, 255, 0.2);
+            box-shadow: 0 0 8px rgba(93, 230, 255, 0.1) inset;
+        }
+
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.15;
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: theme('colors.secondary');
+            box-shadow: 0 0 8px theme('colors.secondary');
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(93, 230, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(93, 230, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(93, 230, 255, 0); }
+        }
+
+        .chart-line {
+            fill: none;
+            stroke: theme('colors.secondary');
+            stroke-width: 2;
+        }
+        
+        .chart-axis {
+            stroke: theme('colors.surface-container-high');
+            stroke-width: 1;
+        }
+        
+        .chart-threshold {
+            stroke: theme('colors.error');
+            stroke-width: 1;
+            stroke-dasharray: 4,4;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col pt-16 pb-14 md:pb-0">
+<div class="scanline"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface-container dark:bg-surface-container border-b border-outline-variant dark:border-outline-variant flat no shadows">
+<div class="flex items-center gap-2 text-primary dark:text-primary font-bold">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">hub</span>
+<span class="font-headline-sm text-headline-sm font-bold tracking-widest text-primary dark:text-primary">GLOF SENTRY // NATIONAL MONITORING</span>
+</div>
+<div class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-4">
+<span class="font-data-md text-data-md">UTC 14:32 // NOMINAL</span>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow p-4 md:p-container-padding overflow-y-auto">
+<div class="hud-grid rounded-DEFAULT mb-6">
+<!-- Header Module -->
+<div class="hud-module col-span-12 flex justify-between items-end border-b border-surface-container-high">
+<div>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-2">MODEL AUDIT TRAIL</h1>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="pulse-dot"></div>
+<span class="font-label-caps text-label-caps text-secondary">ACTIVE MODEL: V4.2.1-PROD</span>
+</div>
+<span class="font-meta-xs text-meta-xs text-outline">LAST RETRAIN: 24H AGO</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-meta-xs text-meta-xs text-outline block">SYSTEM STATUS</span>
+<span class="font-data-lg text-data-lg text-primary">OPERATIONAL</span>
+</div>
+</div>
+<!-- Validation Accuracy Chart -->
+<div class="hud-module col-span-12 md:col-span-8 flex flex-col min-h-[300px]">
+<div class="flex justify-between items-center border-b border-surface-container-high pb-2 mb-4">
+<span class="font-label-caps text-label-caps text-on-surface">VALIDATION ACCURACY TRENDS</span>
+<span class="font-meta-xs text-meta-xs text-outline">DATASET: GLOF-GLOBAL-V3</span>
+</div>
+<div class="flex-grow relative w-full h-full">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 800 200">
+<!-- Grid -->
+<line class="chart-axis opacity-50" x1="0" x2="800" y1="50" y2="50"></line>
+<line class="chart-axis opacity-50" x1="0" x2="800" y1="100" y2="100"></line>
+<line class="chart-axis opacity-50" x1="0" x2="800" y1="150" y2="150"></line>
+<line class="chart-axis opacity-50" x1="200" x2="200" y1="0" y2="200"></line>
+<line class="chart-axis opacity-50" x1="400" x2="400" y1="0" y2="200"></line>
+<line class="chart-axis opacity-50" x1="600" x2="600" y1="0" y2="200"></line>
+<!-- Threshold -->
+<line class="chart-threshold" x1="0" x2="800" y1="40" y2="40"></line>
+<text class="font-meta-xs text-meta-xs" fill="#ffb4ab" text-anchor="end" x="780" y="35">CRITICAL THRESHOLD (98%)</text>
+<!-- Data Line -->
+<path class="chart-line" d="M 20 180 L 115 150 L 210 120 L 305 130 L 400 90 L 495 85 L 590 60 L 685 70 L 780 20"></path>
+<!-- Data Points -->
+<circle cx="20" cy="180" fill="#5de6ff" r="3"></circle>
+<circle cx="115" cy="150" fill="#5de6ff" r="3"></circle>
+<circle cx="210" cy="120" fill="#5de6ff" r="3"></circle>
+<circle cx="305" cy="130" fill="#5de6ff" r="3"></circle>
+<circle cx="400" cy="90" fill="#5de6ff" r="3"></circle>
+<circle cx="495" cy="85" fill="#5de6ff" r="3"></circle>
+<circle cx="590" cy="60" fill="#5de6ff" r="3"></circle>
+<circle cx="685" cy="70" fill="#5de6ff" r="3"></circle>
+<circle cx="780" cy="20" fill="#5de6ff" r="3"></circle>
+</svg>
+</div>
+</div>
+<!-- Current Hyperparameters -->
+<div class="hud-module col-span-12 md:col-span-4 flex flex-col">
+<div class="flex justify-between items-center border-b border-surface-container-high pb-2 mb-4">
+<span class="font-label-caps text-label-caps text-on-surface">CURRENT HYPERPARAMETERS</span>
+<span class="material-symbols-outlined text-outline text-[16px]">tune</span>
+</div>
+<div class="flex-grow flex flex-col gap-2">
+<div class="flex justify-between items-center bg-surface-container-low p-3">
+<span class="font-meta-xs text-meta-xs text-outline">LEARNING_RATE</span>
+<span class="font-data-md text-data-md text-primary">0.00142</span>
+</div>
+<div class="flex justify-between items-center bg-surface-container-low p-3">
+<span class="font-meta-xs text-meta-xs text-outline">BATCH_SIZE</span>
+<span class="font-data-md text-data-md text-primary">1024</span>
+</div>
+<div class="flex justify-between items-center bg-surface-container-low p-3">
+<span class="font-meta-xs text-meta-xs text-outline">DROPOUT_RATE</span>
+<span class="font-data-md text-data-md text-primary">0.15</span>
+</div>
+<div class="flex justify-between items-center bg-surface-container-low p-3">
+<span class="font-meta-xs text-meta-xs text-outline">OPTIMIZER</span>
+<span class="font-data-md text-data-md text-primary">ADAM_W</span>
+</div>
+<div class="flex justify-between items-center bg-surface-container-low p-3">
+<span class="font-meta-xs text-meta-xs text-outline">L2_REGULARIZATION</span>
+<span class="font-data-md text-data-md text-primary">1e-5</span>
+</div>
+</div>
+</div>
+<!-- Technical Changelog -->
+<div class="hud-module col-span-12">
+<div class="flex justify-between items-center border-b border-surface-container-high pb-2 mb-4">
+<span class="font-label-caps text-label-caps text-on-surface">TECHNICAL CHANGELOG</span>
+<span class="font-meta-xs text-meta-xs text-outline">SORT: DESCENDING</span>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Log Entry 1 -->
+<div class="flex gap-6 p-4 bg-surface-container-lowest border-l-2 border-secondary">
+<div class="flex flex-col min-w-[140px]">
+<span class="font-data-md text-data-md text-on-surface">V4.2.1</span>
+<span class="font-meta-xs text-meta-xs text-outline">2023-10-27T08:14Z</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-body-md text-body-md text-on-surface">Integrated CWC Hydrology weights.</span>
+<span class="font-meta-xs text-meta-xs text-primary">ACCURACY DELTA: +0.4%</span>
+</div>
+</div>
+<!-- Log Entry 2 -->
+<div class="flex gap-6 p-4 bg-surface-container-lowest border-l-2 border-outline-variant">
+<div class="flex flex-col min-w-[140px]">
+<span class="font-data-md text-data-md text-on-surface">V4.2.0</span>
+<span class="font-meta-xs text-meta-xs text-outline">2023-10-15T11:30Z</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-body-md text-body-md text-on-surface">Major update to spatial resolution handling for Sentinel-1 SAR imagery. Expanded training set to include 2022 historical event data.</span>
+<span class="font-meta-xs text-meta-xs text-outline">ACCURACY DELTA: +1.2%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter h-14 bg-surface-dim dark:bg-surface-dim border-t border-outline-variant dark:border-outline-variant flat no shadows md:hidden">
+<button class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-label-caps text-label-caps mt-1">COMMAND</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+<span class="font-label-caps text-label-caps mt-1">RISK</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">map</span>
+<span class="font-label-caps text-label-caps mt-1">MAP</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<span class="font-label-caps text-label-caps mt-1">DETAIL</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary border-t-2 border-secondary pt-1 opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">admin_panel_settings</span>
+<span class="font-label-caps text-label-caps mt-1">ADMIN</span>
+</button>
+</nav>
+</body></html>

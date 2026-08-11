@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Authorization Challenge</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#00cbe6",
+                        "on-primary-container": "#001f76",
+                        "on-secondary": "#00363e",
+                        "tertiary-container": "#8d9196",
+                        "on-primary-fixed": "#001355",
+                        "inverse-surface": "#dbe3ee",
+                        "on-background": "#dbe3ee",
+                        "on-secondary-fixed": "#001f25",
+                        "surface-container-high": "#232b33",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "error-container": "#93000a",
+                        "surface": "#0c141c",
+                        "on-tertiary-fixed": "#181c20",
+                        "tertiary": "#c3c7cc",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "primary-fixed": "#dde1ff",
+                        "primary-container": "#6c88ff",
+                        "surface-tint": "#b8c4ff",
+                        "surface-container-highest": "#2e363e",
+                        "surface-variant": "#2e363e",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "tertiary-fixed": "#e0e2e8",
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "surface-container-lowest": "#070f16",
+                        "inverse-on-surface": "#293139",
+                        "on-tertiary-container": "#262a2f",
+                        "on-secondary-container": "#00515d",
+                        "on-error": "#690005",
+                        "secondary-fixed": "#a2eeff",
+                        "inverse-primary": "#2a50d8",
+                        "error": "#ffb4ab",
+                        "surface-dim": "#0c141c",
+                        "on-primary-fixed-variant": "#0036bc",
+                        "secondary": "#5de6ff",
+                        "outline": "#8e90a0",
+                        "outline-variant": "#444654",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "surface-container-low": "#141c24",
+                        "on-surface-variant": "#c4c5d7",
+                        "primary": "#b8c4ff",
+                        "on-primary": "#002486",
+                        "on-surface": "#dbe3ee",
+                        "surface-container": "#182028",
+                        "surface-bright": "#323a42",
+                        "background": "#0c141c",
+                        "on-tertiary": "#2d3135"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-padding": "24px",
+                        "module-gap": "1px",
+                        "gutter": "12px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "meta-xs": ["JetBrains Mono"],
+                        "headline-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "data-md": ["JetBrains Mono"],
+                        "label-caps": ["Inter"],
+                        "data-lg": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "meta-xs": ["10px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-md": ["14px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "data-lg": ["20px", { "lineHeight": "1.2", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .grid-bg {
+            background-image: 
+                linear-gradient(to right, #232B33 1px, transparent 1px),
+                linear-gradient(to bottom, #232B33 1px, transparent 1px);
+            background-size: 24px 24px;
+            background-position: center;
+        }
+        .glow-active:focus {
+            box-shadow: 0 0 8px 2px rgba(93, 230, 255, 0.2);
+            border-color: #5de6ff;
+            outline: none;
+        }
+        input[type="number"]::-webkit-inner-spin-button, 
+        input[type="number"]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col items-center justify-center relative overflow-hidden font-body-md">
+<!-- Animated Shader Background (Subtle Grid Context) -->
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
+</div>
+<!-- Static Grid Overlay -->
+<div class="absolute inset-0 z-0 grid-bg opacity-30 pointer-events-none"></div>
+<main class="relative z-10 w-full max-w-md px-container-padding">
+<div class="bg-surface-container border border-surface-container-high p-8 sm:p-10 flex flex-col justify-center gap-8 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
+<!-- Header Section -->
+<div class="flex flex-col gap-2 items-center text-center border-b border-surface-container-high pb-6">
+<span class="material-symbols-outlined text-secondary text-4xl mb-2" style="font-variation-settings: 'FILL' 1;">security</span>
+<h1 class="font-headline-sm text-headline-sm text-primary uppercase tracking-widest">AUTHORIZATION CHALLENGE</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">6-digit telemetry key sent to terminal <br/><span class="text-on-surface font-meta-xs text-meta-xs mt-1 block">+91-XXXXX-4992</span></p>
+</div>
+<!-- Input Section -->
+<form class="flex flex-col gap-6" id="otp-form">
+<div class="grid grid-cols-6 gap-2 sm:gap-3" id="otp-inputs">
+<input autocomplete="off" autofocus="" class="w-full h-14 bg-surface border border-outline-variant text-center font-data-lg text-data-lg text-on-surface focus:border-secondary glow-active transition-all bg-transparent rounded-none" maxlength="1" type="text"/>
+<input autocomplete="off" class="w-full h-14 bg-surface border border-outline-variant text-center font-data-lg text-data-lg text-on-surface focus:border-secondary glow-active transition-all bg-transparent rounded-none" maxlength="1" type="text"/>
+<input autocomplete="off" class="w-full h-14 bg-surface border border-outline-variant text-center font-data-lg text-data-lg text-on-surface focus:border-secondary glow-active transition-all bg-transparent rounded-none" maxlength="1" type="text"/>
+<input autocomplete="off" class="w-full h-14 bg-surface border border-outline-variant text-center font-data-lg text-data-lg text-on-surface focus:border-secondary glow-active transition-all bg-transparent rounded-none" maxlength="1" type="text"/>
+<input autocomplete="off" class="w-full h-14 bg-surface border border-outline-variant text-center font-data-lg text-data-lg text-on-surface focus:border-secondary glow-active transition-all bg-transparent rounded-none" maxlength="1" type="text"/>
+<input autocomplete="off" class="w-full h-14 bg-surface border border-outline-variant text-center font-data-lg text-data-lg text-on-surface focus:border-secondary glow-active transition-all bg-transparent rounded-none" maxlength="1" type="text"/>
+</div>
+<!-- Timer -->
+<div class="flex justify-between items-center px-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">KEY EXPIRATION</span>
+<span class="font-data-md text-data-md text-error flex items-center gap-1" id="countdown">
+<span class="material-symbols-outlined text-[14px]">timer</span>
+                         01:42
+                     </span>
+</div>
+<!-- Actions -->
+<div class="flex flex-col gap-3 mt-2">
+<button class="w-full bg-gradient-to-r from-inverse-primary to-secondary-container text-white font-label-caps text-label-caps py-3 uppercase tracking-wider hover:opacity-90 transition-opacity flex items-center justify-center gap-2" type="button">
+                        Verify &amp; Authenticate
+                        <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+<button class="w-full bg-transparent border border-outline-variant text-on-surface-variant font-label-caps text-label-caps py-3 uppercase tracking-wider hover:bg-surface-variant hover:text-on-surface transition-colors" type="button">
+                        Request New Key
+                    </button>
+</div>
+</form>
+<div class="text-right pt-4 border-t border-surface-container-high mt-2">
+<span class="font-meta-xs text-meta-xs text-outline">SEC-PROTOCOL: V2.4.1 // TERMINAL-ID: 884-A</span>
+</div>
+</div>
+</main>
+<script>
+        // Simple OTP input logic
+        const inputs = document.querySelectorAll('#otp-inputs input');
+        
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                // Ensure only numbers
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                
+                if (e.target.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        // Countdown Timer Logic
+        let timeRemaining = 102; // 1 min 42 seconds
+        const countdownEl = document.getElementById('countdown');
+        
+        const updateTimer = () => {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            countdownEl.innerHTML = `<span class="material-symbols-outlined text-[14px]">timer</span> ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            
+            if (timeRemaining <= 15) {
+                 countdownEl.classList.add('animate-pulse');
+            }
+
+            if (timeRemaining > 0) {
+                timeRemaining--;
+                setTimeout(updateTimer, 1000);
+            } else {
+                 countdownEl.innerHTML = `<span class="material-symbols-outlined text-[14px]">timer_off</span> EXPIRED`;
+                 countdownEl.classList.remove('animate-pulse');
+            }
+        };
+
+        setTimeout(updateTimer, 1000);
+    </script>
+</body></html>

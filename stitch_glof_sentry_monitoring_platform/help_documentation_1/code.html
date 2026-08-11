@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GLOF Sentry // Documentation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "on-secondary-container": "#00515d",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "on-tertiary-container": "#262a2f",
+                        "tertiary-container": "#8d9196",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "primary-fixed": "#dde1ff",
+                        "on-error": "#690005",
+                        "surface-container-lowest": "#070f16",
+                        "inverse-primary": "#2a50d8",
+                        "inverse-surface": "#dbe3ee",
+                        "on-secondary": "#00363e",
+                        "secondary-fixed": "#a2eeff",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#2e363e",
+                        "surface": "#0c141c",
+                        "surface-container-low": "#141c24",
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "outline-variant": "#444654",
+                        "outline": "#8e90a0",
+                        "primary": "#b8c4ff",
+                        "surface-container-highest": "#2e363e",
+                        "surface-container-high": "#232b33",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "on-tertiary-fixed": "#181c20",
+                        "inverse-on-surface": "#293139",
+                        "on-primary-container": "#001f76",
+                        "error": "#ffb4ab",
+                        "surface-bright": "#323a42",
+                        "tertiary": "#c3c7cc",
+                        "surface-container": "#182028",
+                        "on-surface-variant": "#c4c5d7",
+                        "on-primary-fixed-variant": "#0036bc",
+                        "secondary": "#5de6ff",
+                        "surface-dim": "#0c141c",
+                        "on-primary": "#002486",
+                        "on-tertiary": "#2d3135",
+                        "secondary-container": "#00cbe6",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "on-secondary-fixed": "#001f25",
+                        "on-surface": "#dbe3ee",
+                        "surface-tint": "#b8c4ff",
+                        "background": "#0c141c",
+                        "tertiary-fixed": "#e0e2e8",
+                        "primary-container": "#6c88ff",
+                        "on-background": "#dbe3ee",
+                        "on-primary-fixed": "#001355"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-padding": "24px",
+                        "unit": "4px",
+                        "module-gap": "1px",
+                        "gutter": "12px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "body-md": ["Inter"],
+                        "meta-xs": ["JetBrains Mono"],
+                        "headline-sm": ["Inter"],
+                        "data-md": ["JetBrains Mono"],
+                        "data-lg": ["JetBrains Mono"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "meta-xs": ["10px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "data-md": ["14px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "data-lg": ["20px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        .hud-border { border: 1px solid theme('colors.surface-container-high'); }
+        .hud-border-b { border-bottom: 1px solid theme('colors.surface-container-high'); }
+        .pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen flex flex-col pt-16 pb-14 md:pb-0">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface-container border-b border-outline-variant flat no shadows">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">hub</span>
+<span class="font-headline-sm text-headline-sm font-bold tracking-widest text-primary">GLOF SENTRY // NATIONAL MONITORING</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-data-md text-data-md text-on-surface-variant">UTC 14:32 // NOMINAL</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow container mx-auto px-gutter py-6 flex flex-col gap-unit">
+<!-- Search & Header -->
+<div class="hud-border bg-surface-container-low p-4 flex flex-col md:flex-row items-center gap-4 justify-between">
+<div>
+<h1 class="font-headline-sm text-headline-sm text-on-surface">SYSTEM DOCUMENTATION</h1>
+<p class="font-meta-xs text-meta-xs text-on-surface-variant mt-1">GLOF SENTRY PROTOCOLS v4.2.1</p>
+</div>
+<div class="relative w-full md:w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-sm">search</span>
+<input class="w-full bg-surface border border-surface-container-high text-on-surface font-meta-xs text-meta-xs py-2 pl-9 pr-4 rounded-none focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary/20 placeholder-outline-variant" placeholder="SEARCH QUERY // REGEX SUPPORTED..." type="text"/>
+</div>
+</div>
+<!-- Content Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-module">
+<!-- Sidebar / Quick Links -->
+<div class="md:col-span-3 bg-surface-container-low hud-border flex flex-col h-full">
+<div class="hud-border-b p-3">
+<h2 class="font-label-caps text-label-caps text-secondary">INDEX // DIRECTORY</h2>
+</div>
+<nav class="flex flex-col p-2 gap-1 flex-grow">
+<a class="px-3 py-2 text-on-surface font-data-md text-data-md hover:bg-surface-variant hover:text-primary transition-colors flex items-center gap-2 bg-surface-variant border-l-2 border-primary" href="#">
+<span class="material-symbols-outlined text-[16px]">article</span> OVERVIEW
+                    </a>
+<a class="px-3 py-2 text-on-surface-variant font-data-md text-data-md hover:bg-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[16px]">sensors</span> SENSOR CALIBRATION
+                    </a>
+<a class="px-3 py-2 text-on-surface-variant font-data-md text-data-md hover:bg-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[16px]">warning</span> RISK INDICES
+                    </a>
+<a class="px-3 py-2 text-on-surface-variant font-data-md text-data-md hover:bg-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[16px]">api</span> API SPECIFICATIONS
+                    </a>
+</nav>
+<!-- Emergency Support -->
+<div class="mt-auto p-4 border-t border-surface-container-high bg-error-container/10">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-error text-[18px] pulse">emergency</span>
+<h3 class="font-label-caps text-label-caps text-error">CRITICAL SUPPORT</h3>
+</div>
+<p class="font-meta-xs text-meta-xs text-on-surface-variant mb-3">Direct connection to NDMA technical response team.</p>
+<button class="w-full py-2 bg-error-container hover:bg-error-container/80 text-on-error-container font-label-caps text-label-caps transition-colors border border-error/50">
+                        ESTABLISH LINK // 911-TECH
+                    </button>
+</div>
+</div>
+<!-- Main Documentation Area -->
+<div class="md:col-span-9 bg-surface-container-low hud-border p-6 min-h-[500px]">
+<div class="mb-8">
+<h2 class="font-headline-sm text-headline-sm text-primary mb-2">UNDERSTANDING RISK INDICES</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">The GLOF Sentry platform utilizes a multi-variant algorithmic approach to calculate immediate failure probability in glacial lake moraines. These indices are derived from continuous telemetry.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+<div class="hud-border bg-surface p-4">
+<div class="flex items-center gap-2 mb-3 hud-border-b pb-2">
+<span class="material-symbols-outlined text-secondary text-[16px]">water_drop</span>
+<h3 class="font-label-caps text-label-caps text-secondary">HYDROLOGIC PRESSURE INDEX (HPI)</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-2">Measures subsurface pore water pressure within the moraine dam structure.</p>
+<div class="flex justify-between items-end">
+<span class="font-meta-xs text-meta-xs text-outline">THRESHOLD</span>
+<span class="font-data-md text-data-md text-error">> 0.85 MPa</span>
+</div>
+</div>
+<div class="hud-border bg-surface p-4">
+<div class="flex items-center gap-2 mb-3 hud-border-b pb-2">
+<span class="material-symbols-outlined text-secondary text-[16px]">upload_file</span>
+<h3 class="font-label-caps text-label-caps text-secondary">SEISMIC INSTABILITY FACTOR (SIF)</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-2">Aggregates micro-seismic events indicating internal structural shearing.</p>
+<div class="flex justify-between items-end">
+<span class="font-meta-xs text-meta-xs text-outline">THRESHOLD</span>
+<span class="font-data-md text-data-md text-secondary-fixed">> 4.2 ΣE</span>
+</div>
+</div>
+</div>
+<div class="hud-border bg-surface p-4">
+<h3 class="font-label-caps text-label-caps text-on-surface mb-3 border-b border-surface-container-high pb-2">FIELD SENSOR CALIBRATION PROCEDURES</h3>
+<div class="space-y-4">
+<div class="flex gap-4">
+<span class="font-data-md text-data-md text-outline">01</span>
+<p class="font-body-md text-body-md text-on-surface-variant">Isolate the sensor array from active telemetry stream using command <code class="font-meta-xs text-meta-xs bg-surface-container px-1 py-0.5 text-primary">/SYS/ISO --target [NODE_ID]</code>.</p>
+</div>
+<div class="flex gap-4">
+<span class="font-data-md text-data-md text-outline">02</span>
+<p class="font-body-md text-body-md text-on-surface-variant">Apply standard hydrostatic load referenced in manual section 4B.</p>
+</div>
+<div class="flex gap-4">
+<span class="font-data-md text-data-md text-outline">03</span>
+<p class="font-body-md text-body-md text-on-surface-variant">Verify baseline drift is within acceptable parameters (±0.02%). Reintegrate node.</p>
+</div>
+</div>
+</div>
+<div class="mt-6 flex justify-end">
+<span class="font-meta-xs text-meta-xs text-outline">DOC_ID: SYS-DOC-992 // LAST_UPDATED: 2024-05-12</span>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter h-14 bg-surface-dim border-t border-outline-variant flat no shadows md:hidden">
+<a class="flex flex-col items-center justify-center text-on-tertiary-container pt-1.5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">dashboard</span>
+<span class="font-label-caps text-label-caps mt-1">COMMAND</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container pt-1.5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">warning</span>
+<span class="font-label-caps text-label-caps mt-1">RISK</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container pt-1.5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">map</span>
+<span class="font-label-caps text-label-caps mt-1">MAP</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container pt-1.5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">analytics</span>
+<span class="font-label-caps text-label-caps mt-1">DETAIL</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary border-t-2 border-secondary pt-1 opacity-80 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">admin_panel_settings</span>
+<span class="font-label-caps text-label-caps mt-1">ADMIN</span>
+</a>
+</nav>
+</body></html>

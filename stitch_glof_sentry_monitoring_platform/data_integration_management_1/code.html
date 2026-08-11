@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GLOF SENTRY // DATA INTEGRATION</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error-container": "#93000a",
+                      "on-secondary-container": "#00515d",
+                      "on-secondary-fixed-variant": "#004e5a",
+                      "on-tertiary-container": "#262a2f",
+                      "tertiary-container": "#8d9196",
+                      "secondary-fixed-dim": "#2fd9f4",
+                      "primary-fixed": "#dde1ff",
+                      "on-error": "#690005",
+                      "surface-container-lowest": "#070f16",
+                      "inverse-primary": "#2a50d8",
+                      "inverse-surface": "#dbe3ee",
+                      "on-secondary": "#00363e",
+                      "secondary-fixed": "#a2eeff",
+                      "on-error-container": "#ffdad6",
+                      "surface-variant": "#2e363e",
+                      "surface": "#0c141c",
+                      "surface-container-low": "#141c24",
+                      "tertiary-fixed-dim": "#c3c7cc",
+                      "outline-variant": "#444654",
+                      "outline": "#8e90a0",
+                      "primary": "#b8c4ff",
+                      "surface-container-highest": "#2e363e",
+                      "surface-container-high": "#232b33",
+                      "on-tertiary-fixed-variant": "#43474c",
+                      "on-tertiary-fixed": "#181c20",
+                      "inverse-on-surface": "#293139",
+                      "on-primary-container": "#001f76",
+                      "error": "#ffb4ab",
+                      "surface-bright": "#323a42",
+                      "tertiary": "#c3c7cc",
+                      "surface-container": "#182028",
+                      "on-surface-variant": "#c4c5d7",
+                      "on-primary-fixed-variant": "#0036bc",
+                      "secondary": "#5de6ff",
+                      "surface-dim": "#0c141c",
+                      "on-primary": "#002486",
+                      "on-tertiary": "#2d3135",
+                      "secondary-container": "#00cbe6",
+                      "primary-fixed-dim": "#b8c4ff",
+                      "on-secondary-fixed": "#001f25",
+                      "on-surface": "#dbe3ee",
+                      "surface-tint": "#b8c4ff",
+                      "background": "#0c141c",
+                      "tertiary-fixed": "#e0e2e8",
+                      "primary-container": "#6c88ff",
+                      "on-background": "#dbe3ee",
+                      "on-primary-fixed": "#001355"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "container-padding": "24px",
+                      "unit": "4px",
+                      "module-gap": "1px",
+                      "gutter": "12px"
+              },
+              "fontFamily": {
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "meta-xs": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-sm": [
+                              "Inter"
+                      ],
+                      "data-md": [
+                              "JetBrains Mono"
+                      ],
+                      "data-lg": [
+                              "JetBrains Mono"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "meta-xs": [
+                              "10px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "data-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "data-lg": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: #0A0E12; /* Fallback */
+        }
+        
+        /* Grid background for HUD feel */
+        .hud-bg {
+            background-image: 
+                linear-gradient(to right, rgba(35, 43, 51, 0.3) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(35, 43, 51, 0.3) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .glass-panel {
+            background-color: #12171D;
+            border: 1px solid #232B33;
+        }
+        
+        .status-pulse-nominal {
+            animation: pulse-teal 2s infinite;
+        }
+        
+        .status-pulse-warning {
+            animation: pulse-amber 2s infinite;
+        }
+
+        @keyframes pulse-teal {
+            0% { box-shadow: 0 0 0 0 rgba(93, 230, 255, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(93, 230, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(93, 230, 255, 0); }
+        }
+        
+        @keyframes pulse-amber {
+            0% { box-shadow: 0 0 0 0 rgba(255, 180, 171, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(255, 180, 171, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 180, 171, 0); }
+        }
+        
+        /* Custom scrollbar for data tables */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A0E12; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #232B33; 
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444654; 
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen hud-bg flex flex-col font-body-md antialiased pt-16 md:pb-0 pb-14">
+<!-- TopAppBar (Shared Component) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface-container dark:bg-surface-container border-b border-outline-variant dark:border-outline-variant shadow-none">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-primary">hub</span>
+<h1 class="font-headline-sm text-headline-sm font-bold tracking-widest text-primary dark:text-primary uppercase">GLOF SENTRY // NATIONAL MONITORING</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-data-md text-data-md text-on-surface-variant dark:text-on-surface-variant">UTC 14:32 // NOMINAL</span>
+<!-- Desktop Nav Cluster (Hidden on Mobile) -->
+<nav class="hidden md:flex gap-6 border-l border-outline-variant pl-6 ml-2">
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-2 py-1 rounded" href="#">COMMAND</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-2 py-1 rounded" href="#">RISK</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-2 py-1 rounded" href="#">MAP</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-2 py-1 rounded" href="#">DETAIL</a>
+<a class="font-label-caps text-label-caps text-primary dark:text-primary font-bold hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-2 py-1 rounded border-b-2 border-primary" href="#">ADMIN</a>
+</nav>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-[1920px] mx-auto p-gutter md:p-container-padding flex flex-col gap-unit">
+<!-- Header Section -->
+<section class="glass-panel p-4 flex flex-col md:flex-row justify-between items-start md:items-end mb-unit relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-[rgba(0,31,118,0.1)] to-transparent pointer-events-none"></div>
+<div class="z-10">
+<h2 class="font-display-lg text-display-lg text-on-surface uppercase mb-1">Data Source Integration</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">System Health &amp; API Telemetry Dashboard</p>
+</div>
+<div class="z-10 flex gap-4 mt-4 md:mt-0 font-meta-xs text-meta-xs uppercase tracking-wider text-outline">
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary status-pulse-nominal"></span>
+<span>System Nominal</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span>1 Alert</span>
+</div>
+</div>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-module-gap bg-outline-variant p-[1px]">
+<!-- Main Metrics (Span 12 on mobile, 8 on desktop) -->
+<div class="col-span-1 md:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-module-gap bg-outline-variant">
+<!-- ISRO Bhuvan Card -->
+<div class="glass-panel p-4 flex flex-col justify-between h-full hover:bg-surface-container-high transition-colors group relative">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">satellite_alt</span>
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase">ISRO Bhuvan (Satellite)</h3>
+</div>
+<span class="w-2 h-2 rounded-full bg-secondary status-pulse-nominal shadow-[0_0_8px_rgba(93,230,255,0.6)]"></span>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-end border-b border-outline-variant pb-2">
+<span class="font-meta-xs text-meta-xs text-outline">LATENCY</span>
+<span class="font-data-lg text-data-lg text-secondary">42<span class="text-data-md text-outline">ms</span></span>
+</div>
+<div class="flex justify-between items-end border-b border-outline-variant pb-2">
+<span class="font-meta-xs text-meta-xs text-outline">SYNC STATUS</span>
+<span class="font-data-md text-data-md text-on-surface">100% (Last: 2s ago)</span>
+</div>
+<div class="pt-2">
+<span class="font-meta-xs text-meta-xs text-outline block mb-1">ACTIVE KEY ID</span>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant bg-surface px-2 py-1 rounded border border-outline-variant block truncate">bhv_live_9f8a2c1...</span>
+</div>
+</div>
+<span class="font-meta-xs text-meta-xs text-outline absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">L2A Multispectral</span>
+</div>
+<!-- CWC Hydrology Card (Warning State) -->
+<div class="glass-panel p-4 flex flex-col justify-between h-full relative group shadow-[inset_0_0_20px_rgba(255,180,171,0.05)] border-error/30">
+<div class="absolute inset-0 bg-error/5 pointer-events-none"></div>
+<div class="flex justify-between items-start mb-6 z-10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase">CWC (Hydrology)</h3>
+</div>
+<span class="w-2 h-2 rounded-full bg-error status-pulse-warning shadow-[0_0_8px_rgba(255,180,171,0.6)]"></span>
+</div>
+<div class="space-y-4 z-10">
+<div class="flex justify-between items-end border-b border-error/30 pb-2">
+<span class="font-meta-xs text-meta-xs text-outline">LATENCY</span>
+<span class="font-data-lg text-data-lg text-error">850<span class="text-data-md text-error/60">ms</span></span>
+</div>
+<div class="flex justify-between items-end border-b border-error/30 pb-2">
+<span class="font-meta-xs text-meta-xs text-outline">SYNC STATUS</span>
+<span class="font-data-md text-data-md text-error">Degraded (Last: 5m ago)</span>
+</div>
+<div class="pt-2">
+<span class="font-meta-xs text-meta-xs text-outline block mb-1">ACTIVE KEY ID</span>
+<span class="font-meta-xs text-meta-xs text-error/80 bg-error/10 px-2 py-1 rounded border border-error/30 block truncate">cwc_api_v3_x72b...</span>
+</div>
+</div>
+<span class="font-meta-xs text-meta-xs text-error absolute bottom-2 right-2 opacity-100 animate-pulse">TIMEOUT THRESHOLD NEAR</span>
+</div>
+<!-- IMD Weather Card -->
+<div class="glass-panel p-4 flex flex-col justify-between h-full hover:bg-surface-container-high transition-colors group relative">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">cloud</span>
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase">IMD (Weather)</h3>
+</div>
+<span class="w-2 h-2 rounded-full bg-secondary status-pulse-nominal shadow-[0_0_8px_rgba(93,230,255,0.6)]"></span>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-end border-b border-outline-variant pb-2">
+<span class="font-meta-xs text-meta-xs text-outline">LATENCY</span>
+<span class="font-data-lg text-data-lg text-secondary">112<span class="text-data-md text-outline">ms</span></span>
+</div>
+<div class="flex justify-between items-end border-b border-outline-variant pb-2">
+<span class="font-meta-xs text-meta-xs text-outline">SYNC STATUS</span>
+<span class="font-data-md text-data-md text-on-surface">99.9% (Last: 15s ago)</span>
+</div>
+<div class="pt-2">
+<span class="font-meta-xs text-meta-xs text-outline block mb-1">ACTIVE KEY ID</span>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant bg-surface px-2 py-1 rounded border border-outline-variant block truncate">imd_prod_a1b2c3d...</span>
+</div>
+</div>
+<span class="font-meta-xs text-meta-xs text-outline absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">Synoptic Data R1</span>
+</div>
+<!-- NDMA SACHET Card -->
+<div class="glass-panel p-4 flex flex-col justify-between h-full hover:bg-surface-container-high transition-colors group relative">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">campaign</span>
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase">NDMA SACHET</h3>
+</div>
+<span class="w-2 h-2 rounded-full bg-secondary status-pulse-nominal shadow-[0_0_8px_rgba(93,230,255,0.6)]"></span>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-end border-b border-outline-variant pb-2">
+<span class="font-meta-xs text-meta-xs text-outline">LATENCY</span>
+<span class="font-data-lg text-data-lg text-secondary">68<span class="text-data-md text-outline">ms</span></span>
+</div>
+<div class="flex justify-between items-end border-b border-outline-variant pb-2">
+<span class="font-meta-xs text-meta-xs text-outline">SYNC STATUS</span>
+<span class="font-data-md text-data-md text-on-surface">100% (Push Active)</span>
+</div>
+<div class="pt-2">
+<span class="font-meta-xs text-meta-xs text-outline block mb-1">ACTIVE KEY ID</span>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant bg-surface px-2 py-1 rounded border border-outline-variant block truncate">ndma_evws_sys_09...</span>
+</div>
+</div>
+<span class="font-meta-xs text-meta-xs text-outline absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">CAP Protocol V1.2</span>
+</div>
+</div>
+<!-- Side Panel (Span 12 on mobile, 4 on desktop) -->
+<div class="col-span-1 md:col-span-4 flex flex-col gap-module-gap bg-outline-variant">
+<!-- Key Rotation Status -->
+<div class="glass-panel p-4 flex-1">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase border-b border-outline-variant pb-2 mb-4">Key Rotation Schedule</h3>
+<div class="space-y-3">
+<div class="flex justify-between items-center bg-surface-container p-2 border border-outline-variant rounded">
+<div>
+<span class="font-meta-xs text-meta-xs text-outline block">ISRO Bhuvan</span>
+<span class="font-data-md text-data-md text-on-surface">In 14 Days</span>
+</div>
+<button class="font-meta-xs text-meta-xs text-primary border border-primary/50 hover:bg-primary/10 px-2 py-1 rounded transition-colors uppercase">Rotate Now</button>
+</div>
+<div class="flex justify-between items-center bg-error/10 p-2 border border-error/30 rounded">
+<div>
+<span class="font-meta-xs text-meta-xs text-error block">CWC (Hydrology)</span>
+<span class="font-data-md text-data-md text-error">Overdue (2 Days)</span>
+</div>
+<button class="font-meta-xs text-meta-xs text-error border border-error/50 hover:bg-error/20 px-2 py-1 rounded transition-colors uppercase">Force Gen</button>
+</div>
+<div class="flex justify-between items-center bg-surface-container p-2 border border-outline-variant rounded">
+<div>
+<span class="font-meta-xs text-meta-xs text-outline block">IMD (Weather)</span>
+<span class="font-data-md text-data-md text-on-surface">In 45 Days</span>
+</div>
+<span class="material-symbols-outlined text-outline text-sm">check_circle</span>
+</div>
+</div>
+</div>
+<!-- Global Sync Log -->
+<div class="glass-panel p-4 h-64 flex flex-col">
+<div class="flex justify-between items-center border-b border-outline-variant pb-2 mb-2">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase">Ingestion Log</h3>
+<span class="font-meta-xs text-meta-xs text-secondary animate-pulse">LIVE</span>
+</div>
+<div class="flex-1 overflow-y-auto space-y-2 pr-2" id="sync-log">
+<!-- Log entries populated via JS -->
+<div class="font-meta-xs text-meta-xs flex gap-2">
+<span class="text-outline w-16">14:32:01</span>
+<span class="text-secondary">[ISRO]</span>
+<span class="text-on-surface-variant truncate">Payload recieved L2A (1.4MB)</span>
+</div>
+<div class="font-meta-xs text-meta-xs flex gap-2">
+<span class="text-outline w-16">14:31:55</span>
+<span class="text-on-surface">[NDMA]</span>
+<span class="text-on-surface-variant truncate">Heartbeat OK</span>
+</div>
+<div class="font-meta-xs text-meta-xs flex gap-2">
+<span class="text-outline w-16">14:31:12</span>
+<span class="text-error">[CWC]</span>
+<span class="text-error truncate">ReadTimeout: Socket closed</span>
+</div>
+<div class="font-meta-xs text-meta-xs flex gap-2">
+<span class="text-outline w-16">14:30:44</span>
+<span class="text-secondary">[IMD]</span>
+<span class="text-on-surface-variant truncate">Grib2 parsed successfully</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Shared Component - Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter h-14 bg-surface-dim dark:bg-surface-dim border-t border-outline-variant dark:border-outline-variant shadow-none">
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">dashboard</span>
+<span class="font-label-caps text-label-caps">COMMAND</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">warning</span>
+<span class="font-label-caps text-label-caps">RISK</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">map</span>
+<span class="font-label-caps text-label-caps">MAP</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">analytics</span>
+<span class="font-label-caps text-label-caps">DETAIL</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary border-t-2 border-secondary pt-1 opacity-80 transition-opacity hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">admin_panel_settings</span>
+<span class="font-label-caps text-label-caps">ADMIN</span>
+</a>
+</nav>
+<script>
+        // Simple script to simulate log updates
+        const logContainer = document.getElementById('sync-log');
+        const sources = ['[ISRO]', '[IMD]', '[NDMA]', '[CWC]'];
+        const messages = ['Payload received', 'Heartbeat OK', 'Checksum verified', 'Connection retry...'];
+        
+        setInterval(() => {
+            if(Math.random() > 0.7) {
+                const source = sources[Math.floor(Math.random() * sources.length)];
+                const msg = messages[Math.floor(Math.random() * messages.length)];
+                const time = new Date().toISOString().substring(11, 19);
+                const colorClass = source === '[CWC]' ? 'text-error' : 'text-secondary';
+                
+                const logEntry = document.createElement('div');
+                logEntry.className = 'font-meta-xs text-meta-xs flex gap-2 animate-[pulse_0.5s_ease-out]';
+                logEntry.innerHTML = `
+                    <span class="text-outline w-16">${time}</span>
+                    <span class="${colorClass}">${source}</span>
+                    <span class="text-on-surface-variant truncate">${msg}</span>
+                `;
+                
+                logContainer.insertBefore(logEntry, logContainer.firstChild);
+                
+                if(logContainer.children.length > 20) {
+                    logContainer.removeChild(logContainer.lastChild);
+                }
+            }
+        }, 2000);
+    </script>
+</body></html>

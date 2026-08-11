@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GLOF SENTRY // ADMIN: SENSORS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "on-secondary-container": "#00515d",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "on-tertiary-container": "#262a2f",
+                        "tertiary-container": "#8d9196",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "primary-fixed": "#dde1ff",
+                        "on-error": "#690005",
+                        "surface-container-lowest": "#070f16",
+                        "inverse-primary": "#2a50d8",
+                        "inverse-surface": "#dbe3ee",
+                        "on-secondary": "#00363e",
+                        "secondary-fixed": "#a2eeff",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#2e363e",
+                        "surface": "#0c141c",
+                        "surface-container-low": "#141c24",
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "outline-variant": "#444654",
+                        "outline": "#8e90a0",
+                        "primary": "#b8c4ff",
+                        "surface-container-highest": "#2e363e",
+                        "surface-container-high": "#232b33",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "on-tertiary-fixed": "#181c20",
+                        "inverse-on-surface": "#293139",
+                        "on-primary-container": "#001f76",
+                        "error": "#ffb4ab",
+                        "surface-bright": "#323a42",
+                        "tertiary": "#c3c7cc",
+                        "surface-container": "#182028",
+                        "on-surface-variant": "#c4c5d7",
+                        "on-primary-fixed-variant": "#0036bc",
+                        "secondary": "#5de6ff",
+                        "surface-dim": "#0c141c",
+                        "on-primary": "#002486",
+                        "on-tertiary": "#2d3135",
+                        "secondary-container": "#00cbe6",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "on-secondary-fixed": "#001f25",
+                        "on-surface": "#dbe3ee",
+                        "surface-tint": "#b8c4ff",
+                        "background": "#0c141c",
+                        "tertiary-fixed": "#e0e2e8",
+                        "primary-container": "#6c88ff",
+                        "on-background": "#dbe3ee",
+                        "on-primary-fixed": "#001355"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-padding": "24px",
+                        "unit": "4px",
+                        "module-gap": "1px",
+                        "gutter": "12px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "meta-xs": ["JetBrains Mono", "monospace"],
+                        "headline-sm": ["Inter", "sans-serif"],
+                        "data-md": ["JetBrains Mono", "monospace"],
+                        "data-lg": ["JetBrains Mono", "monospace"],
+                        "display-lg": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "meta-xs": ["10px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "data-md": ["14px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "data-lg": ["20px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        .hud-border { border: 1px solid theme('colors.outline-variant'); }
+        .hud-border-b { border-bottom: 1px solid theme('colors.outline-variant'); }
+        .hud-border-t { border-top: 1px solid theme('colors.outline-variant'); }
+        .hud-border-r { border-right: 1px solid theme('colors.outline-variant'); }
+        .glow-active { box-shadow: 0 0 4px rgba(93, 230, 255, 0.2); }
+        .bg-grid { background-image: linear-gradient(theme('colors.surface-container') 1px, transparent 1px), linear-gradient(90deg, theme('colors.surface-container') 1px, transparent 1px); background-size: 16px 16px; }
+        
+        @keyframes pulse-status {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(93, 230, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(93, 230, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(93, 230, 255, 0); }
+        }
+        .status-pulse { animation: pulse-status 2s infinite; }
+        .status-pulse-delayed { animation: pulse-status 2s infinite; animation-delay: 1s; }
+        
+        .bg-surface-card { background-color: #12171D; }
+        .bg-surface-overlay { background-color: #1E252E; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen flex flex-col font-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface-container dark:bg-surface-container border-b border-outline-variant dark:border-outline-variant">
+<div class="flex items-center gap-2 text-primary dark:text-primary transition-transform duration-150 hover:scale-[0.98]">
+<span class="material-symbols-outlined font-headline-sm text-headline-sm" style="font-variation-settings: 'FILL' 1;">hub</span>
+<span class="font-headline-sm text-headline-sm font-bold tracking-widest text-primary dark:text-primary">GLOF SENTRY // NATIONAL MONITORING</span>
+</div>
+<div class="hidden md:flex gap-6 items-center">
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-2 py-1 rounded-DEFAULT" href="#">COMMAND</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-2 py-1 rounded-DEFAULT" href="#">RISK</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-2 py-1 rounded-DEFAULT" href="#">MAP</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-2 py-1 rounded-DEFAULT" href="#">DETAIL</a>
+<a class="font-label-caps text-label-caps text-primary dark:text-primary font-bold hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-2 py-1 rounded-DEFAULT bg-surface-variant/50" href="#">ADMIN</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-data-md text-data-md text-primary dark:text-primary">UTC 14:32 // NOMINAL</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-16 pb-14 md:pb-0 px-container-padding py-6 grid grid-cols-1 md:grid-cols-12 gap-module-gap bg-background h-screen overflow-hidden">
+<!-- Left Column: Registration & Diagnostics -->
+<div class="col-span-1 md:col-span-3 flex flex-col gap-module-gap overflow-y-auto pr-2 custom-scrollbar">
+<!-- Sensor Registration Action -->
+<div class="bg-surface-card hud-border p-4 flex flex-col gap-4 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-center hud-border-b pb-2 relative z-10">
+<span class="font-label-caps text-label-caps text-secondary">PROVISION DEVICE</span>
+<span class="material-symbols-outlined text-secondary text-sm">add_circle</span>
+</div>
+<p class="font-meta-xs text-meta-xs text-on-surface-variant relative z-10">Register new remote telemetry node.</p>
+<button class="bg-gradient-to-r from-inverse-primary to-secondary text-white font-label-caps text-label-caps py-2 rounded-DEFAULT mt-2 hover:opacity-90 transition-opacity flex justify-center items-center gap-2 relative z-10">
+<span class="material-symbols-outlined text-sm">qr_code_scanner</span>
+                    SCAN HARDWARE ID
+                </button>
+</div>
+<!-- Global Telemetry Status -->
+<div class="bg-surface-card hud-border p-4 flex flex-col gap-4 mt-module-gap">
+<div class="flex justify-between items-center hud-border-b pb-2">
+<span class="font-label-caps text-label-caps text-on-surface">NETWORK HEALTH</span>
+<span class="material-symbols-outlined text-on-surface text-sm">network_check</span>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div class="flex flex-col bg-surface p-2 hud-border">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant mb-1">ACTIVE NODES</span>
+<span class="font-data-lg text-data-lg text-secondary">248<span class="font-meta-xs text-meta-xs text-on-surface-variant ml-1">/250</span></span>
+</div>
+<div class="flex flex-col bg-surface p-2 hud-border">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant mb-1">DATA LOSS (24H)</span>
+<span class="font-data-lg text-data-lg text-secondary">0.02%</span>
+</div>
+</div>
+<div class="mt-2">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant mb-1 block">AGGREGATE SIGNAL STR</span>
+<div class="w-full h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[85%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Center/Right Column: Device Roster (The Grid) -->
+<div class="col-span-1 md:col-span-9 bg-surface-card hud-border flex flex-col h-full overflow-hidden">
+<!-- Roster Header -->
+<div class="flex justify-between items-center p-4 hud-border-b bg-surface-container-low">
+<div class="flex items-center gap-3">
+<span class="font-label-caps text-label-caps text-on-surface">ACTIVE DEPLOYMENTS</span>
+<div class="px-2 py-0.5 bg-surface-container-high rounded-sm hud-border">
+<span class="font-meta-xs text-meta-xs text-primary">FILTER: ALL</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="p-1 hud-border text-on-surface-variant hover:text-primary transition-colors bg-surface-container"><span class="material-symbols-outlined text-sm">search</span></button>
+<button class="p-1 hud-border text-on-surface-variant hover:text-primary transition-colors bg-surface-container"><span class="material-symbols-outlined text-sm">filter_list</span></button>
+</div>
+</div>
+<!-- Roster Table (Grid based for HUD feel) -->
+<div class="flex-grow overflow-y-auto bg-grid relative">
+<!-- Table Header Row -->
+<div class="grid grid-cols-12 gap-2 p-2 hud-border-b bg-surface-container sticky top-0 z-20">
+<div class="col-span-3 font-meta-xs text-meta-xs text-on-surface-variant pl-2">HARDWARE ID</div>
+<div class="col-span-2 font-meta-xs text-meta-xs text-on-surface-variant">TYPE</div>
+<div class="col-span-2 font-meta-xs text-meta-xs text-on-surface-variant">FW VER</div>
+<div class="col-span-2 font-meta-xs text-meta-xs text-on-surface-variant text-right">CAL OFFSET</div>
+<div class="col-span-3 font-meta-xs text-meta-xs text-on-surface-variant text-right pr-2">ACTIONS</div>
+</div>
+<!-- Device Rows -->
+<div class="flex flex-col gap-module-gap p-module-gap">
+<!-- Row 1: Nominal Piezometer -->
+<div class="grid grid-cols-12 gap-2 p-2 bg-surface-overlay hover:bg-surface-variant transition-colors items-center hud-border group cursor-pointer">
+<div class="col-span-3 flex items-center gap-2 pl-2">
+<div class="w-2 h-2 rounded-full bg-secondary status-pulse"></div>
+<span class="font-data-md text-data-md text-on-surface">GLOF-PZ-044</span>
+</div>
+<div class="col-span-2 flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">water_drop</span>
+<span class="font-meta-xs text-meta-xs">PIEZO</span>
+</div>
+<div class="col-span-2 font-meta-xs text-meta-xs text-on-surface-variant">
+                             v2.4.1-stable
+                         </div>
+<div class="col-span-2 font-data-md text-data-md text-secondary text-right">
+                             +0.002m
+                         </div>
+<div class="col-span-3 flex justify-end gap-2 pr-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="px-2 py-1 hud-border font-label-caps text-label-caps text-on-surface-variant hover:text-secondary hover:border-secondary transition-colors text-[9px]">DIAGNOSE</button>
+<button class="px-2 py-1 hud-border font-label-caps text-label-caps text-primary hover:bg-primary/10 transition-colors text-[9px]">RECAL</button>
+</div>
+</div>
+<!-- Row 2: Needs Recalibration -->
+<div class="grid grid-cols-12 gap-2 p-2 bg-surface-overlay hover:bg-surface-variant transition-colors items-center hud-border group cursor-pointer border-l-2 border-l-error">
+<div class="col-span-3 flex items-center gap-2 pl-2">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<span class="font-data-md text-data-md text-on-surface">GLOF-SM-102</span>
+</div>
+<div class="col-span-2 flex items-center gap-1 text-error">
+<span class="material-symbols-outlined text-sm">vibration</span>
+<span class="font-meta-xs text-meta-xs">SEISMIC</span>
+</div>
+<div class="col-span-2 font-meta-xs text-meta-xs text-error">
+                             v2.3.9-warn
+                         </div>
+<div class="col-span-2 font-data-md text-data-md text-error text-right">
+                             +0.145g
+                         </div>
+<div class="col-span-3 flex justify-end gap-2 pr-2">
+<span class="font-meta-xs text-meta-xs text-error mr-2 self-center animate-pulse">MAINT REQ</span>
+<button class="px-2 py-1 bg-error-container text-on-error-container font-label-caps text-label-caps transition-colors text-[9px] hover:bg-error hover:text-on-error">RECAL</button>
+</div>
+</div>
+<!-- Row 3: Nominal Seismic -->
+<div class="grid grid-cols-12 gap-2 p-2 bg-surface-overlay hover:bg-surface-variant transition-colors items-center hud-border group cursor-pointer">
+<div class="col-span-3 flex items-center gap-2 pl-2">
+<div class="w-2 h-2 rounded-full bg-secondary status-pulse-delayed"></div>
+<span class="font-data-md text-data-md text-on-surface">GLOF-SM-105</span>
+</div>
+<div class="col-span-2 flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">vibration</span>
+<span class="font-meta-xs text-meta-xs">SEISMIC</span>
+</div>
+<div class="col-span-2 font-meta-xs text-meta-xs text-on-surface-variant">
+                             v2.4.1-stable
+                         </div>
+<div class="col-span-2 font-data-md text-data-md text-secondary text-right">
+                             -0.001g
+                         </div>
+<div class="col-span-3 flex justify-end gap-2 pr-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="px-2 py-1 hud-border font-label-caps text-label-caps text-on-surface-variant hover:text-secondary hover:border-secondary transition-colors text-[9px]">DIAGNOSE</button>
+<button class="px-2 py-1 hud-border font-label-caps text-label-caps text-primary hover:bg-primary/10 transition-colors text-[9px]">RECAL</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Roster Footer -->
+<div class="p-2 hud-border-t bg-surface-container flex justify-between items-center">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">LAST SYNC: 14:32:45 UTC</span>
+<div class="flex gap-4">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">PAGE 1/12</span>
+<div class="flex gap-1">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter h-14 bg-surface-dim dark:bg-surface-dim border-t border-outline-variant dark:border-outline-variant">
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols text-sm">dashboard</span>
+<span class="font-label-caps text-label-caps text-on-surface text-[9px] mt-1">COMMAND</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols text-sm">warning</span>
+<span class="font-label-caps text-label-caps text-on-surface text-[9px] mt-1">RISK</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols text-sm">map</span>
+<span class="font-label-caps text-label-caps text-on-surface text-[9px] mt-1">MAP</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols text-sm">analytics</span>
+<span class="font-label-caps text-label-caps text-on-surface text-[9px] mt-1">DETAIL</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary border-t-2 border-secondary pt-1 opacity-80 transition-opacity hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols text-sm">admin_panel_settings</span>
+<span class="font-label-caps text-label-caps text-on-surface text-[9px] mt-1">ADMIN</span>
+</a>
+</nav>
+</body></html>

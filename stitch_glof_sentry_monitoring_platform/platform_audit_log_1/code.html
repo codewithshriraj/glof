@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Platform Audit Log - GLOF SENTRY</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "on-secondary-container": "#00515d",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "on-tertiary-container": "#262a2f",
+                        "tertiary-container": "#8d9196",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "primary-fixed": "#dde1ff",
+                        "on-error": "#690005",
+                        "surface-container-lowest": "#070f16",
+                        "inverse-primary": "#2a50d8",
+                        "inverse-surface": "#dbe3ee",
+                        "on-secondary": "#00363e",
+                        "secondary-fixed": "#a2eeff",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#2e363e",
+                        "surface": "#0c141c",
+                        "surface-container-low": "#141c24",
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "outline-variant": "#444654",
+                        "outline": "#8e90a0",
+                        "primary": "#b8c4ff",
+                        "surface-container-highest": "#2e363e",
+                        "surface-container-high": "#232b33",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "on-tertiary-fixed": "#181c20",
+                        "inverse-on-surface": "#293139",
+                        "on-primary-container": "#001f76",
+                        "error": "#ffb4ab",
+                        "surface-bright": "#323a42",
+                        "tertiary": "#c3c7cc",
+                        "surface-container": "#182028",
+                        "on-surface-variant": "#c4c5d7",
+                        "on-primary-fixed-variant": "#0036bc",
+                        "secondary": "#5de6ff",
+                        "surface-dim": "#0c141c",
+                        "on-primary": "#002486",
+                        "on-tertiary": "#2d3135",
+                        "secondary-container": "#00cbe6",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "on-secondary-fixed": "#001f25",
+                        "on-surface": "#dbe3ee",
+                        "surface-tint": "#b8c4ff",
+                        "background": "#0c141c",
+                        "tertiary-fixed": "#e0e2e8",
+                        "primary-container": "#6c88ff",
+                        "on-background": "#dbe3ee",
+                        "on-primary-fixed": "#001355"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-padding": "24px",
+                        "unit": "4px",
+                        "module-gap": "1px",
+                        "gutter": "12px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "body-md": ["Inter"],
+                        "meta-xs": ["JetBrains Mono"],
+                        "headline-sm": ["Inter"],
+                        "data-md": ["JetBrains Mono"],
+                        "data-lg": ["JetBrains Mono"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "meta-xs": ["10px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "data-md": ["14px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "data-lg": ["20px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        /* Custom scrollbar for data tables */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: theme('colors.surface-container-low'); 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.surface-container-high'); 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.outline-variant'); 
+        }
+        /* Grid pattern background for HUD feel */
+        .bg-grid-pattern {
+            background-image: 
+                linear-gradient(to right, theme('colors.surface-container-high') 1px, transparent 1px),
+                linear-gradient(to bottom, theme('colors.surface-container-high') 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .pulse-indicator {
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(93, 230, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(93, 230, 255, 0); }
+            100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(93, 230, 255, 0); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased bg-grid-pattern relative">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface-container dark:bg-surface-container border-b border-outline-variant dark:border-outline-variant transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary dark:text-primary" data-icon="hub" style="font-variation-settings: 'FILL' 1;">hub</span>
+<h1 class="font-headline-sm text-headline-sm font-bold tracking-widest text-primary dark:text-primary">GLOF SENTRY // NATIONAL MONITORING</h1>
+</div>
+<div class="flex items-center">
+<span class="font-data-md text-data-md text-secondary">UTC 14:32 // NOMINAL</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 mt-16 mb-14 md:mb-0 p-container-padding overflow-x-hidden flex flex-col gap-unit">
+<!-- Header & Controls Module -->
+<div class="bg-surface-container-low border border-outline-variant p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-primary uppercase mb-1">Platform Audit Log</h2>
+<p class="font-meta-xs text-meta-xs text-on-surface-variant uppercase">SYS-AUTH-TRK // ADMIN LEVEL ACC</p>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<!-- Search -->
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-outline text-[16px]">search</span>
+<input class="bg-surface-container border border-outline-variant text-on-surface font-meta-xs text-meta-xs pl-8 pr-2 py-1.5 focus:border-primary focus:ring-0 w-48 transition-colors" placeholder="QUERY LOGS..." type="text"/>
+</div>
+<!-- Filter Select -->
+<select class="bg-surface-container border border-outline-variant text-on-surface font-meta-xs text-meta-xs py-1.5 pl-2 pr-6 focus:border-primary focus:ring-0 appearance-none">
+<option value="all">ALL ACTIONS</option>
+<option value="auth">AUTH EVENTS</option>
+<option value="config">CONFIG CHANGES</option>
+<option value="data">DATA EXPORT</option>
+</select>
+<!-- Date Range -->
+<input class="bg-surface-container border border-outline-variant text-on-surface font-meta-xs text-meta-xs px-2 py-1.5 focus:border-primary focus:ring-0 w-32" readonly="" type="text" value="2023-10-24 00:00"/>
+<span class="text-outline-variant font-meta-xs">-</span>
+<input class="bg-surface-container border border-outline-variant text-on-surface font-meta-xs text-meta-xs px-2 py-1.5 focus:border-primary focus:ring-0 w-32" readonly="" type="text" value="2023-10-24 23:59"/>
+<!-- Export Button -->
+<button class="bg-surface-variant hover:bg-surface-bright border border-outline-variant text-on-surface font-label-caps text-label-caps px-3 py-1.5 flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[14px]">download</span> EXPORT
+                </button>
+</div>
+</div>
+<!-- Metrics Row -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-module-gap">
+<div class="bg-surface-container-low border border-outline-variant p-3 flex flex-col justify-between h-20">
+<span class="font-label-caps text-label-caps text-on-surface-variant">TOTAL EVENTS (24H)</span>
+<span class="font-data-lg text-data-lg text-primary">4,281</span>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-3 flex flex-col justify-between h-20">
+<span class="font-label-caps text-label-caps text-on-surface-variant">CRITICAL ALERTS</span>
+<span class="font-data-lg text-data-lg text-error">12</span>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-3 flex flex-col justify-between h-20">
+<span class="font-label-caps text-label-caps text-on-surface-variant">ACTIVE ADMINS</span>
+<span class="font-data-lg text-data-lg text-secondary">8</span>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-3 flex flex-col justify-between h-20">
+<span class="font-label-caps text-label-caps text-on-surface-variant">SYSTEM STATUS</span>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary pulse-indicator"></div>
+<span class="font-data-lg text-data-lg text-secondary">NOMINAL</span>
+</div>
+</div>
+</div>
+<!-- Data Table Module -->
+<div class="bg-surface-container-low border border-outline-variant flex-1 flex flex-col min-h-[400px]">
+<div class="border-b border-outline-variant p-2">
+<h3 class="font-label-caps text-label-caps text-on-surface pl-2">AUDIT TRAIL // LIVE STREAM</h3>
+</div>
+<div class="overflow-x-auto flex-1">
+<table class="w-full text-left border-collapse whitespace-nowrap">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-container">
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 font-normal">TIMESTAMP (UTC)</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 font-normal">USER ID</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 font-normal">ACTION TYPE</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 font-normal">TARGET / ENTITY</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 font-normal">IP / TERMINAL ID</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 font-normal">STATUS</th>
+</tr>
+</thead>
+<tbody class="font-data-md text-data-md text-on-surface">
+<tr class="border-b border-outline-variant hover:bg-surface-variant transition-colors group cursor-crosshair">
+<td class="py-2 px-4 text-secondary group-hover:text-primary">14:31:02.441</td>
+<td class="py-2 px-4">ADM-J.DOE</td>
+<td class="py-2 px-4">Threshold Adjustment</td>
+<td class="py-2 px-4 text-tertiary">SENSOR-NODE-A4</td>
+<td class="py-2 px-4 text-outline">192.168.1.104 // T-Alpha</td>
+<td class="py-2 px-4"><span class="bg-primary-container text-on-primary-container px-1 py-0.5 text-[10px] font-bold">SUCCESS</span></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-variant transition-colors group cursor-crosshair bg-error-container/10">
+<td class="py-2 px-4 text-secondary group-hover:text-primary">14:28:15.892</td>
+<td class="py-2 px-4">SYS-AUTO</td>
+<td class="py-2 px-4">Auth Failure</td>
+<td class="py-2 px-4 text-tertiary">API-GATEWAY-2</td>
+<td class="py-2 px-4 text-outline">203.0.113.42 // UNKNOWN</td>
+<td class="py-2 px-4"><span class="bg-error text-on-error px-1 py-0.5 text-[10px] font-bold">DENIED</span></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-variant transition-colors group cursor-crosshair">
+<td class="py-2 px-4 text-secondary group-hover:text-primary">14:15:00.001</td>
+<td class="py-2 px-4">SYS-CRON</td>
+<td class="py-2 px-4">Data Export Triggered</td>
+<td class="py-2 px-4 text-tertiary">DB-CLUSTER-01</td>
+<td class="py-2 px-4 text-outline">INTERNAL // LOC-SERVER</td>
+<td class="py-2 px-4"><span class="bg-primary-container text-on-primary-container px-1 py-0.5 text-[10px] font-bold">SUCCESS</span></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-variant transition-colors group cursor-crosshair">
+<td class="py-2 px-4 text-secondary group-hover:text-primary">13:59:44.210</td>
+<td class="py-2 px-4">ADM-S.SMITH</td>
+<td class="py-2 px-4">Config Update</td>
+<td class="py-2 px-4 text-tertiary">ALERT-ROUTING-MAP</td>
+<td class="py-2 px-4 text-outline">10.0.0.5 // T-Beta</td>
+<td class="py-2 px-4"><span class="bg-primary-container text-on-primary-container px-1 py-0.5 text-[10px] font-bold">SUCCESS</span></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-variant transition-colors group cursor-crosshair">
+<td class="py-2 px-4 text-secondary group-hover:text-primary">13:42:11.753</td>
+<td class="py-2 px-4">ADM-J.DOE</td>
+<td class="py-2 px-4">User Session Initiated</td>
+<td class="py-2 px-4 text-tertiary">AUTH-SERVICE</td>
+<td class="py-2 px-4 text-outline">192.168.1.104 // T-Alpha</td>
+<td class="py-2 px-4"><span class="bg-primary-container text-on-primary-container px-1 py-0.5 text-[10px] font-bold">SUCCESS</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="border-t border-outline-variant p-2 flex justify-between items-center bg-surface-container-low">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">SHOWING 1-5 OF 4,281</span>
+<div class="flex gap-1">
+<button class="px-2 py-1 border border-outline-variant text-on-surface-variant hover:bg-surface-variant font-meta-xs text-meta-xs transition-colors">&lt;</button>
+<button class="px-2 py-1 border border-outline-variant bg-surface-variant text-primary font-meta-xs text-meta-xs transition-colors">1</button>
+<button class="px-2 py-1 border border-outline-variant text-on-surface-variant hover:bg-surface-variant font-meta-xs text-meta-xs transition-colors">2</button>
+<button class="px-2 py-1 border border-outline-variant text-on-surface-variant hover:bg-surface-variant font-meta-xs text-meta-xs transition-colors">3</button>
+<button class="px-2 py-1 border border-outline-variant text-on-surface-variant hover:bg-surface-variant font-meta-xs text-meta-xs transition-colors">&gt;</button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter h-14 bg-surface-dim dark:bg-surface-dim border-t border-outline-variant dark:border-outline-variant">
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps mt-1">COMMAND</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols" data-icon="warning">warning</span>
+<span class="font-label-caps text-label-caps mt-1">RISK</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols" data-icon="map">map</span>
+<span class="font-label-caps text-label-caps mt-1">MAP</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols" data-icon="analytics">analytics</span>
+<span class="font-label-caps text-label-caps mt-1">DETAIL</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary border-t-2 border-secondary pt-1 hover:text-primary dark:hover:text-primary transition-colors opacity-80" href="#">
+<span class="material-symbols-outlined font-material-symbols" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-label-caps text-label-caps mt-1">ADMIN</span>
+</a>
+</nav>
+<!-- Top Nav Links (Desktop Only) -->
+<div class="hidden md:flex fixed top-0 right-container-padding h-16 items-center gap-6 z-50">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">COMMAND</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">RISK</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">MAP</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">DETAIL</a>
+<a class="font-label-caps text-label-caps text-primary font-bold border-b-2 border-primary h-full flex items-center" href="#">ADMIN</a>
+</div>
+</body></html>

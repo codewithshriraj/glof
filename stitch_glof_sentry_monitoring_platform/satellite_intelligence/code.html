@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Satellite Intelligence Board - GLOF SENTRY</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed": "#dde1ff",
+                      "tertiary": "#c3c7cc",
+                      "surface-container-highest": "#2e363e",
+                      "on-secondary-fixed-variant": "#004e5a",
+                      "outline": "#8e90a0",
+                      "surface-tint": "#b8c4ff",
+                      "on-surface-variant": "#c4c5d7",
+                      "on-primary": "#002486",
+                      "on-secondary": "#00363e",
+                      "on-error-container": "#ffdad6",
+                      "secondary-fixed": "#a2eeff",
+                      "surface-container-high": "#232b33",
+                      "tertiary-fixed": "#e0e2e8",
+                      "on-tertiary-fixed": "#181c20",
+                      "surface-container": "#182028",
+                      "surface-container-low": "#141c24",
+                      "surface": "#0c141c",
+                      "background": "#0c141c",
+                      "on-error": "#690005",
+                      "inverse-surface": "#dbe3ee",
+                      "on-primary-container": "#001f76",
+                      "error": "#ffb4ab",
+                      "on-primary-fixed-variant": "#0036bc",
+                      "on-tertiary-fixed-variant": "#43474c",
+                      "on-secondary-fixed": "#001f25",
+                      "primary-container": "#6c88ff",
+                      "tertiary-container": "#8d9196",
+                      "surface-bright": "#323a42",
+                      "secondary": "#5de6ff",
+                      "inverse-primary": "#2a50d8",
+                      "on-tertiary": "#2d3135",
+                      "surface-container-lowest": "#070f16",
+                      "secondary-container": "#00cbe6",
+                      "on-background": "#dbe3ee",
+                      "outline-variant": "#444654",
+                      "primary": "#b8c4ff",
+                      "surface-dim": "#0c141c",
+                      "tertiary-fixed-dim": "#c3c7cc",
+                      "surface-variant": "#2e363e",
+                      "on-primary-fixed": "#001355",
+                      "on-tertiary-container": "#262a2f",
+                      "secondary-fixed-dim": "#2fd9f4",
+                      "on-surface": "#dbe3ee",
+                      "error-container": "#93000a",
+                      "inverse-on-surface": "#293139",
+                      "primary-fixed-dim": "#b8c4ff",
+                      "on-secondary-container": "#00515d",
+                      "status-critical": "#ffb4ab",
+                      "status-nominal": "#5de6ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "12px",
+                      "container-padding": "24px",
+                      "module-gap": "1px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "data-md": [
+                              "JetBrains Mono"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "data-lg": [
+                              "JetBrains Mono"
+                      ],
+                      "meta-xs": [
+                              "JetBrains Mono"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "data-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "data-lg": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "meta-xs": [
+                              "10px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { background-color: #0c141c; color: #dbe3ee; }
+        .hairline-border { border: 1px solid #232b33; }
+        .hairline-b { border-bottom: 1px solid #232b33; }
+        .hairline-r { border-right: 1px solid #232b33; }
+        .grid-bg {
+            background-image: linear-gradient(#232b33 1px, transparent 1px),
+                              linear-gradient(90deg, #232b33 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: center center;
+            opacity: 0.1;
+        }
+        .pulse {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0; }
+            100% { transform: scale(0.8); opacity: 0; }
+        }
+        .glow-active { box-shadow: 0 0 4px rgba(93, 230, 255, 0.2); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen overflow-x-hidden pt-16 pb-14 md:pb-0">
+<div class="fixed inset-0 pointer-events-none grid-bg z-0"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface-container dark:bg-surface-container border-b border-outline-variant dark:border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-primary">hub</span>
+<span class="font-headline-sm text-headline-sm font-bold tracking-widest text-primary dark:text-primary">GLOF SENTRY // NATIONAL MONITORING</span>
+</div>
+<div class="hidden md:flex gap-6 items-center flex-1 justify-center">
+<!-- Nav implementation for desktop could go here, omitting for density as per instructions focusing on specific intent -->
+<nav class="flex gap-4">
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-2 py-1" href="#">COMMAND</a>
+<a class="text-primary dark:text-primary font-bold font-label-caps text-label-caps hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-2 py-1" href="#">RISK</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-2 py-1" href="#">MAP</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-status-nominal relative">
+<div class="absolute inset-0 rounded-full bg-status-nominal pulse"></div>
+</div>
+<span class="font-data-md text-data-md text-primary dark:text-primary">UTC 14:32 // NOMINAL</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="relative z-10 w-full max-w-[1920px] mx-auto p-gutter grid grid-cols-1 md:grid-cols-12 gap-module-gap mt-4">
+<!-- Section: Satellite Status Panel (Span 4) -->
+<section class="md:col-span-4 flex flex-col gap-module-gap">
+<!-- Sentinel-1 -->
+<div class="bg-surface-container-low hairline-border p-4 relative group hover:bg-surface-container transition-colors">
+<div class="flex justify-between items-center mb-3 hairline-b pb-2">
+<h2 class="font-label-caps text-label-caps text-on-surface">SENTINEL-1 [SAR]</h2>
+<span class="material-symbols-outlined text-secondary text-sm">satellite_alt</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mb-1">STATUS</div>
+<div class="font-data-md text-data-md text-status-nominal">ACTIVE_NOMINAL</div>
+</div>
+<div>
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mb-1">NEXT PASS (T-MINUS)</div>
+<div class="font-data-lg text-data-lg text-secondary countdown">01h 14m 32s</div>
+</div>
+</div>
+<div class="mt-4 pt-2 hairline-b">
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mb-1">PIPELINE: L0 -&gt; L1 -&gt; L2A</div>
+<div class="w-full bg-surface-container-highest h-1 mt-1 flex">
+<div class="bg-secondary h-full w-full"></div>
+</div>
+</div>
+<div class="absolute bottom-2 right-2 font-meta-xs text-meta-xs text-tertiary opacity-50">S1A/B</div>
+</div>
+<!-- Sentinel-2 -->
+<div class="bg-surface-container-low hairline-border p-4 relative group hover:bg-surface-container transition-colors">
+<div class="flex justify-between items-center mb-3 hairline-b pb-2">
+<h2 class="font-label-caps text-label-caps text-on-surface">SENTINEL-2 [OPTICAL]</h2>
+<span class="material-symbols-outlined text-primary text-sm">satellite_alt</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mb-1">STATUS</div>
+<div class="font-data-md text-data-md text-status-nominal">ACTIVE_NOMINAL</div>
+</div>
+<div>
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mb-1">NEXT PASS (T-MINUS)</div>
+<div class="font-data-lg text-data-lg text-primary countdown">04h 22m 10s</div>
+</div>
+</div>
+<div class="mt-4 pt-2 hairline-b">
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mb-1">PIPELINE: L0 -&gt; L1C -&gt; L2A</div>
+<div class="w-full bg-surface-container-highest h-1 mt-1 flex">
+<div class="bg-primary h-full w-[60%]"></div>
+</div>
+</div>
+<div class="absolute bottom-2 right-2 font-meta-xs text-meta-xs text-tertiary opacity-50">S2A/B</div>
+</div>
+<!-- Landsat-9 -->
+<div class="bg-surface-container-low hairline-border p-4 relative group hover:bg-surface-container transition-colors">
+<div class="flex justify-between items-center mb-3 hairline-b pb-2">
+<h2 class="font-label-caps text-label-caps text-on-surface">LANDSAT-9 [OPTICAL/TIR]</h2>
+<span class="material-symbols-outlined text-tertiary text-sm">satellite_alt</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mb-1">STATUS</div>
+<div class="font-data-md text-data-md text-tertiary">STANDBY_ORBIT</div>
+</div>
+<div>
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mb-1">NEXT PASS (T-MINUS)</div>
+<div class="font-data-lg text-data-lg text-tertiary countdown">12h 05m 45s</div>
+</div>
+</div>
+<div class="mt-4 pt-2 hairline-b">
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mb-1">PIPELINE: L1TP -&gt; L2SP</div>
+<div class="w-full bg-surface-container-highest h-1 mt-1 flex">
+<div class="bg-tertiary h-full w-[10%]"></div>
+</div>
+</div>
+<div class="absolute bottom-2 right-2 font-meta-xs text-meta-xs text-tertiary opacity-50">L9-OLI2</div>
+</div>
+</section>
+<!-- Section: Data Fusion & Metrics (Span 8) -->
+<section class="md:col-span-8 flex flex-col gap-module-gap">
+<!-- Top Row: SAR vs Optical & Global Cloud -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-module-gap">
+<!-- SAR/Optical Agreement -->
+<div class="bg-surface-container-low hairline-border p-4">
+<div class="flex justify-between items-center mb-4 hairline-b pb-2">
+<h2 class="font-label-caps text-label-caps text-on-surface">SAR-VS-OPTICAL AGREEMENT</h2>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">compare</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex-1 pr-4 hairline-r">
+<div class="font-display-lg text-display-lg text-secondary">94.2%</div>
+<div class="font-meta-xs text-meta-xs text-secondary mt-1">HIGH CORRELATION (+1.2%)</div>
+</div>
+<div class="flex-1 pl-4">
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-meta-xs font-meta-xs">
+<span class="text-on-surface-variant">GLOF REGION A</span>
+<span class="text-secondary">98%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1">
+<div class="bg-secondary h-full w-[98%]"></div>
+</div>
+<div class="flex justify-between text-meta-xs font-meta-xs mt-1">
+<span class="text-on-surface-variant">GLOF REGION B</span>
+<span class="text-primary">82%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1">
+<div class="bg-primary h-full w-[82%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Cloud Coverage -->
+<div class="bg-surface-container-low hairline-border p-4">
+<div class="flex justify-between items-center mb-4 hairline-b pb-2">
+<h2 class="font-label-caps text-label-caps text-on-surface">REGIONAL CLOUD COVERAGE [OPTICAL OBSCURATION]</h2>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">cloud</span>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<div class="text-center p-2 bg-surface-container-highest hairline-border">
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mb-1">SECTOR 1</div>
+<div class="font-data-md text-data-md text-status-critical">87%</div>
+</div>
+<div class="text-center p-2 bg-surface-container-highest hairline-border">
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mb-1">SECTOR 2</div>
+<div class="font-data-md text-data-md text-primary">45%</div>
+</div>
+<div class="text-center p-2 bg-surface-container-highest hairline-border glow-active">
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mb-1">SECTOR 3</div>
+<div class="font-data-md text-data-md text-secondary">12%</div>
+</div>
+</div>
+<div class="mt-3 font-meta-xs text-meta-xs text-tertiary">NOTE: HIGH OBSCURATION IN SECTOR 1. RELYING ON SAR TELEMETRY.</div>
+</div>
+</div>
+<!-- Main Imagery/Map Area -->
+<div class="bg-surface-container-low hairline-border flex-1 min-h-[400px] relative">
+<div class="absolute top-0 left-0 w-full p-2 hairline-b z-10 bg-surface-container/80 backdrop-blur-sm flex justify-between items-center">
+<h2 class="font-label-caps text-label-caps text-on-surface">SYNTHETIC APERTURE RADAR (SAR) COMPOSITE - SECTOR 3</h2>
+<div class="flex gap-2">
+<span class="px-2 py-0.5 bg-secondary/20 text-secondary border border-secondary font-meta-xs text-meta-xs rounded-sm">VH POLARIZATION</span>
+<span class="px-2 py-0.5 bg-surface-container-highest text-tertiary border border-outline-variant font-meta-xs text-meta-xs rounded-sm">LIVE</span>
+</div>
+</div>
+<!-- Map Placeholder Image -->
+<div class="w-full h-full bg-surface-container flex items-center justify-center opacity-80" data-alt="A highly detailed satellite map view of a rugged, mountainous glacial region. The map uses a dark-grey hillshade base with indigo-tinted water bodies. Glacial outlines are highlighted with a sharp 1px cyan stroke, resembling a heads-up display. The lighting is dark and moody, emphasizing the scientific telemetry aesthetic with high contrast and precision instrument markings." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAVJizMU6TUhbj2KGiMayxYixufjs2Rgwtnzhmsz6JlaJjxFHPpClqSNjNfuzo3dot6nk9zXrl0OI1vUN5GhtEKjyxnsN2GvekjLNqOQ1rYUn-pgW1mlAHgi8ABJTd_b5umDhRfFUl16KjOpSg1tilWkg-wttEIhuXRY5HJ3nxq6Ho8kL2r14edAknIB_Wk5_ZHKzgn2cwo4-eeLmO_GRDCBRA9l-dr6dJoU1V02HQUm-zUaEV6dh1a')">
+<!-- Fallback if image doesn't load visually immediately -->
+<span class="material-symbols-outlined text-4xl text-outline-variant opacity-20">map</span>
+</div>
+<div class="absolute bottom-2 right-2 font-meta-xs text-meta-xs text-on-surface-variant bg-surface-container/80 px-1">ESA COPENICUS / SENTINEL-1 L1 GRD</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter h-14 bg-surface-dim dark:bg-surface-dim border-t border-outline-variant dark:border-outline-variant">
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">dashboard</span>
+<span class="font-label-caps text-[9px] mt-0.5">COMMAND</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary border-t-2 border-secondary pt-1 opacity-80 transition-opacity hover:text-primary dark:hover:text-primary" href="#">
+<span class="material-symbols-outlined font-material-symbols" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="font-label-caps text-[9px] mt-0.5">RISK</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">map</span>
+<span class="font-label-caps text-[9px] mt-0.5">MAP</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">analytics</span>
+<span class="font-label-caps text-[9px] mt-0.5">DETAIL</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">admin_panel_settings</span>
+<span class="font-label-caps text-[9px] mt-0.5">ADMIN</span>
+</a>
+</nav>
+<script>
+        // Simple countdown ticker for visual effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const timers = document.querySelectorAll('.countdown');
+            setInterval(() => {
+                timers.forEach(timer => {
+                    let text = timer.innerText;
+                    let parts = text.split(/[hms ]+/).filter(Boolean);
+                    if(parts.length === 3) {
+                        let h = parseInt(parts[0]);
+                        let m = parseInt(parts[1]);
+                        let s = parseInt(parts[2]);
+                        
+                        if(s > 0) s--;
+                        else if (m > 0) { m--; s = 59; }
+                        else if (h > 0) { h--; m = 59; s = 59; }
+                        
+                        timer.innerText = `${h.toString().padStart(2, '0')}h ${m.toString().padStart(2, '0')}m ${s.toString().padStart(2, '0')}s`;
+                    }
+                });
+            }, 1000);
+        });
+    </script>
+</body></html>

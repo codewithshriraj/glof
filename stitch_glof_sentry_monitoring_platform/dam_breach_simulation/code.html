@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GLOF Sentry - Dam Breach Simulation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "on-background": "#dbe3ee",
+                        "primary-container": "#6c88ff",
+                        "surface-container": "#182028",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "on-tertiary-container": "#262a2f",
+                        "on-primary-container": "#001f76",
+                        "outline-variant": "#444654",
+                        "secondary-container": "#00cbe6",
+                        "surface-container-high": "#232b33",
+                        "inverse-primary": "#2a50d8",
+                        "tertiary-fixed": "#e0e2e8",
+                        "surface-variant": "#2e363e",
+                        "on-primary-fixed": "#001355",
+                        "secondary": "#5de6ff",
+                        "surface-dim": "#0c141c",
+                        "on-error": "#690005",
+                        "on-secondary": "#00363e",
+                        "outline": "#8e90a0",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#8d9196",
+                        "primary-fixed": "#dde1ff",
+                        "on-primary": "#002486",
+                        "secondary-fixed": "#a2eeff",
+                        "surface-tint": "#b8c4ff",
+                        "surface-bright": "#323a42",
+                        "surface-container-lowest": "#070f16",
+                        "background": "#0c141c",
+                        "on-secondary-container": "#00515d",
+                        "on-primary-fixed-variant": "#0036bc",
+                        "surface-container-highest": "#2e363e",
+                        "on-error-container": "#ffdad6",
+                        "on-surface": "#dbe3ee",
+                        "tertiary": "#c3c7cc",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed": "#181c20",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "primary": "#b8c4ff",
+                        "inverse-on-surface": "#293139",
+                        "surface": "#0c141c",
+                        "inverse-surface": "#dbe3ee",
+                        "on-tertiary": "#2d3135",
+                        "surface-container-low": "#141c24",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "on-secondary-fixed": "#001f25",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "on-surface-variant": "#c4c5d7"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "container-padding": "24px",
+                        "module-gap": "1px",
+                        "gutter": "12px",
+                        "unit": "4px"
+                    },
+                    fontFamily: {
+                        "headline-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "meta-xs": ["JetBrains Mono"],
+                        "data-lg": ["JetBrains Mono"],
+                        "display-lg": ["Inter"],
+                        "data-md": ["JetBrains Mono"],
+                        "label-caps": ["Inter"]
+                    },
+                    fontSize: {
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "meta-xs": ["10px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "data-lg": ["20px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-md": ["14px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0c141c; color: #dbe3ee; }
+        .hud-border { border: 1px solid #232b33; }
+        .hud-border-b { border-bottom: 1px solid #232b33; }
+        .hud-border-t { border-top: 1px solid #232b33; }
+        .hud-border-l { border-left: 1px solid #232b33; }
+        .hud-border-r { border-right: 1px solid #232b33; }
+        
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 180, 171, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 4px rgba(255, 180, 171, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 180, 171, 0); }
+        }
+
+        .range-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 8px;
+            background: #b8c4ff;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+        .range-slider::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 2px;
+            cursor: pointer;
+            background: #444654;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen flex flex-col font-body-md">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface-container border-b border-outline-variant flat no shadows">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary font-variation-settings: 'FILL' 1;" data-icon="hub">hub</span>
+<span class="font-headline-sm text-headline-sm font-bold tracking-widest text-primary">GLOF SENTRY // NATIONAL MONITORING</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-data-md text-data-md text-on-surface">SIMULATION // BREACH MODEL v4.2</span>
+<button class="font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-variant transition-colors px-3 py-1 rounded">UTC 14:32 // NOMINAL</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-16 pb-14 md:pb-0 px-container-padding py-container-padding grid grid-cols-1 md:grid-cols-12 gap-module-gap bg-background">
+<!-- Left Column: Map & Simulation Controls (8 cols) -->
+<div class="md:col-span-8 flex flex-col gap-module-gap">
+<!-- Map Module -->
+<div class="bg-surface-container hud-border flex-grow relative flex flex-col min-h-[500px]">
+<div class="p-gutter hud-border-b flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface">FLOW-PATH VISUALIZATION</span>
+<span class="font-meta-xs text-meta-xs text-outline flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error pulse-dot"></span> LIVE SIMULATION
+                    </span>
+</div>
+<div class="flex-grow relative bg-[#1c2229]">
+<!-- Map Placeholder with topographic styling logic -->
+<div class="absolute inset-0 w-full h-full opacity-60 mix-blend-screen" data-alt="A highly detailed topographic map of a mountainous river valley. The terrain is rendered in dark charcoal and slate greys, resembling a radar or satellite terrain scan. A vivid, ominous deep red flow-path clearly delineates a predicted flood route snaking through the valley. The aesthetic is purely technical, resembling high-end scientific modeling software, with glowing red highlights against a dark, moody background. Mission-control style interface map." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCArbLQ90tzhrP5xq2PcdPq50IdHWS0qAvXXxsxIRaPwNjXICl7POi7EI2BEAQtlDORiJcwy5R_D7fjueYeQvF7_ZBMNxJScwiYPfstZrGRF4W0yCZkNiUtQR8z6m8m93OPBg-mZb7kU92rbDBGQ1HonzuC8pSgqfXqMawoN6HeA2wY44A-VGAWkH75P-yIqdjgx0-mtG_Dk-taMBBY5G8P_BUER2nJSXu9ZjnwnMEeIf1v4U4jprx0')"></div>
+<!-- Overlay Data Points -->
+<div class="absolute top-1/4 left-1/3 flex flex-col items-center pointer-events-none">
+<div class="w-2 h-2 rounded-full border border-secondary bg-transparent"></div>
+<span class="font-meta-xs text-meta-xs text-secondary mt-1 bg-surface/80 px-1">Chungthang</span>
+</div>
+<div class="absolute top-1/2 left-1/2 flex flex-col items-center pointer-events-none">
+<div class="w-2 h-2 rounded-full border border-error bg-transparent"></div>
+<span class="font-meta-xs text-meta-xs text-error mt-1 bg-surface/80 px-1">Mangan Inundation Zone</span>
+</div>
+</div>
+<!-- Timeline Slider Control -->
+<div class="p-gutter hud-border-t bg-surface-container-high flex flex-col gap-2">
+<div class="flex justify-between items-center font-meta-xs text-meta-xs text-on-surface-variant">
+<span>T+0h</span>
+<span class="text-primary font-bold">CURRENT: T+4.0h</span>
+<span>T+48h</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-6 h-6 flex items-center justify-center hud-border hover:bg-surface-variant text-on-surface">
+<span class="material-symbols-outlined text-[16px]">play_arrow</span>
+</button>
+<input class="range-slider" max="48" min="0" type="range" value="4"/>
+</div>
+</div>
+<div class="absolute bottom-20 right-4 font-meta-xs text-meta-xs text-outline">
+                    NDMA-CWC Hydrology Model // 14:40 UTC
+                </div>
+</div>
+<!-- Precision/Assumption Footer Cards -->
+<div class="grid grid-cols-2 gap-module-gap">
+<div class="bg-surface-container hud-border p-3 flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant">HYDRAULIC UNCERTAINTY</span>
+<span class="font-data-md text-data-md text-secondary">±12%</span>
+</div>
+<div class="bg-surface-container hud-border p-3 flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant">BREACH WIDTH EST.</span>
+<span class="font-data-md text-data-md text-on-surface">45m</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Timeline & Metrics (4 cols) -->
+<div class="md:col-span-4 flex flex-col gap-module-gap">
+<!-- Impact Timeline -->
+<div class="bg-surface-container hud-border flex-grow flex flex-col">
+<div class="p-gutter hud-border-b flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface">IMPACT TIMELINE</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">schedule</span>
+</div>
+<div class="flex-col p-gutter gap-4 flex-grow flex">
+<!-- Event 1 -->
+<div class="relative pl-6 pb-4 hud-border-l border-error/50">
+<div class="absolute -left-[5px] top-1 w-2 h-2 rounded-full bg-error shadow-[0_0_8px_rgba(255,180,171,0.5)]"></div>
+<div class="font-meta-xs text-meta-xs text-error mb-1">T+2.5h // OVERTOPPING</div>
+<div class="font-body-md text-body-md text-on-surface">Chungthang Dam</div>
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mt-1">SEVERITY: CRITICAL</div>
+</div>
+<!-- Event 2 (Active) -->
+<div class="relative pl-6 pb-4 hud-border-l border-secondary/50">
+<div class="absolute -left-[5px] top-1 w-2 h-2 rounded-full bg-secondary shadow-[0_0_8px_rgba(93,230,255,0.5)]"></div>
+<div class="font-meta-xs text-meta-xs text-secondary mb-1">T+4.0h // INUNDATION</div>
+<div class="font-body-md text-body-md text-on-surface">Mangan Village</div>
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mt-1">POP. EXPOSURE: 1,420</div>
+</div>
+<!-- Event 3 -->
+<div class="relative pl-6 pb-4 hud-border-l border-outline/30">
+<div class="absolute -left-[5px] top-1 w-2 h-2 rounded-full bg-outline"></div>
+<div class="font-meta-xs text-meta-xs text-outline mb-1">T+8.5h // STRUCTURAL LOSS</div>
+<div class="font-body-md text-body-md text-on-surface-variant">Dikchu Bridge</div>
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mt-1">PROBABILITY: 88%</div>
+</div>
+</div>
+</div>
+<!-- Key Metric Card -->
+<div class="bg-surface-container hud-border p-gutter flex flex-col gap-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">AVG DISCHARGE RATE</span>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-error">14,200</span>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">m³/s</span>
+</div>
+<!-- Sparkline placeholder -->
+<div class="w-full h-8 border-b border-dashed border-error/50 relative mt-2">
+<div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-error/20 to-transparent"></div>
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full py-3 bg-error text-on-error font-label-caps text-label-caps flex justify-center items-center gap-2 hover:bg-error/90 transition-colors hud-border border-error">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+                INITIATE EVACUATION PROTOCOL
+            </button>
+</div>
+</main>
+<!-- BottomNavBar (Hidden on MD+, visible on mobile) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter h-14 bg-surface-dim border-t border-outline-variant flat no shadows md:hidden">
+<a class="flex flex-col items-center justify-center text-on-tertiary-container pt-1.5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps mt-1">COMMAND</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container pt-1.5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+<span class="font-label-caps text-label-caps mt-1">RISK</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary border-t-2 border-secondary pt-1 opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-label-caps text-label-caps mt-1">MAP</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container pt-1.5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-caps text-label-caps mt-1">DETAIL</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container pt-1.5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-label-caps text-label-caps mt-1">ADMIN</span>
+</a>
+</nav>
+</body></html>

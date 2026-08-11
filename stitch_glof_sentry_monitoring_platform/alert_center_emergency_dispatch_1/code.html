@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GLOF SENTRY // Alert Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed": "#dde1ff",
+                        "tertiary": "#c3c7cc",
+                        "surface-container-highest": "#2e363e",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "outline": "#8e90a0",
+                        "surface-tint": "#b8c4ff",
+                        "on-surface-variant": "#c4c5d7",
+                        "on-primary": "#002486",
+                        "on-secondary": "#00363e",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed": "#a2eeff",
+                        "surface-container-high": "#232b33",
+                        "tertiary-fixed": "#e0e2e8",
+                        "on-tertiary-fixed": "#181c20",
+                        "surface-container": "#182028",
+                        "surface-container-low": "#141c24",
+                        "surface": "#0c141c",
+                        "background": "#0c141c",
+                        "on-error": "#690005",
+                        "inverse-surface": "#dbe3ee",
+                        "on-primary-container": "#001f76",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed-variant": "#0036bc",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "on-secondary-fixed": "#001f25",
+                        "primary-container": "#6c88ff",
+                        "tertiary-container": "#8d9196",
+                        "surface-bright": "#323a42",
+                        "secondary": "#5de6ff",
+                        "inverse-primary": "#2a50d8",
+                        "on-tertiary": "#2d3135",
+                        "surface-container-lowest": "#070f16",
+                        "secondary-container": "#00cbe6",
+                        "on-background": "#dbe3ee",
+                        "outline-variant": "#444654",
+                        "primary": "#b8c4ff",
+                        "surface-dim": "#0c141c",
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "surface-variant": "#2e363e",
+                        "on-primary-fixed": "#001355",
+                        "on-tertiary-container": "#262a2f",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "on-surface": "#dbe3ee",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#293139",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "on-secondary-container": "#00515d"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    spacing: {
+                        gutter: "12px",
+                        "container-padding": "24px",
+                        "module-gap": "1px",
+                        unit: "4px"
+                    },
+                    fontFamily: {
+                        "label-caps": ["Inter"],
+                        "data-md": ["JetBrains Mono"],
+                        "display-lg": ["Inter"],
+                        "data-lg": ["JetBrains Mono"],
+                        "meta-xs": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Inter"]
+                    },
+                    fontSize: {
+                        "label-caps": ["11px", { lineHeight: "1.2", letterSpacing: "0.1em", fontWeight: "700" }],
+                        "data-md": ["14px", { lineHeight: "1.2", fontWeight: "400" }],
+                        "display-lg": ["32px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "data-lg": ["20px", { lineHeight: "1.2", fontWeight: "500" }],
+                        "meta-xs": ["10px", { lineHeight: "1.2", fontWeight: "400" }],
+                        "body-md": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
+                        "headline-sm": ["18px", { lineHeight: "1.4", letterSpacing: "0.02em", fontWeight: "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+            background-image: 
+                linear-gradient(theme('colors.surface-container-high') 1px, transparent 1px),
+                linear-gradient(90deg, theme('colors.surface-container-high') 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center center;
+        }
+        
+        .pulse-critical {
+            animation: pulse-crit 2s infinite;
+        }
+        
+        @keyframes pulse-crit {
+            0% { box-shadow: 0 0 0 0 rgba(255, 180, 171, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 180, 171, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 180, 171, 0); }
+        }
+
+        .alert-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+        .alert-card.critical::before { background-color: theme('colors.error'); }
+        .alert-card.high::before { background-color: theme('colors.secondary'); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="min-h-screen pt-16 pb-14 md:pb-0 font-body-md overflow-x-hidden antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface-container dark:bg-surface-container border-b border-outline-variant dark:border-outline-variant flat no shadows">
+<div class="flex items-center gap-2 text-primary dark:text-primary">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="font-headline-sm text-headline-sm font-bold tracking-widest uppercase">GLOF SENTRY // NATIONAL MONITORING</span>
+</div>
+<!-- Desktop Nav -->
+<nav class="hidden md:flex gap-6 items-center">
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-3 py-2" href="#">COMMAND</a>
+<a class="font-label-caps text-label-caps text-error dark:text-error font-bold flex items-center gap-1 active:scale-[0.98] transition-transform duration-150" href="#">
+<span class="material-symbols-outlined text-[16px]" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+                RISK [3]
+            </a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-3 py-2" href="#">MAP</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-3 py-2" href="#">DETAIL</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors px-3 py-2" href="#">ADMIN</a>
+</nav>
+<div class="font-data-md text-data-md text-primary dark:text-primary flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-error pulse-critical"></div>
+            UTC 14:32 // NOMINAL
+        </div>
+</header>
+<!-- Main Content Grid -->
+<main class="max-w-7xl mx-auto px-container-padding py-6 grid grid-cols-1 lg:grid-cols-12 gap-module-gap bg-outline-variant border border-outline-variant">
+<!-- Sidebar Stats -->
+<aside class="col-span-1 lg:grid-cols-1 lg:col-span-3 flex flex-col gap-module-gap bg-outline-variant">
+<div class="bg-surface p-4 flex flex-col gap-4 relative overflow-hidden group">
+<div class="absolute inset-0 bg-error/5 group-hover:bg-error/10 transition-colors pointer-events-none"></div>
+<div class="flex justify-between items-start border-b border-surface-container-high pb-2">
+<h2 class="font-label-caps text-label-caps text-error">ACTIVE ALERTS</h2>
+<span class="material-symbols-outlined text-error" data-icon="warning">warning</span>
+</div>
+<div class="flex items-end gap-2">
+<span class="font-display-lg text-display-lg text-error">03</span>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant mb-1">REQ REVIEW</span>
+</div>
+<div class="font-meta-xs text-meta-xs text-on-surface-variant text-right">SRC: GLOBAL_SENTRY_NODE</div>
+</div>
+<div class="bg-surface p-4 flex flex-col gap-4">
+<div class="flex justify-between items-start border-b border-surface-container-high pb-2">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant">DISPATCH STATUS</h2>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="local_shipping">local_shipping</span>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<span class="font-data-md text-data-md text-on-surface">UNIT ALPHA</span>
+<span class="font-label-caps text-label-caps text-error px-2 py-1 border border-error/30 bg-error/10">SCRAMBLED</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-data-md text-data-md text-on-surface">UNIT BRAVO</span>
+<span class="font-label-caps text-label-caps text-secondary px-2 py-1 border border-secondary/30 bg-secondary/10">DEPLOYED</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-data-md text-data-md text-on-surface">HELO-1</span>
+<span class="font-label-caps text-label-caps text-error px-2 py-1 border border-error/30 bg-error/10">SCRAMBLED</span>
+</div>
+</div>
+<div class="font-meta-xs text-meta-xs text-on-surface-variant text-right mt-auto pt-4">SYS_ID: DSP-992</div>
+</div>
+<div class="bg-surface p-4 flex-grow">
+<div class="flex justify-between items-start border-b border-surface-container-high pb-2 mb-4">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant">SYSTEM LOG</h2>
+</div>
+<div class="space-y-2 font-meta-xs text-meta-xs text-on-surface-variant font-data-md">
+<p class="flex gap-2"><span class="text-tertiary">14:31:02</span> <span>SEISMIC ANOMALY DETECTED [SEC-4]</span></p>
+<p class="flex gap-2"><span class="text-tertiary">14:31:45</span> <span>WATER LEVEL SPIKE &gt; 4.2M</span></p>
+<p class="flex gap-2"><span class="text-error">14:32:10</span> <span class="text-error">CRITICAL THRESHOLD BREACH</span></p>
+<p class="flex gap-2"><span class="text-tertiary">14:32:15</span> <span>AUTO-ALERT GENERATED</span></p>
+</div>
+</div>
+</aside>
+<!-- Feed Canvas -->
+<section class="col-span-1 lg:col-span-9 flex flex-col gap-module-gap bg-outline-variant">
+<!-- Filter Header -->
+<div class="bg-surface-container-low p-3 flex justify-between items-center border-b border-outline-variant">
+<div class="flex gap-4">
+<button class="font-label-caps text-label-caps text-error border-b-2 border-error pb-1 px-1">ALL ALERTS (3)</button>
+<button class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface pb-1 px-1 transition-colors">UNACKNOWLEDGED (2)</button>
+</div>
+<div class="flex gap-2">
+<button class="p-1 text-on-surface-variant hover:text-primary transition-colors border border-outline-variant bg-surface"><span class="material-symbols-outlined text-[18px]" data-icon="filter_list">filter_list</span></button>
+<button class="p-1 text-on-surface-variant hover:text-primary transition-colors border border-outline-variant bg-surface"><span class="material-symbols-outlined text-[18px]" data-icon="refresh">refresh</span></button>
+</div>
+</div>
+<!-- Alert Card: Critical -->
+<article class="bg-surface p-0 flex flex-col relative alert-card critical group">
+<div class="p-4 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center border-b border-surface-container-high bg-error/5 group-hover:bg-error/10 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-error/20 border border-error flex items-center justify-center pulse-critical">
+<span class="material-symbols-outlined text-error" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-caps text-label-caps bg-error text-on-error px-1.5 py-0.5">CRITICAL</span>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant font-data-md">ID: GLOF-2023-884A</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface uppercase font-bold tracking-wide">LAKE L-092 BREACH DETECTED</h3>
+</div>
+</div>
+<div class="font-data-md text-data-md text-right flex flex-row md:flex-col gap-4 md:gap-1 w-full md:w-auto justify-between md:justify-start border-t border-surface-container-high md:border-0 pt-3 md:pt-0">
+<div class="flex items-center gap-2 justify-end">
+<span class="material-symbols-outlined text-[16px] text-tertiary" data-icon="my_location">my_location</span>
+<span class="text-on-surface">SEC-9, REGION ANC</span>
+</div>
+<div class="text-error">T-MINUS: <span class="font-bold">UNKNOWN</span></div>
+</div>
+</div>
+<div class="p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="border border-surface-container-high p-3 flex flex-col gap-1">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">SENSOR TELEMETRY</span>
+<div class="font-data-lg text-data-lg text-error">WL: -8.4m <span class="material-symbols-outlined text-[18px] align-middle" data-icon="arrow_downward">arrow_downward</span></div>
+<span class="font-meta-xs text-meta-xs text-tertiary">RAPID DRAINAGE DETECTED</span>
+</div>
+<div class="border border-surface-container-high p-3 flex flex-col gap-1">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">IMPACT ESTIMATE</span>
+<div class="font-data-lg text-data-lg text-on-surface">POP: 45,000</div>
+<span class="font-meta-xs text-meta-xs text-tertiary">Evac Route A, B Compromised</span>
+</div>
+<div class="border border-surface-container-high p-3 flex flex-col gap-1 bg-surface-container">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">DISPATCH STATUS</span>
+<div class="font-data-lg text-data-lg text-on-surface">PENDING</div>
+<span class="font-meta-xs text-meta-xs text-error">Requires Immediate Action</span>
+</div>
+</div>
+<div class="p-4 border-t border-surface-container-high bg-surface-container-lowest flex flex-col sm:flex-row gap-3 justify-end">
+<button class="font-label-caps text-label-caps border border-outline-variant text-on-surface px-6 py-2 hover:bg-surface-variant transition-colors flex items-center justify-center gap-2">
+                        ACKNOWLEDGE <span class="material-symbols-outlined text-[16px]" data-icon="done">done</span>
+</button>
+<button class="font-label-caps text-label-caps bg-gradient-to-r from-error to-error-container text-on-error px-6 py-2 hover:opacity-90 transition-opacity flex items-center justify-center gap-2 border border-error pulse-critical">
+                        DISPATCH FULL PROTOCOL <span class="material-symbols-outlined text-[16px]" data-icon="rocket_launch">rocket_launch</span>
+</button>
+</div>
+</article>
+<!-- Alert Card: High -->
+<article class="bg-surface p-0 flex flex-col relative alert-card high">
+<div class="p-4 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center border-b border-surface-container-high">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-secondary/10 border border-secondary/50 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="gavel" data-weight="fill" style="font-variation-settings: 'FILL' 1;">gavel</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-caps text-label-caps border border-secondary text-secondary px-1.5 py-0.5">HIGH</span>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant font-data-md">ID: SEIS-2023-112B</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface uppercase font-bold tracking-wide">ABNORMAL MORAINE SHIFT DETECTED</h3>
+</div>
+</div>
+<div class="font-data-md text-data-md text-right flex flex-row md:flex-col gap-4 md:gap-1 w-full md:w-auto justify-between md:justify-start border-t border-surface-container-high md:border-0 pt-3 md:pt-0">
+<div class="flex items-center gap-2 justify-end">
+<span class="material-symbols-outlined text-[16px] text-tertiary" data-icon="my_location">my_location</span>
+<span class="text-on-surface">SEC-2, GLACIER TONGUE</span>
+</div>
+<div class="text-secondary">OBSERVATION ONLY</div>
+</div>
+</div>
+<div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="border border-surface-container-high p-3 flex flex-col gap-1">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">SENSOR TELEMETRY</span>
+<div class="font-data-lg text-data-lg text-secondary">DISP: 45mm/hr</div>
+<span class="font-meta-xs text-meta-xs text-tertiary">GPS Base Station G-04</span>
+</div>
+<div class="border border-surface-container-high p-3 flex flex-col gap-1 bg-surface-container">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">DISPATCH STATUS</span>
+<div class="font-data-lg text-data-lg text-secondary">DRONE RECON AUTH</div>
+<span class="font-meta-xs text-meta-xs text-tertiary">UAV-07 En Route (ETA 12m)</span>
+</div>
+</div>
+<div class="p-4 border-t border-surface-container-high bg-surface-container-lowest flex flex-col sm:flex-row gap-3 justify-end">
+<button class="font-label-caps text-label-caps border border-outline-variant text-on-surface px-6 py-2 hover:bg-surface-variant transition-colors flex items-center justify-center gap-2">
+                        ACKNOWLEDGE <span class="material-symbols-outlined text-[16px]" data-icon="done">done</span>
+</button>
+</div>
+</article>
+<!-- Alert Card: Critical (Acknowledged) -->
+<article class="bg-surface p-0 flex flex-col relative alert-card critical opacity-70">
+<div class="p-4 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center border-b border-surface-container-high bg-surface-container-low">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-highest border border-outline flex items-center justify-center">
+<span class="material-symbols-outlined text-outline" data-icon="warning">warning</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-caps text-label-caps bg-error/20 text-error px-1.5 py-0.5 line-through">CRITICAL</span>
+<span class="font-label-caps text-label-caps bg-surface-variant text-on-surface px-1.5 py-0.5">ACKNOWLEDGED</span>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant font-data-md">ID: GLOF-2023-883C</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface-variant uppercase tracking-wide">DOWNSTREAM FLOOD WARNING</h3>
+</div>
+</div>
+<div class="font-data-md text-data-md text-right flex flex-row md:flex-col gap-4 md:gap-1 w-full md:w-auto justify-between md:justify-start border-t border-surface-container-high md:border-0 pt-3 md:pt-0">
+<div class="flex items-center gap-2 justify-end text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="account_circle">account_circle</span>
+<span>OP_Kowalski</span>
+</div>
+<div class="text-tertiary font-meta-xs">14:15 UTC</div>
+</div>
+</div>
+<div class="p-2 border-t border-surface-container-high bg-surface-container-lowest flex justify-end">
+<span class="font-meta-xs text-meta-xs text-tertiary">PROTOCOL INITIATED</span>
+</div>
+</article>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter h-14 bg-surface-dim dark:bg-surface-dim border-t border-outline-variant dark:border-outline-variant flat no shadows md:hidden">
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="font-material-symbols material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps">COMMAND</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary border-t-2 border-secondary pt-1 hover:text-primary dark:hover:text-primary transition-colors active:opacity-80 transition-opacity" href="#">
+<span class="font-material-symbols material-symbols-outlined" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="font-label-caps text-label-caps">RISK</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="font-material-symbols material-symbols-outlined" data-icon="map">map</span>
+<span class="font-label-caps text-label-caps">MAP</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="font-material-symbols material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-caps text-label-caps">DETAIL</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="font-material-symbols material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-label-caps text-label-caps">ADMIN</span>
+</a>
+</nav>
+</body></html>

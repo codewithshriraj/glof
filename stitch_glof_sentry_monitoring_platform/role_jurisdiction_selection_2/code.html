@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GLOF SENTRY // INITIALIZATION</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#00cbe6",
+                        "on-primary-container": "#001f76",
+                        "on-secondary": "#00363e",
+                        "tertiary-container": "#8d9196",
+                        "on-primary-fixed": "#001355",
+                        "inverse-surface": "#dbe3ee",
+                        "on-background": "#dbe3ee",
+                        "on-secondary-fixed": "#001f25",
+                        "surface-container-high": "#232b33",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "error-container": "#93000a",
+                        "surface": "#0c141c",
+                        "on-tertiary-fixed": "#181c20",
+                        "tertiary": "#c3c7cc",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "primary-fixed": "#dde1ff",
+                        "primary-container": "#6c88ff",
+                        "surface-tint": "#b8c4ff",
+                        "surface-container-highest": "#2e363e",
+                        "surface-variant": "#2e363e",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "tertiary-fixed": "#e0e2e8",
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "surface-container-lowest": "#070f16",
+                        "inverse-on-surface": "#293139",
+                        "on-tertiary-container": "#262a2f",
+                        "on-secondary-container": "#00515d",
+                        "on-error": "#690005",
+                        "secondary-fixed": "#a2eeff",
+                        "inverse-primary": "#2a50d8",
+                        "error": "#ffb4ab",
+                        "surface-dim": "#0c141c",
+                        "on-primary-fixed-variant": "#0036bc",
+                        "secondary": "#5de6ff",
+                        "outline": "#8e90a0",
+                        "outline-variant": "#444654",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "surface-container-low": "#141c24",
+                        "on-surface-variant": "#c4c5d7",
+                        "primary": "#b8c4ff",
+                        "on-primary": "#002486",
+                        "on-surface": "#dbe3ee",
+                        "surface-container": "#182028",
+                        "surface-bright": "#323a42",
+                        "background": "#0c141c",
+                        "on-tertiary": "#2d3135"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-padding": "24px",
+                        "module-gap": "1px",
+                        "gutter": "12px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "meta-xs": ["JetBrains Mono"],
+                        "headline-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "data-md": ["JetBrains Mono"],
+                        "label-caps": ["Inter"],
+                        "data-lg": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "meta-xs": ["10px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-md": ["14px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "data-lg": ["20px", { "lineHeight": "1.2", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-image: 
+                linear-gradient(to right, rgba(35, 43, 51, 0.3) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(35, 43, 51, 0.3) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+        
+        /* Custom styles that aren't easily achieved with standard Tailwind utilities */
+        .hud-border { border: 1px solid theme('colors.outline-variant'); }
+        .hud-border-b { border-bottom: 1px solid theme('colors.outline-variant'); }
+        .hud-border-t { border-top: 1px solid theme('colors.outline-variant'); }
+        .hud-border-l { border-left: 1px solid theme('colors.outline-variant'); }
+        .hud-border-r { border-right: 1px solid theme('colors.outline-variant'); }
+        
+        .role-card {
+            transition: all 0.2s ease;
+        }
+        
+        .role-card:hover:not(.active) {
+            background-color: theme('colors.surface-variant');
+            border-color: theme('colors.tertiary');
+        }
+        
+        .role-card.active {
+            border-color: theme('colors.secondary');
+            background-color: rgba(93, 230, 255, 0.05); /* very light secondary tint */
+            box-shadow: 0 0 16px rgba(93, 230, 255, 0.1);
+        }
+        
+        .role-card.active .selection-indicator {
+            background-color: theme('colors.secondary');
+            box-shadow: 0 0 8px theme('colors.secondary');
+        }
+        
+        .status-ping {
+            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+        
+        @keyframes ping {
+            75%, 100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+        
+        /* Gradient for primary button */
+        .btn-gradient {
+            background: linear-gradient(135deg, #6c88ff 0%, #00cbe6 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col antialiased selection:bg-secondary selection:text-on-secondary">
+<!-- TopAppBar (Suppressed for transactional screen, but showing a minimal un-navigable version as per HUD aesthetic) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface-container/90 backdrop-blur-sm hud-border-b">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary font-headline-sm" style="font-variation-settings: 'FILL' 1;">hub</span>
+<h1 class="font-headline-sm text-headline-sm font-bold tracking-widest text-primary">GLOF SENTRY // INITIALIZATION</h1>
+</div>
+<div class="flex items-center gap-3">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-secondary"></span>
+</span>
+<span class="font-data-md text-data-md text-on-surface-variant">UTC 14:32 // SECURE_LINK_ESTABLISHED</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-24 pb-20 px-container-padding flex items-center justify-center">
+<div class="w-full max-w-[1024px] flex flex-col gap-10">
+<!-- Page Intent Header -->
+<div class="flex flex-col gap-2 border-l-2 border-secondary pl-4">
+<h2 class="font-display-lg text-display-lg text-on-background uppercase tracking-tight">Select Operational Context</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+                    Authentication verified. Select your designated jurisdiction and role to initialize the telemetry dashboard. Access levels are strictly enforced via biometric validation.
+                </p>
+</div>
+<!-- Bento Grid for Role Selection -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-[1px] bg-outline-variant p-[1px] rounded-DEFAULT overflow-hidden">
+<!-- Card 1: National Command -->
+<button class="role-card active relative text-left bg-surface p-6 h-full flex flex-col justify-between group focus:outline-none" onclick="selectRole(this)" type="button">
+<div class="absolute top-4 right-4 h-3 w-3 rounded-full border border-outline selection-indicator bg-transparent"></div>
+<div class="flex flex-col gap-4 mb-10 flex-grow">
+<span class="material-symbols-outlined text-[32px] text-primary" style="font-variation-settings: 'FILL' 0;">public</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1 uppercase">National Command Center</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Full macro-level oversight of all regional sectors. Predictive modeling and global alert broadcasting capabilities.</p>
+</div>
+</div>
+<div class="flex justify-between items-end mt-auto hud-border-t pt-4 shrink-0">
+<div class="flex flex-col gap-1">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant uppercase">Required Clearance</span>
+<span class="font-data-md text-data-md text-error flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">admin_panel_settings</span>
+                                L4 - OMEGA
+                            </span>
+</div>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">SYS_ID: NC-001</span>
+</div>
+</button>
+<!-- Card 2: State/District Ops -->
+<button class="role-card relative text-left bg-surface p-6 h-full flex flex-col justify-between group focus:outline-none" onclick="selectRole(this)" type="button">
+<div class="absolute top-4 right-4 h-3 w-3 rounded-full border border-outline selection-indicator bg-transparent transition-colors"></div>
+<div class="flex flex-col gap-4 mb-10 flex-grow">
+<span class="material-symbols-outlined text-[32px] text-primary" style="font-variation-settings: 'FILL' 0;">map</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1 uppercase">State/District Ops</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Regional telemetry and localized risk assessment. Direct coordination with emergency response protocols.</p>
+</div>
+</div>
+<div class="flex justify-between items-end mt-auto hud-border-t pt-4 shrink-0">
+<div class="flex flex-col gap-1">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant uppercase">Required Clearance</span>
+<span class="font-data-md text-data-md text-secondary flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+                                L3 - DELTA
+                            </span>
+</div>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">SYS_ID: SD-442</span>
+</div>
+</button>
+<!-- Card 3: Field Warden Terminal -->
+<button class="role-card relative text-left bg-surface p-6 h-full flex flex-col justify-between group focus:outline-none" onclick="selectRole(this)" type="button">
+<div class="absolute top-4 right-4 h-3 w-3 rounded-full border border-outline selection-indicator bg-transparent transition-colors"></div>
+<div class="flex flex-col gap-4 mb-10 flex-grow">
+<span class="material-symbols-outlined text-[32px] text-primary" style="font-variation-settings: 'FILL' 0;">sensors</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1 uppercase">Field Warden Terminal</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">On-site sensor calibration, manual data overriding, and immediate local evacuation signaling.</p>
+</div>
+</div>
+<div class="flex justify-between items-end mt-auto hud-border-t pt-4 shrink-0">
+<div class="flex flex-col gap-1">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant uppercase">Required Clearance</span>
+<span class="font-data-md text-data-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">badge</span>
+                                L2 - SIGMA
+                            </span>
+</div>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">SYS_ID: FW-77X</span>
+</div>
+</button>
+<!-- Card 4: Public Advisory Hub -->
+<button class="role-card relative text-left bg-surface p-6 h-full flex flex-col justify-between group focus:outline-none" onclick="selectRole(this)" type="button">
+<div class="absolute top-4 right-4 h-3 w-3 rounded-full border border-outline selection-indicator bg-transparent transition-colors"></div>
+<div class="flex flex-col gap-4 mb-10 flex-grow">
+<span class="material-symbols-outlined text-[32px] text-primary" style="font-variation-settings: 'FILL' 0;">campaign</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1 uppercase">Public Advisory Hub</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Drafting and dissemination of public-facing alerts, media briefings, and general status updates.</p>
+</div>
+</div>
+<div class="flex justify-between items-end mt-auto hud-border-t pt-4 shrink-0">
+<div class="flex flex-col gap-1">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant uppercase">Required Clearance</span>
+<span class="font-data-md text-data-md text-tertiary flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">account_box</span>
+                                L1 - ALPHA
+                            </span>
+</div>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">SYS_ID: PA-009</span>
+</div>
+</button>
+</div>
+<!-- Action & Metadata Footer -->
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pt-8 mt-4 border-t border-outline-variant w-full">
+<!-- Telemetry Metadata -->
+<div class="flex flex-wrap gap-x-8 gap-y-4 font-meta-xs text-meta-xs text-on-surface-variant w-full md:w-auto">
+<div class="flex flex-col gap-1">
+<span class="uppercase text-tertiary">Session IP</span>
+<span>192.168.4.202</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="uppercase text-tertiary">Encryption</span>
+<span class="text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">lock</span>
+                            AES-256
+                        </span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="uppercase text-tertiary">L-TKN</span>
+<span>VALIDATED_889A</span>
+</div>
+</div>
+<!-- Initialize Action -->
+<button class="btn-gradient w-full md:w-auto px-8 py-3 rounded-sm flex items-center justify-center gap-3 hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-background">
+<span class="font-label-caps text-label-caps text-on-primary-container tracking-widest">INITIALIZE SESSION</span>
+<span class="material-symbols-outlined text-on-primary-container text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<script>
+        function selectRole(selectedElement) {
+            // Remove active class from all cards
+            const cards = document.querySelectorAll('.role-card');
+            cards.forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Add active class to clicked card
+            selectedElement.classList.add('active');
+            
+            // Optional: Play a tiny subtle interaction sound or trigger a haptic feedback if applicable in the real app
+        }
+    </script>
+</body></html>

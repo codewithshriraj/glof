@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Community Verification - GLOF SENTRY</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "on-secondary-container": "#00515d",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "on-tertiary-container": "#262a2f",
+                        "tertiary-container": "#8d9196",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "primary-fixed": "#dde1ff",
+                        "on-error": "#690005",
+                        "surface-container-lowest": "#070f16",
+                        "inverse-primary": "#2a50d8",
+                        "inverse-surface": "#dbe3ee",
+                        "on-secondary": "#00363e",
+                        "secondary-fixed": "#a2eeff",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#2e363e",
+                        "surface": "#0c141c",
+                        "surface-container-low": "#141c24",
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "outline-variant": "#444654",
+                        "outline": "#8e90a0",
+                        "primary": "#b8c4ff",
+                        "surface-container-highest": "#2e363e",
+                        "surface-container-high": "#232b33",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "on-tertiary-fixed": "#181c20",
+                        "inverse-on-surface": "#293139",
+                        "on-primary-container": "#001f76",
+                        "error": "#ffb4ab",
+                        "surface-bright": "#323a42",
+                        "tertiary": "#c3c7cc",
+                        "surface-container": "#182028",
+                        "on-surface-variant": "#c4c5d7",
+                        "on-primary-fixed-variant": "#0036bc",
+                        "secondary": "#5de6ff",
+                        "surface-dim": "#0c141c",
+                        "on-primary": "#002486",
+                        "on-tertiary": "#2d3135",
+                        "secondary-container": "#00cbe6",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "on-secondary-fixed": "#001f25",
+                        "on-surface": "#dbe3ee",
+                        "surface-tint": "#b8c4ff",
+                        "background": "#0c141c",
+                        "tertiary-fixed": "#e0e2e8",
+                        "primary-container": "#6c88ff",
+                        "on-background": "#dbe3ee",
+                        "on-primary-fixed": "#001355"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-padding": "24px",
+                        "unit": "4px",
+                        "module-gap": "1px",
+                        "gutter": "12px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "body-md": ["Inter"],
+                        "meta-xs": ["JetBrains Mono"],
+                        "headline-sm": ["Inter"],
+                        "data-md": ["JetBrains Mono"],
+                        "data-lg": ["JetBrains Mono"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "meta-xs": ["10px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "data-md": ["14px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "data-lg": ["20px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0A0E12; /* Fallback */
+            color: #dbe3ee;
+        }
+        
+        /* Grid pattern */
+        .bg-grid {
+            background-image: 
+                linear-gradient(to right, rgba(35, 43, 51, 0.5) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(35, 43, 51, 0.5) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* Module borders */
+        .module {
+            border: 1px solid #232b33;
+            background-color: #12171D;
+        }
+        
+        .module-header {
+            border-bottom: 1px solid #232b33;
+        }
+
+        /* Pulse animation for active ingestion */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        .status-ping::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; right: 0; bottom: 0;
+            border-radius: 50%;
+            background-color: inherit;
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        
+        /* Gradient Button */
+        .btn-primary {
+            background: linear-gradient(135deg, #2a50d8 0%, #00cbe6 100%);
+            color: white;
+            border: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background font-body-md text-on-background h-screen overflow-hidden flex flex-col bg-grid">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface-container border-b border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">hub</span>
+<span class="font-headline-sm text-headline-sm font-bold tracking-widest text-primary uppercase">GLOF SENTRY // NATIONAL MONITORING</span>
+</div>
+<div class="flex items-center gap-4">
+<!-- Navigation (Web only) -->
+<nav class="hidden md:flex gap-6 mr-8">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-variant transition-colors py-2 px-3 rounded" href="#">COMMAND</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-variant transition-colors py-2 px-3 rounded" href="#">RISK</a>
+<a class="font-label-caps text-label-caps text-primary font-bold hover:bg-surface-variant transition-colors py-2 px-3 rounded relative" href="#">
+                    MAP
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary"></span>
+</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-variant transition-colors py-2 px-3 rounded" href="#">DETAIL</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-variant transition-colors py-2 px-3 rounded" href="#">ADMIN</a>
+</nav>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant border border-outline-variant px-2 py-1 bg-surface-container-high rounded-sm">UTC 14:32 // NOMINAL</span>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 mt-16 md:mb-0 mb-14 overflow-hidden flex flex-col md:flex-row p-[1px] bg-outline-variant gap-[1px]">
+<!-- Left Panel: Event Feed -->
+<section class="w-full md:w-1/3 h-full module flex flex-col z-10">
+<header class="module-header p-3 flex justify-between items-center bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-sm">warning</span>
+<h2 class="font-label-caps text-label-caps text-on-surface uppercase">Anomaly Verification Queue</h2>
+</div>
+<div class="flex items-center gap-2">
+<span class="relative flex h-2 w-2 status-ping bg-error rounded-full"></span>
+<span class="font-meta-xs text-meta-xs text-error uppercase">3 Pending</span>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-2 space-y-2 custom-scrollbar">
+<!-- Event Item 1 (Unverified) -->
+<div class="border border-outline-variant bg-surface p-3 hover:bg-surface-container-high transition-colors cursor-pointer relative group">
+<div class="absolute inset-0 border border-error opacity-0 group-hover:opacity-20 transition-opacity"></div>
+<div class="flex justify-between items-start mb-3">
+<span class="font-meta-xs text-meta-xs text-error border border-error px-1 uppercase bg-error/10 inline-block">Unverified</span>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">T-14:28:03</span>
+</div>
+<h3 class="font-data-md text-data-md text-on-surface mb-1">Sudden Seismic Spike</h3>
+<p class="font-meta-xs text-meta-xs text-on-surface-variant mb-2">Sensor Array Alpha-7, Sector 4. Magnitude 2.4 anomalous vibration detected near glacial moraine.</p>
+<div class="flex justify-between items-end mt-4">
+<span class="font-meta-xs text-meta-xs text-outline">SRC: ML-DETECT-V4</span>
+<button class="font-label-caps text-label-caps text-primary border border-primary px-3 py-1 hover:bg-primary/10 transition-colors uppercase">Review</button>
+</div>
+</div>
+<!-- Event Item 2 (Unverified) -->
+<div class="border border-outline-variant bg-surface p-3 hover:bg-surface-container-high transition-colors cursor-pointer relative group">
+<div class="absolute inset-0 border border-secondary opacity-0 group-hover:opacity-20 transition-opacity"></div>
+<div class="flex justify-between items-start mb-3">
+<span class="font-meta-xs text-meta-xs text-error border border-error px-1 uppercase bg-error/10 inline-block">Unverified</span>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">T-13:05:11</span>
+</div>
+<h3 class="font-data-md text-data-md text-on-surface mb-1">Anomalous Water Color Shift</h3>
+<p class="font-meta-xs text-meta-xs text-on-surface-variant mb-2">Lake Tsho Rolpa visual feed indicates increased turbidity. Possible sub-glacial discharge.</p>
+<div class="flex justify-between items-end mt-4">
+<span class="font-meta-xs text-meta-xs text-outline">SRC: SATELLITE-S2</span>
+<button class="font-label-caps text-label-caps text-primary border border-primary px-3 py-1 hover:bg-primary/10 transition-colors uppercase">Review</button>
+</div>
+</div>
+<!-- Event Item 3 (Verified) -->
+<div class="border border-outline-variant bg-surface-container-low p-3 opacity-75">
+<div class="flex justify-between items-start mb-3">
+<span class="font-meta-xs text-meta-xs text-secondary border border-secondary px-1 uppercase bg-secondary/10 inline-block">Verified</span>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">T-09:12:45</span>
+</div>
+<h3 class="font-data-md text-data-md text-on-surface mb-1">Minor Icefall Detected</h3>
+<div class="flex items-center gap-2 mt-3">
+<span class="material-symbols-outlined text-secondary text-sm">check_circle</span>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">Confirmed by Warden ID: W-402</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Panel: Map & Verification Interface -->
+<section class="w-full md:w-2/3 h-full flex flex-col gap-[1px]">
+<!-- Map View (Top Half) -->
+<div class="h-2/5 md:h-3/5 module relative overflow-hidden group">
+<header class="module-header p-2 flex justify-between items-center bg-surface/90 backdrop-blur absolute top-0 w-full z-10 border-b border-outline-variant">
+<span class="font-label-caps text-label-caps text-on-surface uppercase">Telemetry Map</span>
+<div class="flex gap-2">
+<span class="font-meta-xs text-meta-xs text-secondary border border-secondary px-1 bg-surface-container/50">SAT-VIEW</span>
+<span class="font-meta-xs text-meta-xs text-outline border border-outline px-1 bg-surface-container/50">THERMAL</span>
+</div>
+</header>
+<!-- Map Background (Placeholder) -->
+<div class="w-full h-full bg-[#1c242c] relative">
+<!-- Fake Topography lines -->
+<div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 50% 50%, transparent 20%, #232b33 21%, #232b33 22%, transparent 23%); background-size: 100px 100px;"></div>
+<!-- Map Pin (Active) -->
+<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+<div class="relative flex h-4 w-4 status-ping bg-error rounded-full mb-1"></div>
+<span class="material-symbols-outlined text-error text-2xl">location_on</span>
+<div class="bg-surface-container-high border border-error px-2 py-1 mt-1">
+<span class="font-meta-xs text-meta-xs text-error uppercase">Sector 4</span>
+</div>
+</div>
+</div>
+<span class="absolute bottom-2 right-2 font-meta-xs text-meta-xs text-on-surface-variant bg-surface-container/90 backdrop-blur px-2 py-1 border border-outline-variant rounded-sm shadow-sm z-10">MAP-SRC: USGS-G1</span>
+</div>
+<!-- Verification Form (Bottom Half) -->
+<div class="h-3/5 md:h-2/5 module flex flex-col">
+<header class="module-header p-3 flex justify-between items-center bg-surface-container-low">
+<h2 class="font-label-caps text-label-caps text-secondary uppercase">Field Warden Report Submission</h2>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">EVENT-ID: #8839-A</span>
+</header>
+<div class="flex-1 p-4 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto">
+<!-- Left Col: Details -->
+<div class="flex flex-col gap-4">
+<div>
+<label class="block font-meta-xs text-meta-xs text-on-surface-variant mb-1 uppercase">Observation Status</label>
+<div class="flex gap-2">
+<button class="flex-1 border border-secondary text-secondary bg-secondary/10 py-1 font-label-caps text-label-caps uppercase">Confirm</button>
+<button class="flex-1 border border-outline text-outline hover:border-on-surface-variant py-1 font-label-caps text-label-caps uppercase transition-colors">Refute</button>
+</div>
+</div>
+<div class="flex-1 flex flex-col">
+<label class="block font-meta-xs text-meta-xs text-on-surface-variant mb-1 uppercase">Warden Notes</label>
+<textarea class="w-full flex-1 min-h-[80px] bg-surface-container border border-outline-variant text-on-surface font-body-md text-sm p-2 focus:outline-none focus:border-secondary resize-none" placeholder="Enter visual observations..."></textarea>
+</div>
+</div>
+<!-- Right Col: Evidence -->
+<div class="space-y-4 flex flex-col h-full">
+<label class="block font-meta-xs text-meta-xs text-on-surface-variant mb-1 uppercase">Photographic Evidence</label>
+<div class="flex-1 border border-dashed border-outline-variant bg-surface-container-lowest flex flex-col items-center justify-center cursor-pointer hover:bg-surface-container transition-colors min-h-[100px]">
+<span class="material-symbols-outlined text-outline text-3xl mb-2">add_a_photo</span>
+<span class="font-meta-xs text-meta-xs text-outline uppercase text-center px-2">Upload Field Imagery</span>
+</div>
+<button class="w-full btn-primary py-2 font-label-caps text-label-caps uppercase tracking-widest mt-2 hover:opacity-90 transition-opacity">Submit Verification</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter h-14 bg-surface-dim border-t border-outline-variant md:hidden">
+<a class="flex flex-col items-center justify-center text-on-tertiary-container pt-1.5 hover:text-primary transition-colors w-1/5" href="#">
+<span class="material-symbols-outlined mb-1 text-xl">dashboard</span>
+<span class="font-label-caps text-label-caps text-[9px]">COMMAND</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container pt-1.5 hover:text-primary transition-colors w-1/5" href="#">
+<span class="material-symbols-outlined mb-1 text-xl">warning</span>
+<span class="font-label-caps text-label-caps text-[9px]">RISK</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary border-t-2 border-secondary pt-1 w-1/5 opacity-80" href="#">
+<span class="material-symbols-outlined mb-1 text-xl" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="font-label-caps text-label-caps text-[9px]">MAP</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container pt-1.5 hover:text-primary transition-colors w-1/5" href="#">
+<span class="material-symbols-outlined mb-1 text-xl">analytics</span>
+<span class="font-label-caps text-label-caps text-[9px]">DETAIL</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container pt-1.5 hover:text-primary transition-colors w-1/5" href="#">
+<span class="material-symbols-outlined mb-1 text-xl">admin_panel_settings</span>
+<span class="font-label-caps text-label-caps text-[9px]">ADMIN</span>
+</a>
+</nav>
+<style>
+        /* Custom scrollbar for high-density look */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #12171D; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #232b33; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #444654; 
+        }
+    </style>
+</body></html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ground Sensor Network</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#dde1ff",
+                        "tertiary": "#c3c7cc",
+                        "surface-container-highest": "#2e363e",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "outline": "#8e90a0",
+                        "surface-tint": "#b8c4ff",
+                        "on-surface-variant": "#c4c5d7",
+                        "on-primary": "#002486",
+                        "on-secondary": "#00363e",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed": "#a2eeff",
+                        "surface-container-high": "#232b33",
+                        "tertiary-fixed": "#e0e2e8",
+                        "on-tertiary-fixed": "#181c20",
+                        "surface-container": "#182028",
+                        "surface-container-low": "#141c24",
+                        "surface": "#0c141c",
+                        "background": "#0c141c",
+                        "on-error": "#690005",
+                        "inverse-surface": "#dbe3ee",
+                        "on-primary-container": "#001f76",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed-variant": "#0036bc",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "on-secondary-fixed": "#001f25",
+                        "primary-container": "#6c88ff",
+                        "tertiary-container": "#8d9196",
+                        "surface-bright": "#323a42",
+                        "secondary": "#5de6ff",
+                        "inverse-primary": "#2a50d8",
+                        "on-tertiary": "#2d3135",
+                        "surface-container-lowest": "#070f16",
+                        "secondary-container": "#00cbe6",
+                        "on-background": "#dbe3ee",
+                        "outline-variant": "#444654",
+                        "primary": "#b8c4ff",
+                        "surface-dim": "#0c141c",
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "surface-variant": "#2e363e",
+                        "on-primary-fixed": "#001355",
+                        "on-tertiary-container": "#262a2f",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "on-surface": "#dbe3ee",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#293139",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "on-secondary-container": "#00515d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "12px",
+                        "container-padding": "24px",
+                        "module-gap": "1px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "data-md": ["JetBrains Mono"],
+                        "display-lg": ["Inter"],
+                        "data-lg": ["JetBrains Mono"],
+                        "meta-xs": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "data-md": ["14px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-lg": ["20px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "meta-xs": ["10px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0A0E12; color: #dbe3ee; }
+        .hairline-border { border: 1px solid #232B33; }
+        .hairline-bottom { border-bottom: 1px solid #232B33; }
+        .hairline-right { border-right: 1px solid #232B33; }
+        .status-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+        .chart-line { stroke: #5de6ff; stroke-width: 2; fill: none; }
+        .chart-axis { stroke: #232B33; stroke-width: 1; }
+        .chart-grid { stroke: #232B33; stroke-width: 0.5; stroke-dasharray: 2 2; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background min-h-screen pt-16 pb-14 font-body-md text-body-md md:pb-0">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface-container border-b border-outline-variant transition-transform duration-150">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">hub</span>
+<span class="font-headline-sm text-headline-sm font-bold tracking-widest text-primary">GLOF SENTRY // NATIONAL MONITORING</span>
+</div>
+<div class="hidden md:flex gap-6">
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant transition-colors px-2 py-1 rounded" href="#">COMMAND</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant transition-colors px-2 py-1 rounded" href="#">RISK</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant transition-colors px-2 py-1 rounded" href="#">MAP</a>
+<a class="text-primary font-bold font-label-caps text-label-caps hover:bg-surface-variant transition-colors px-2 py-1 rounded border-b-2 border-primary" href="#">DETAIL</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant transition-colors px-2 py-1 rounded" href="#">ADMIN</a>
+</div>
+<div>
+<span class="font-data-md text-data-md text-primary">UTC 14:32 // NOMINAL</span>
+</div>
+</header>
+<main class="p-container-padding grid grid-cols-1 md:grid-cols-12 gap-module-gap max-w-[1600px] mx-auto">
+<!-- Left Col: Station List -->
+<section class="md:col-span-4 flex flex-col gap-module-gap">
+<div class="bg-surface-container-high hairline-border p-4 flex flex-col gap-4">
+<div class="flex justify-between items-center hairline-bottom pb-2">
+<h2 class="font-label-caps text-label-caps text-on-surface">ACTIVE SENSORS</h2>
+<span class="font-meta-xs text-meta-xs text-tertiary">12 ONLINE</span>
+</div>
+<div class="flex flex-col gap-2">
+<!-- Sensor Item 1 (Active) -->
+<div class="p-3 bg-surface-variant hairline-border flex flex-col gap-2 relative overflow-hidden group cursor-pointer hover:bg-surface-bright transition-colors">
+<div class="absolute inset-0 border border-secondary opacity-20 shadow-[0_0_8px_rgba(93,230,255,0.2)]"></div>
+<div class="flex justify-between items-center">
+<span class="font-data-md text-data-md text-secondary">GS-ALPHA-01</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary status-pulse"></span>
+<span class="font-meta-xs text-meta-xs text-secondary">ONLINE</span>
+</div>
+</div>
+<div class="flex justify-between items-end font-meta-xs text-meta-xs text-tertiary">
+<div class="flex gap-4">
+<span>BAT: 94%</span>
+<span>SIG: SAT (Good)</span>
+</div>
+<span>Ping: 2s ago</span>
+</div>
+</div>
+<!-- Sensor Item 2 -->
+<div class="p-3 bg-surface hairline-border flex flex-col gap-2 hover:bg-surface-variant transition-colors cursor-pointer">
+<div class="flex justify-between items-center">
+<span class="font-data-md text-data-md text-on-surface">GS-BETA-04</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-[#8d9196]"></span>
+<span class="font-meta-xs text-meta-xs text-tertiary">STABLE</span>
+</div>
+</div>
+<div class="flex justify-between items-end font-meta-xs text-meta-xs text-outline-variant">
+<div class="flex gap-4">
+<span>BAT: 78%</span>
+<span>SIG: LTE (Fair)</span>
+</div>
+<span>Ping: 1m ago</span>
+</div>
+</div>
+<!-- Sensor Item 3 -->
+<div class="p-3 bg-surface hairline-border flex flex-col gap-2 hover:bg-surface-variant transition-colors cursor-pointer">
+<div class="flex justify-between items-center">
+<span class="font-data-md text-data-md text-on-surface">GS-GAMMA-12</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-[#8d9196]"></span>
+<span class="font-meta-xs text-meta-xs text-tertiary">STABLE</span>
+</div>
+</div>
+<div class="flex justify-between items-end font-meta-xs text-meta-xs text-outline-variant">
+<div class="flex gap-4">
+<span>BAT: 82%</span>
+<span>SIG: SAT (Good)</span>
+</div>
+<span>Ping: 45s ago</span>
+</div>
+</div>
+<!-- Sensor Item 4 (Warning) -->
+<div class="p-3 bg-surface hairline-border flex flex-col gap-2 hover:bg-surface-variant transition-colors cursor-pointer relative">
+<div class="absolute inset-0 border border-error opacity-10"></div>
+<div class="flex justify-between items-center">
+<span class="font-data-md text-data-md text-error">GS-DELTA-09</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="font-meta-xs text-meta-xs text-error">WARN</span>
+</div>
+</div>
+<div class="flex justify-between items-end font-meta-xs text-meta-xs text-outline-variant">
+<div class="flex gap-4">
+<span class="text-error">BAT: 12%</span>
+<span>SIG: LTE (Weak)</span>
+</div>
+<span>Ping: 5m ago</span>
+</div>
+</div>
+</div>
+<div class="text-right mt-auto pt-2">
+<span class="font-meta-xs text-meta-xs text-outline-variant">SYS_VER: 4.2.1</span>
+</div>
+</div>
+</section>
+<!-- Right Col: Data Charts -->
+<section class="md:col-span-8 flex flex-col gap-module-gap">
+<!-- Agreement Flag -->
+<div class="bg-surface-container-high hairline-border p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+<span class="font-data-lg text-data-lg text-on-surface">Ground vs Satellite: NOMINAL</span>
+</div>
+<span class="font-meta-xs text-meta-xs text-tertiary bg-surface-container px-2 py-1 rounded">CORRELATION: 0.982</span>
+</div>
+<!-- Charts Container -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-module-gap">
+<!-- Water Level Chart -->
+<div class="bg-surface-container-high hairline-border p-4 h-64 flex flex-col relative">
+<div class="flex justify-between items-center hairline-bottom pb-2 mb-4">
+<h3 class="font-label-caps text-label-caps text-on-surface">WATER LEVEL (m)</h3>
+<span class="font-data-md text-data-md text-secondary">14.2m</span>
+</div>
+<div class="flex-grow relative overflow-hidden">
+<!-- Simulated Chart -->
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<!-- Grid -->
+<line class="chart-grid" x1="0" x2="100" y1="25" y2="25"></line>
+<line class="chart-grid" x1="0" x2="100" y1="50" y2="50"></line>
+<line class="chart-grid" x1="0" x2="100" y1="75" y2="75"></line>
+<line class="chart-axis" x1="0" x2="100" y1="100" y2="100"></line>
+<!-- Threshold -->
+<line stroke="#ffb4ab" stroke-dasharray="4 4" stroke-width="0.5" x1="0" x2="100" y1="15" y2="15"></line>
+<!-- Data Line -->
+<polyline class="chart-line" points="0,80 10,75 20,78 30,70 40,72 50,65 60,60 70,62 80,55 90,50 100,48"></polyline>
+</svg>
+</div>
+<div class="absolute bottom-2 right-4">
+<span class="font-meta-xs text-meta-xs text-outline-variant">USGS-G1</span>
+</div>
+</div>
+<!-- Pore Pressure Chart -->
+<div class="bg-surface-container-high hairline-border p-4 h-64 flex flex-col relative">
+<div class="flex justify-between items-center hairline-bottom pb-2 mb-4">
+<h3 class="font-label-caps text-label-caps text-on-surface">PORE PRESSURE (kPa)</h3>
+<span class="font-data-md text-data-md text-primary">124.5 kPa</span>
+</div>
+<div class="flex-grow relative overflow-hidden">
+<!-- Simulated Chart -->
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<!-- Grid -->
+<line class="chart-grid" x1="0" x2="100" y1="25" y2="25"></line>
+<line class="chart-grid" x1="0" x2="100" y1="50" y2="50"></line>
+<line class="chart-grid" x1="0" x2="100" y1="75" y2="75"></line>
+<line class="chart-axis" x1="0" x2="100" y1="100" y2="100"></line>
+<!-- Data Line -->
+<polyline fill="none" points="0,60 15,62 30,58 45,65 60,61 75,55 90,59 100,60" stroke="#b8c4ff" stroke-width="2"></polyline>
+</svg>
+</div>
+<div class="absolute bottom-2 right-4">
+<span class="font-meta-xs text-meta-xs text-outline-variant">GS-ALPHA-01</span>
+</div>
+</div>
+</div>
+<!-- Map Module Placeholder -->
+<div class="bg-surface-container-high hairline-border h-48 relative overflow-hidden" data-alt="A highly detailed, technical topographic map of a mountainous glacial region, rendered in a dark, mission-control aesthetic. The map uses a deep dark-grey hillshade base with precise 1px cyan contour lines highlighting glacial outlines and indigo-tinted water bodies. The lighting is flat and analytical, suitable for a professional geospatial heads-up display." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA1YQRNIedpFYY0xio0hoYzOtQnnMltwP5ltzPVADXhJtpfWT_5ROfi-zq3AnIsqFH_aIBbKMre5y5fzlXzjBy1XZemQ3At3L_xXAl4-0co_cuSA5vtoFAb90VNTW-J1j5_mXGn2PEGdBVp9if35Ie5flHY8_Z0lhNu_km4zFxsZ5is9ZMuUHIKnHTAzSYpQjadiOpWXNPwHJNHBN2af7cudDxOUfsckfP4gMHUoJsQ9o7-iIjufvZx')">
+<div class="absolute top-2 left-2 bg-surface-container/80 backdrop-blur-sm p-1 hairline-border">
+<span class="font-meta-xs text-meta-xs text-on-surface">SPATIAL DISTRIBUTION</span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<!-- Reticle overlay -->
+<svg class="opacity-50" height="40" viewbox="0 0 40 40" width="40">
+<line stroke="#5de6ff" stroke-width="1" x1="20" x2="20" y1="0" y2="15"></line>
+<line stroke="#5de6ff" stroke-width="1" x1="20" x2="20" y1="25" y2="40"></line>
+<line stroke="#5de6ff" stroke-width="1" x1="0" x2="15" y1="20" y2="20"></line>
+<line stroke="#5de6ff" stroke-width="1" x1="25" x2="40" y1="20" y2="20"></line>
+<circle cx="20" cy="20" fill="none" r="10" stroke="#5de6ff" stroke-width="1"></circle>
+</svg>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter h-14 bg-surface-dim border-t border-outline-variant">
+<a class="flex flex-col items-center justify-center text-on-tertiary-container pt-1.5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+<span class="font-label-caps text-label-caps mt-1">COMMAND</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container pt-1.5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols" style="font-variation-settings: 'FILL' 0;">warning</span>
+<span class="font-label-caps text-label-caps mt-1">RISK</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container pt-1.5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols" style="font-variation-settings: 'FILL' 0;">map</span>
+<span class="font-label-caps text-label-caps mt-1">MAP</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary border-t-2 border-secondary pt-1 opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined font-material-symbols" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-label-caps text-label-caps mt-1">DETAIL</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container pt-1.5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols" style="font-variation-settings: 'FILL' 0;">admin_panel_settings</span>
+<span class="font-label-caps text-label-caps mt-1">ADMIN</span>
+</a>
+</nav>
+</body></html>

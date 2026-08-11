@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GLOF Sentry - Access Request</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-container": "#00cbe6",
+                      "on-primary-container": "#001f76",
+                      "on-secondary": "#00363e",
+                      "tertiary-container": "#8d9196",
+                      "on-primary-fixed": "#001355",
+                      "inverse-surface": "#dbe3ee",
+                      "on-background": "#dbe3ee",
+                      "on-secondary-fixed": "#001f25",
+                      "surface-container-high": "#232b33",
+                      "secondary-fixed-dim": "#2fd9f4",
+                      "error-container": "#93000a",
+                      "surface": "#0c141c",
+                      "on-tertiary-fixed": "#181c20",
+                      "tertiary": "#c3c7cc",
+                      "primary-fixed-dim": "#b8c4ff",
+                      "primary-fixed": "#dde1ff",
+                      "primary-container": "#6c88ff",
+                      "surface-tint": "#b8c4ff",
+                      "surface-container-highest": "#2e363e",
+                      "surface-variant": "#2e363e",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary-fixed-variant": "#004e5a",
+                      "tertiary-fixed": "#e0e2e8",
+                      "tertiary-fixed-dim": "#c3c7cc",
+                      "surface-container-lowest": "#070f16",
+                      "inverse-on-surface": "#293139",
+                      "on-tertiary-container": "#262a2f",
+                      "on-secondary-container": "#00515d",
+                      "on-error": "#690005",
+                      "secondary-fixed": "#a2eeff",
+                      "inverse-primary": "#2a50d8",
+                      "error": "#ffb4ab",
+                      "surface-dim": "#0c141c",
+                      "on-primary-fixed-variant": "#0036bc",
+                      "secondary": "#5de6ff",
+                      "outline": "#8e90a0",
+                      "outline-variant": "#444654",
+                      "on-tertiary-fixed-variant": "#43474c",
+                      "surface-container-low": "#141c24",
+                      "on-surface-variant": "#c4c5d7",
+                      "primary": "#b8c4ff",
+                      "on-primary": "#002486",
+                      "on-surface": "#dbe3ee",
+                      "surface-container": "#182028",
+                      "surface-bright": "#323a42",
+                      "background": "#0c141c",
+                      "on-tertiary": "#2d3135"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "container-padding": "24px",
+                      "module-gap": "1px",
+                      "gutter": "12px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "meta-xs": ["JetBrains Mono"],
+                      "headline-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "data-md": ["JetBrains Mono"],
+                      "label-caps": ["Inter"],
+                      "data-lg": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "meta-xs": ["10px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                      "headline-sm": ["18px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "display-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "data-md": ["14px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                      "label-caps": ["11px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                      "data-lg": ["20px", {"lineHeight": "1.2", "fontWeight": "500"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        /* Custom scrollbar for technical look */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: theme('colors.surface-container'); }
+        ::-webkit-scrollbar-thumb { background: theme('colors.outline-variant'); }
+        ::-webkit-scrollbar-thumb:hover { background: theme('colors.outline'); }
+        
+        /* Grid background pattern */
+        .bg-grid {
+            background-image: 
+                linear-gradient(to right, theme('colors.surface-container-high') 1px, transparent 1px),
+                linear-gradient(to bottom, theme('colors.surface-container-high') 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: center;
+        }
+
+        .input-tech {
+            background-color: theme('colors.surface-container-low');
+            border: 1px solid theme('colors.surface-container-high');
+            color: theme('colors.on-surface');
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+        }
+        .input-tech:focus {
+            outline: none;
+            border-color: theme('colors.primary');
+            box-shadow: 0 0 4px rgba(184, 196, 255, 0.2);
+        }
+        
+        .gradient-btn {
+            background: linear-gradient(90deg, #b8c4ff 0%, #00cbe6 100%);
+            color: #001355;
+            transition: all 0.2s ease;
+        }
+        .gradient-btn:hover {
+            box-shadow: 0 0 12px rgba(184, 196, 255, 0.4);
+            transform: translateY(-1px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-grid relative overflow-x-hidden antialiased">
+<!-- TopAppBar -->
+<header class="bg-surface-container border-b border-outline-variant fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary font-bold text-xl" style="font-variation-settings: 'FILL' 1;">hub</span>
+<span class="font-headline-sm text-headline-sm font-bold tracking-widest text-primary">GLOF SENTRY // NATIONAL MONITORING</span>
+</div>
+<div class="font-data-md text-data-md text-on-surface-variant flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
+            UTC 14:32 // NOMINAL
+        </div>
+</header>
+<!-- Main Content Canvas (Transactional/Linear flow, so nav shell is suppressed) -->
+<main class="flex-grow pt-24 pb-12 px-gutter flex items-center justify-center relative z-10">
+<!-- Access Request Module -->
+<div class="w-full max-w-2xl bg-surface border border-surface-container-high relative overflow-hidden">
+<!-- Decorative corners -->
+<div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-outline"></div>
+<div class="absolute top-0 right-0 w-2 h-2 border-t border-r border-outline"></div>
+<div class="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-outline"></div>
+<div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-outline"></div>
+<!-- Header -->
+<div class="p-6 border-b border-surface-container-high bg-surface-container-low">
+<h1 class="font-display-lg text-display-lg text-primary uppercase mb-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-3xl">verified_user</span>
+                    Clearance Protocol
+                </h1>
+<p class="font-data-md text-data-md text-on-surface-variant">REQ-AUTH // LEVEL 3 SYSTEM ACCESS</p>
+</div>
+<!-- Form Body -->
+<form class="p-6 pt-10 space-y-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Organization -->
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-on-surface flex justify-between">
+                            ORGANIZATION <span class="text-error">*</span>
+</label>
+<div class="relative">
+<select class="w-full input-tech p-3 appearance-none rounded-none pr-10">
+<option disabled="" selected="" value="">[SELECT ORG]</option>
+<option value="NDMA">NDMA</option>
+<option value="SDMA">SDMA</option>
+<option value="ITBP">ITBP</option>
+<option value="Army">Army</option>
+<option value="CWC">CWC</option>
+<option value="IMD">IMD</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline pointer-events-none">arrow_drop_down</span>
+</div>
+</div>
+<!-- Designation -->
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-on-surface flex justify-between">
+                            DESIGNATION <span class="text-error">*</span>
+</label>
+<input class="w-full input-tech p-3 rounded-none placeholder:text-outline-variant" placeholder="e.g. Chief Technical Officer" type="text"/>
+</div>
+<!-- Jurisdiction/Sector -->
+<div class="space-y-2 md:col-span-2">
+<label class="font-label-caps text-label-caps text-on-surface flex justify-between">
+                            JURISDICTION / SECTOR <span class="text-error">*</span>
+</label>
+<div class="relative">
+<select class="w-full input-tech p-3 appearance-none rounded-none pr-10">
+<option disabled="" selected="" value="">[SELECT SECTOR]</option>
+<option value="S1">Sector 1 - Northern Command</option>
+<option value="S2">Sector 2 - Eastern Command</option>
+<option value="S3">Sector 3 - Central Command</option>
+<option value="S4">Sector 4 - Western Command</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline pointer-events-none">arrow_drop_down</span>
+</div>
+</div>
+</div>
+<!-- File Upload -->
+<div class="space-y-2 pt-4 border-t border-surface-container-high">
+<label class="font-label-caps text-label-caps text-on-surface flex justify-between items-center">
+                        SECURE ID DOCUMENT UPLOAD
+                        <span class="font-meta-xs text-meta-xs text-secondary bg-secondary/10 px-2 py-0.5 rounded-sm">REQ: PDF/JPEG (MAX 5MB)</span>
+</label>
+<div class="border border-dashed border-outline-variant hover:border-primary transition-colors bg-surface-container-low p-8 text-center cursor-pointer group">
+<span class="material-symbols-outlined text-4xl text-outline-variant mb-2 group-hover:text-primary transition-colors">upload_file</span>
+<p class="font-data-md text-data-md text-on-surface">DRAG &amp; DROP OR <span class="text-primary underline">BROWSE</span></p>
+<p class="font-meta-xs text-meta-xs text-on-surface-variant mt-6">ENCRYPTED TRANSFER PROTOCOL // ACTIVE</p>
+</div>
+</div>
+<!-- Submit Area -->
+<div class="pt-6">
+<button class="w-full gradient-btn font-label-caps text-label-caps py-4 flex items-center justify-center gap-2 group" type="button">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">send</span>
+                        SUBMIT ACCESS REQUEST
+                    </button>
+<div class="mt-6 flex items-start gap-4 text-on-surface-variant p-4 bg-surface-container-low border border-surface-container-high">
+<span class="material-symbols-outlined text-lg text-secondary flex-shrink-0 mt-0.5">info</span>
+<p class="font-meta-xs text-meta-xs">
+                            SYS-MSG: All requests are subject to manual verification by National Disaster Management Authority. Unauthorized access attempts are logged under section 43 of IT Act.
+                        </p>
+</div>
+</div>
+</form>
+<!-- Terminal Decorator -->
+<div class="absolute bottom-2 right-2 opacity-50">
+<span class="font-meta-xs text-meta-xs text-on-surface-variant">SEC-PROT: ENFORCED // NODE: GLOF-AUTH-01</span>
+</div>
+</div>
+</main>
+</body></html>

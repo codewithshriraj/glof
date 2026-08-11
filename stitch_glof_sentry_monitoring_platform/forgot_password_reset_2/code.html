@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GLOF SENTRY // CREDENTIAL RECOVERY</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-container": "#00cbe6",
+                      "on-primary-container": "#001f76",
+                      "on-secondary": "#00363e",
+                      "tertiary-container": "#8d9196",
+                      "on-primary-fixed": "#001355",
+                      "inverse-surface": "#dbe3ee",
+                      "on-background": "#dbe3ee",
+                      "on-secondary-fixed": "#001f25",
+                      "surface-container-high": "#232b33",
+                      "secondary-fixed-dim": "#2fd9f4",
+                      "error-container": "#93000a",
+                      "surface": "#0c141c",
+                      "on-tertiary-fixed": "#181c20",
+                      "tertiary": "#c3c7cc",
+                      "primary-fixed-dim": "#b8c4ff",
+                      "primary-fixed": "#dde1ff",
+                      "primary-container": "#6c88ff",
+                      "surface-tint": "#b8c4ff",
+                      "surface-container-highest": "#2e363e",
+                      "surface-variant": "#2e363e",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary-fixed-variant": "#004e5a",
+                      "tertiary-fixed": "#e0e2e8",
+                      "tertiary-fixed-dim": "#c3c7cc",
+                      "surface-container-lowest": "#070f16",
+                      "inverse-on-surface": "#293139",
+                      "on-tertiary-container": "#262a2f",
+                      "on-secondary-container": "#00515d",
+                      "on-error": "#690005",
+                      "secondary-fixed": "#a2eeff",
+                      "inverse-primary": "#2a50d8",
+                      "error": "#ffb4ab",
+                      "surface-dim": "#0c141c",
+                      "on-primary-fixed-variant": "#0036bc",
+                      "secondary": "#5de6ff",
+                      "outline": "#8e90a0",
+                      "outline-variant": "#444654",
+                      "on-tertiary-fixed-variant": "#43474c",
+                      "surface-container-low": "#141c24",
+                      "on-surface-variant": "#c4c5d7",
+                      "primary": "#b8c4ff",
+                      "on-primary": "#002486",
+                      "on-surface": "#dbe3ee",
+                      "surface-container": "#182028",
+                      "surface-bright": "#323a42",
+                      "background": "#0c141c",
+                      "on-tertiary": "#2d3135"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "container-padding": "24px",
+                      "module-gap": "1px",
+                      "gutter": "12px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "meta-xs": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-sm": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "data-md": [
+                              "JetBrains Mono"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "data-lg": [
+                              "JetBrains Mono"
+                      ]
+              },
+              "fontSize": {
+                      "meta-xs": [
+                              "10px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "data-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "data-lg": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+            },
+          }
+        }
+      </script>
+<style>
+        body {
+            background-color: #0A0E12; /* Fallback for theme.colors.background */
+            color: #dbe3ee; /* Fallback for theme.colors.on-background */
+        }
+        /* Custom HUD grid background */
+        .hud-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(35, 43, 51, 0.3) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(35, 43, 51, 0.3) 1px, transparent 1px);
+        }
+        /* Active element glow */
+        .glow-active:focus-within {
+            box-shadow: 0 0 4px 1px rgba(93, 230, 255, 0.2);
+            border-color: #5de6ff;
+        }
+        /* Pulse animation for status pings */
+        @keyframes ping-subtle {
+            0% { transform: scale(0.9); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.8; }
+        }
+        .animate-ping-subtle {
+            animation: ping-subtle 2s infinite ease-in-out;
+        }
+      </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col items-center justify-center hud-grid p-4">
+<!-- Top App Bar - Suppressed for transactional view as per Shared Components Logic -->
+<!-- Main Recovery Module -->
+<main class="w-full max-w-md flex flex-col gap-6">
+<!-- Header Module -->
+<header class="bg-surface-container-low border border-surface-container-high p-4 flex flex-col gap-2 relative">
+<div class="flex items-center justify-between border-b border-surface-container-high pb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="lock_reset" style="font-variation-settings: 'FILL' 1;">lock_reset</span>
+<h1 class="font-headline-sm text-headline-sm text-primary tracking-widest uppercase">CREDENTIAL RECOVERY</h1>
+</div>
+<!-- Status Ping -->
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping-subtle"></span>
+<span class="font-meta-xs text-meta-xs text-secondary uppercase">SYS_ACTV</span>
+</div>
+</div>
+<p class="font-data-md text-data-md text-on-surface-variant pt-2">
+                Initiate secure protocol for identity verification.
+            </p>
+<!-- Source Attribution -->
+<span class="absolute bottom-2 right-4 font-meta-xs text-meta-xs text-outline-variant">AUTH_SEQ-01</span>
+</header>
+<!-- Form Module (Initial State) -->
+<section class="bg-surface-container border border-surface-container-high p-6 flex flex-col gap-6 relative" id="recovery-form">
+<div class="flex flex-col gap-4">
+<label class="font-label-caps text-label-caps text-on-surface flex items-center gap-2" for="identifier">
+<span class="material-symbols-outlined text-[14px]" data-icon="badge">badge</span>
+                    Registered Service ID or Official Email
+                </label>
+<div class="relative w-full glow-active rounded-DEFAULT border border-surface-container-high bg-surface-container-lowest transition-all">
+<input class="w-full bg-transparent border-none text-data-md font-data-md text-on-surface placeholder:text-outline p-3 focus:ring-0" id="identifier" placeholder="e.g. OP-8832 or user@glofsentry.gov" type="text"/>
+</div>
+</div>
+<!-- Security Warning -->
+<div class="flex items-start gap-3 bg-surface-container-highest border border-surface-container-high p-3 rounded-DEFAULT">
+<span class="material-symbols-outlined text-tertiary-container mt-0.5" data-icon="encrypted">encrypted</span>
+<p class="font-meta-xs text-meta-xs text-tertiary-container leading-normal">
+                    WARNING: Recovery links are sent exclusively via encrypted National SSO channels. Access attempts are logged and monitored.
+                </p>
+</div>
+<!-- Actions -->
+<div class="flex justify-between items-center mt-4">
+<a class="font-meta-xs text-meta-xs text-secondary hover:text-primary transition-colors flex items-center gap-1 border-b border-transparent hover:border-primary" href="#">
+<span class="material-symbols-outlined text-[12px]" data-icon="arrow_back">arrow_back</span>
+                    ABORT_PROTOCOL
+                </a>
+<button class="bg-gradient-to-r from-inverse-primary to-secondary-container text-surface-container-lowest font-label-caps text-label-caps px-6 py-2.5 rounded-DEFAULT hover:opacity-90 transition-opacity flex items-center gap-2" onclick="showSuccessState()" type="button">
+                    TRANSMIT_REQUEST
+                    <span class="material-symbols-outlined text-[14px]" data-icon="send">send</span>
+</button>
+</div>
+<!-- Source Attribution -->
+<span class="absolute bottom-2 right-4 font-meta-xs text-meta-xs text-outline-variant">NET_NODE: ALPHA</span>
+</section>
+<!-- Success Module (Hidden initially) -->
+<section class="bg-surface-container border border-surface-container-high p-6 flex flex-col gap-6 relative hidden" id="success-state">
+<div class="flex flex-col items-center justify-center text-center gap-3 border-b border-surface-container-high pb-6">
+<span class="material-symbols-outlined text-secondary text-4xl" data-icon="mark_email_read">mark_email_read</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">TRANSMISSION SUCCESSFUL</h2>
+<p class="font-data-md text-data-md text-on-surface-variant max-w-xs">
+                    Recovery key dispatched to secured terminal. Await encrypted payload.
+                </p>
+</div>
+<div class="flex flex-col gap-4 pt-2">
+<label class="font-label-caps text-label-caps text-secondary flex items-center gap-2" for="recovery-key">
+<span class="material-symbols-outlined text-[14px]" data-icon="key">key</span>
+                    INPUT_RECOVERY_KEY
+                </label>
+<div class="relative w-full glow-active rounded-DEFAULT border border-secondary bg-surface-container-lowest transition-all">
+<input class="w-full bg-transparent border-none text-data-lg font-data-lg text-primary tracking-widest text-center placeholder:text-outline p-4 focus:ring-0" id="recovery-key" placeholder="XXXX-XXXX-XXXX-XXXX" type="text"/>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex justify-end mt-4">
+<button class="border border-secondary text-secondary hover:bg-secondary hover:text-surface-container-lowest font-label-caps text-label-caps px-6 py-2.5 rounded-DEFAULT transition-colors flex items-center gap-2" type="button">
+                    VERIFY_KEY
+                    <span class="material-symbols-outlined text-[14px]" data-icon="done_all">done_all</span>
+</button>
+</div>
+<!-- Source Attribution -->
+<span class="absolute bottom-2 right-4 font-meta-xs text-meta-xs text-outline-variant">SEQ-02_PENDING</span>
+</section>
+</main>
+<!-- Bottom Nav Bar - Suppressed for transactional view -->
+<script>
+        function showSuccessState() {
+            document.getElementById('recovery-form').classList.add('hidden');
+            document.getElementById('success-state').classList.remove('hidden');
+            document.getElementById('success-state').classList.add('flex');
+            // Focus on new input
+            setTimeout(() => {
+                document.getElementById('recovery-key').focus();
+            }, 100);
+        }
+    </script>
+</body></html>

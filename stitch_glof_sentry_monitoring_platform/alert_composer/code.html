@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GLOF SENTRY // Alert Composer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#dde1ff",
+                        "tertiary": "#c3c7cc",
+                        "surface-container-highest": "#2e363e",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "outline": "#8e90a0",
+                        "surface-tint": "#b8c4ff",
+                        "on-surface-variant": "#c4c5d7",
+                        "on-primary": "#002486",
+                        "on-secondary": "#00363e",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed": "#a2eeff",
+                        "surface-container-high": "#232b33",
+                        "tertiary-fixed": "#e0e2e8",
+                        "on-tertiary-fixed": "#181c20",
+                        "surface-container": "#182028",
+                        "surface-container-low": "#141c24",
+                        "surface": "#0c141c",
+                        "background": "#0c141c",
+                        "on-error": "#690005",
+                        "inverse-surface": "#dbe3ee",
+                        "on-primary-container": "#001f76",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed-variant": "#0036bc",
+                        "on-tertiary-fixed-variant": "#43474c",
+                        "on-secondary-fixed": "#001f25",
+                        "primary-container": "#6c88ff",
+                        "tertiary-container": "#8d9196",
+                        "surface-bright": "#323a42",
+                        "secondary": "#5de6ff",
+                        "inverse-primary": "#2a50d8",
+                        "on-tertiary": "#2d3135",
+                        "surface-container-lowest": "#070f16",
+                        "secondary-container": "#00cbe6",
+                        "on-background": "#dbe3ee",
+                        "outline-variant": "#444654",
+                        "primary": "#b8c4ff",
+                        "surface-dim": "#0c141c",
+                        "tertiary-fixed-dim": "#c3c7cc",
+                        "surface-variant": "#2e363e",
+                        "on-primary-fixed": "#001355",
+                        "on-tertiary-container": "#262a2f",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "on-surface": "#dbe3ee",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#293139",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "on-secondary-container": "#00515d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "12px",
+                        "container-padding": "24px",
+                        "module-gap": "1px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "data-md": ["JetBrains Mono"],
+                        "display-lg": ["Inter"],
+                        "data-lg": ["JetBrains Mono"],
+                        "meta-xs": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "data-md": ["14px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-lg": ["20px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "meta-xs": ["10px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        /* Custom scrollbar for high-tech feel */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: theme('colors.surface-container'); }
+        ::-webkit-scrollbar-thumb { background: theme('colors.outline-variant'); }
+        ::-webkit-scrollbar-thumb:hover { background: theme('colors.primary'); }
+        
+        /* Grid overlay for technical feel */
+        .tech-grid {
+            background-image: 
+                linear-gradient(to right, theme('colors.surface-container-high') 1px, transparent 1px),
+                linear-gradient(to bottom, theme('colors.surface-container-high') 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .hud-module {
+            border: 1px solid theme('colors.surface-container-high');
+            background-color: theme('colors.surface');
+            position: relative;
+        }
+        
+        .hud-module::before, .hud-module::after,
+        .hud-module .corner-bl, .hud-module .corner-br {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: theme('colors.outline');
+        }
+        .hud-module::before { top: -1px; left: -1px; }
+        .hud-module::after { top: -1px; right: -1px; }
+        .hud-module .corner-bl { bottom: -1px; left: -1px; }
+        .hud-module .corner-br { bottom: -1px; right: -1px; }
+
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, theme('colors.primary'), transparent);
+            opacity: 0.3;
+            animation: scan 4s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        /* Styling range input */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 8px;
+            background: theme('colors.error');
+            cursor: pointer;
+            border-radius: 0;
+            margin-top: -6px;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: theme('colors.surface-container-highest');
+        }
+        input[type=range]:focus { outline: none; }
+        
+        .severity-critical { color: theme('colors.error'); border-color: theme('colors.error'); }
+        .severity-warning { color: #f59e0b; border-color: #f59e0b; }
+        .severity-info { color: theme('colors.secondary'); border-color: theme('colors.secondary'); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen tech-grid font-body-md overflow-x-hidden pt-16 pb-14 md:pb-0">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface-container border-b border-outline-variant">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="hub">hub</span>
+<h1 class="font-headline-sm text-headline-sm font-bold tracking-widest text-primary">GLOF SENTRY // NATIONAL MONITORING</h1>
+</div>
+<div class="hidden md:flex gap-6 items-center">
+<nav class="flex gap-4">
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant transition-colors px-2 py-1 rounded" href="#">COMMAND</a>
+<a class="text-primary font-bold font-label-caps text-label-caps hover:bg-surface-variant transition-colors px-2 py-1 rounded border-b-2 border-primary" href="#">RISK</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant transition-colors px-2 py-1 rounded" href="#">MAP</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant transition-colors px-2 py-1 rounded" href="#">DETAIL</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant transition-colors px-2 py-1 rounded" href="#">ADMIN</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-data-md text-data-md text-on-surface-variant">UTC 14:32 // NOMINAL</span>
+</div>
+</header>
+<!-- Main Layout -->
+<main class="max-w-[1600px] mx-auto p-container-padding grid grid-cols-1 md:grid-cols-12 gap-module-gap mt-4">
+<!-- Left Column: Composition & Settings (8 cols) -->
+<div class="md:col-span-8 flex flex-col gap-module-gap">
+<!-- Alert Metadata Header -->
+<div class="hud-module p-4 flex justify-between items-center bg-surface-container-low">
+<div class="corner-bl"></div><div class="corner-br"></div>
+<div>
+<h2 class="font-label-caps text-label-caps text-secondary mb-1">NEW ALERT PROTOCOL</h2>
+<p class="font-data-md text-data-md text-on-surface">SYS.ID: ALRT-8492-X</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-error"></span>
+</span>
+<span class="font-data-md text-data-md text-error">PENDING AUTH</span>
+</div>
+</div>
+<!-- Composer Area -->
+<div class="hud-module p-6 flex flex-col gap-6">
+<div class="corner-bl"></div><div class="corner-br"></div>
+<!-- Severity Slider -->
+<div class="space-y-4">
+<div class="flex justify-between items-end border-b border-surface-container-high pb-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant">THREAT SEVERITY LEVEL</label>
+<span class="font-data-lg text-data-lg text-error" id="severityLabel">CRITICAL (L4)</span>
+</div>
+<input class="w-full mt-4" id="severitySlider" max="4" min="1" type="range" value="4"/>
+<div class="flex justify-between font-meta-xs text-meta-xs text-outline">
+<span>L1 ADVISORY</span>
+<span>L2 WATCH</span>
+<span>L3 WARNING</span>
+<span class="text-error">L4 EVACUATE</span>
+</div>
+</div>
+<!-- Multilingual Preview Grid -->
+<div class="space-y-4 pt-4 border-t border-surface-container-high">
+<label class="font-label-caps text-label-caps text-on-surface-variant">PAYLOAD GENERATION // MULTILINGUAL</label>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+<!-- English -->
+<div class="bg-surface-container p-4 border border-surface-container-high relative group hover:border-primary transition-colors">
+<div class="flex justify-between items-center mb-2 border-b border-surface-container-high pb-2">
+<span class="font-label-caps text-label-caps text-primary">EN // ENGLISH</span>
+<span class="font-meta-xs text-meta-xs text-outline">140 CHARS</span>
+</div>
+<textarea class="w-full bg-transparent border-none p-0 text-body-md text-on-surface focus:ring-0 resize-none h-24 font-data-md text-data-md" spellcheck="false">IMMEDIATE EVACUATION REQUIRED. Glacial lake outburst detected in Tsho Rolpa region. Move to high ground immediately. Follow marked routes.</textarea>
+<div class="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-secondary hover:text-primary"><span class="material-symbols-outlined text-sm" data-icon="edit">edit</span></button>
+</div>
+</div>
+<!-- Hindi -->
+<div class="bg-surface-container p-4 border border-surface-container-high relative group hover:border-primary transition-colors">
+<div class="flex justify-between items-center mb-2 border-b border-surface-container-high pb-2">
+<span class="font-label-caps text-label-caps text-secondary">HI // HINDI</span>
+<span class="font-meta-xs text-meta-xs text-outline">156 CHARS</span>
+</div>
+<textarea class="w-full bg-transparent border-none p-0 text-body-md text-on-surface focus:ring-0 resize-none h-24 font-data-md text-data-md" dir="ltr" spellcheck="false">तत्काल निकासी आवश्यक है। चो रोल्पा क्षेत्र में हिमनद झील के फटने का पता चला है। तुरंत ऊंचे स्थानों पर जाएं। चिह्नित मार्गों का पालन करें।</textarea>
+<div class="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-secondary hover:text-primary"><span class="material-symbols-outlined text-sm" data-icon="edit">edit</span></button>
+</div>
+</div>
+<!-- Nepali -->
+<div class="bg-surface-container p-4 border border-surface-container-high relative group hover:border-primary transition-colors">
+<div class="flex justify-between items-center mb-2 border-b border-surface-container-high pb-2">
+<span class="font-label-caps text-label-caps text-secondary">NE // NEPALI</span>
+<span class="font-meta-xs text-meta-xs text-outline">152 CHARS</span>
+</div>
+<textarea class="w-full bg-transparent border-none p-0 text-body-md text-on-surface focus:ring-0 resize-none h-24 font-data-md text-data-md" dir="ltr" spellcheck="false">तत्काल उद्धार आवश्यक। च्छो रोल्पा क्षेत्रमा हिमताल फुटेको संकेत। तुरुन्तै उच्च स्थानमा जानुहोस्। तोकिएको सुरक्षित बाटो प्रयोग गर्नुहोस्।</textarea>
+<div class="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-secondary hover:text-primary"><span class="material-symbols-outlined text-sm" data-icon="edit">edit</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Channel Selection -->
+<div class="space-y-4 pt-4 border-t border-surface-container-high">
+<label class="font-label-caps text-label-caps text-on-surface-variant">DISTRIBUTION CHANNELS</label>
+<div class="flex flex-wrap gap-4">
+<label class="flex items-center gap-2 bg-surface-container-high px-4 py-2 border border-primary cursor-pointer hover:bg-surface-variant transition-colors">
+<input checked="" class="form-checkbox bg-transparent border-outline text-primary focus:ring-primary focus:ring-offset-background h-4 w-4 rounded-none" type="checkbox"/>
+<span class="material-symbols-outlined text-primary text-sm" data-icon="sms">sms</span>
+<span class="font-label-caps text-label-caps text-on-surface">CELL BROADCAST / SMS</span>
+</label>
+<label class="flex items-center gap-2 bg-surface-container-high px-4 py-2 border border-primary cursor-pointer hover:bg-surface-variant transition-colors">
+<input checked="" class="form-checkbox bg-transparent border-outline text-primary focus:ring-primary focus:ring-offset-background h-4 w-4 rounded-none" type="checkbox"/>
+<span class="material-symbols-outlined text-primary text-sm" data-icon="campaign">campaign</span>
+<span class="font-label-caps text-label-caps text-on-surface">SIREN NETWORK</span>
+</label>
+<label class="flex items-center gap-2 bg-surface-container-high px-4 py-2 border border-outline cursor-pointer hover:bg-surface-variant transition-colors">
+<input checked="" class="form-checkbox bg-transparent border-outline text-primary focus:ring-primary focus:ring-offset-background h-4 w-4 rounded-none" type="checkbox"/>
+<span class="material-symbols-outlined text-outline text-sm" data-icon="radio">radio</span>
+<span class="font-label-caps text-label-caps text-on-surface">VHF RADIO</span>
+</label>
+<label class="flex items-center gap-2 bg-surface-container-high px-4 py-2 border border-outline cursor-pointer hover:bg-surface-variant transition-colors">
+<input class="form-checkbox bg-transparent border-outline text-primary focus:ring-primary focus:ring-offset-background h-4 w-4 rounded-none" type="checkbox"/>
+<span class="material-symbols-outlined text-outline text-sm" data-icon="install_mobile">install_mobile</span>
+<span class="font-label-caps text-label-caps text-on-surface">CITIZEN APP PUSH</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Targeting & Action (4 cols) -->
+<div class="md:col-span-4 flex flex-col gap-module-gap">
+<!-- Map Picker Area -->
+<div class="hud-module flex-grow flex flex-col">
+<div class="corner-bl"></div><div class="corner-br"></div>
+<div class="p-4 border-b border-surface-container-high">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant">GEOSPATIAL TARGETING</h3>
+</div>
+<div class="relative flex-grow min-h-[300px] bg-surface-container-highest">
+<!-- Scanline effect for map area -->
+<div class="scan-line"></div>
+<!-- Map Image Placeholder -->
+<div class="w-full h-full bg-cover bg-center absolute inset-0 opacity-80 mix-blend-screen" data-alt="A dark, high-contrast topological map interface showing mountainous terrain in neon blue and dark grey hues, reminiscent of a tactical military or aerospace radar display. The terrain is stark, with glowing cyan topographical lines and a central danger zone highlighted in warning red with crosshairs and tactical data overlays." data-location="Tsho Rolpa, Himalayas" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCVOXlblGoE5quMfM2nBJkIpvUUThyqIJrL-G_50KUWu2ZMomSSkURDnpExcs6wASEhi1jMsPh4Vd-UEqCA7bgypXOdMHaozWMw1WzytNGqeovCEw5saehw0SqGcYRLA6FT6q6hudoRMHfgsDJOrLEruszVCY2nLskotRRRBcRCTrrML1WLX0M_UHVxSXeRId8cF7aGPcteIkSq64pAlmolrTnc3DIqBbnoiAIGYhDsli2tIXeBEh96')"></div>
+<!-- Overlay UI on Map -->
+<div class="absolute inset-0 p-4 flex flex-col justify-between pointer-events-none">
+<div class="self-end bg-surface-container-high/80 border border-outline p-2 backdrop-blur-sm pointer-events-auto">
+<div class="font-meta-xs text-meta-xs text-outline mb-1">TARGET RADIUS</div>
+<div class="flex items-center gap-2">
+<span class="font-data-md text-data-md text-secondary">25 KM</span>
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="radar">radar</span>
+</div>
+</div>
+<div class="self-center">
+<!-- Reticle -->
+<div class="w-16 h-16 border border-error rounded-full flex items-center justify-center relative">
+<div class="w-2 h-2 bg-error rounded-full animate-ping"></div>
+<div class="absolute w-full h-[1px] bg-error/50"></div>
+<div class="absolute h-full w-[1px] bg-error/50"></div>
+</div>
+</div>
+<div class="bg-background/90 border border-surface-container-high p-3 pointer-events-auto">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-caps text-label-caps text-on-surface">EST. POPULATION IN ZONE</span>
+<span class="font-data-md text-data-md text-error font-bold">14,250</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1">
+<div class="bg-error h-1 w-[85%]"></div>
+</div>
+<div class="mt-2 text-right font-meta-xs text-meta-xs text-outline">GEO-ID: N27.84 E86.47</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Area -->
+<div class="hud-module p-6 bg-surface-container-lowest">
+<div class="corner-bl"></div><div class="corner-br"></div>
+<div class="space-y-4">
+<div class="flex items-start gap-3 p-3 border border-warning/30 bg-warning/5">
+<span class="material-symbols-outlined text-[#f59e0b]" data-icon="warning">warning</span>
+<p class="font-meta-xs text-meta-xs text-on-surface-variant">Authorization requires Level 3 clearance. Transmission will commence immediately upon authorization across selected networks.</p>
+</div>
+<button class="w-full py-4 bg-error hover:bg-[#ffb4ab] text-on-error font-headline-sm text-headline-sm font-bold tracking-widest uppercase transition-colors relative overflow-hidden group">
+<span class="relative z-10 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="satellite_alt">satellite_alt</span>
+                            REVIEW &amp; AUTHORIZE
+                        </span>
+<div class="absolute inset-0 bg-white/20 transform -translate-x-full group-hover:translate-x-full transition-transform duration-500 ease-in-out z-0"></div>
+</button>
+<div class="text-center">
+<span class="font-meta-xs text-meta-xs text-outline">OP: SYS_ADMIN_01 // TERMINAL: ALPHA-9</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter h-14 bg-surface-dim border-t border-outline-variant md:hidden">
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps mt-1">COMMAND</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary border-t-2 border-secondary pt-1 opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined font-material-symbols" data-icon="warning">warning</span>
+<span class="font-label-caps text-label-caps mt-1">RISK</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols" data-icon="map">map</span>
+<span class="font-label-caps text-label-caps mt-1">MAP</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols" data-icon="analytics">analytics</span>
+<span class="font-label-caps text-label-caps mt-1">DETAIL</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-label-caps text-label-caps mt-1">ADMIN</span>
+</a>
+</nav>
+<script>
+        // Simple interaction for severity slider
+        const slider = document.getElementById('severitySlider');
+        const label = document.getElementById('severityLabel');
+        const authBtn = document.querySelector('button.bg-error');
+
+        slider.addEventListener('input', function() {
+            const val = parseInt(this.value);
+            let text = '';
+            let colorClass = '';
+            let btnClass = '';
+            
+            switch(val) {
+                case 1:
+                    text = 'ADVISORY (L1)';
+                    colorClass = 'text-primary';
+                    btnClass = 'bg-primary hover:bg-primary-fixed text-on-primary';
+                    break;
+                case 2:
+                    text = 'WATCH (L2)';
+                    colorClass = 'text-secondary';
+                    btnClass = 'bg-secondary hover:bg-secondary-fixed text-on-secondary';
+                    break;
+                case 3:
+                    text = 'WARNING (L3)';
+                    colorClass = 'text-[#f59e0b]'; // Warning custom hex for inline styling consistency if not in tailwind
+                    btnClass = 'bg-[#f59e0b] hover:bg-[#fbbf24] text-[#78350f]';
+                    break;
+                case 4:
+                    text = 'CRITICAL (L4)';
+                    colorClass = 'text-error';
+                    btnClass = 'bg-error hover:bg-[#ffb4ab] text-on-error';
+                    break;
+            }
+            
+            label.textContent = text;
+            label.className = `font-data-lg text-data-lg ${colorClass}`;
+            
+            // Basic UI update for button based on severity
+            authBtn.className = `w-full py-4 ${btnClass} font-headline-sm text-headline-sm font-bold tracking-widest uppercase transition-colors relative overflow-hidden group`;
+        });
+    </script>
+</body></html>

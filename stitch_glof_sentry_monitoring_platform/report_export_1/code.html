@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GLOF SENTRY // Report Export</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error-container": "#93000a",
+                      "on-secondary-container": "#00515d",
+                      "on-secondary-fixed-variant": "#004e5a",
+                      "on-tertiary-container": "#262a2f",
+                      "tertiary-container": "#8d9196",
+                      "secondary-fixed-dim": "#2fd9f4",
+                      "primary-fixed": "#dde1ff",
+                      "on-error": "#690005",
+                      "surface-container-lowest": "#070f16",
+                      "inverse-primary": "#2a50d8",
+                      "inverse-surface": "#dbe3ee",
+                      "on-secondary": "#00363e",
+                      "secondary-fixed": "#a2eeff",
+                      "on-error-container": "#ffdad6",
+                      "surface-variant": "#2e363e",
+                      "surface": "#0c141c",
+                      "surface-container-low": "#141c24",
+                      "tertiary-fixed-dim": "#c3c7cc",
+                      "outline-variant": "#444654",
+                      "outline": "#8e90a0",
+                      "primary": "#b8c4ff",
+                      "surface-container-highest": "#2e363e",
+                      "surface-container-high": "#232b33",
+                      "on-tertiary-fixed-variant": "#43474c",
+                      "on-tertiary-fixed": "#181c20",
+                      "inverse-on-surface": "#293139",
+                      "on-primary-container": "#001f76",
+                      "error": "#ffb4ab",
+                      "surface-bright": "#323a42",
+                      "tertiary": "#c3c7cc",
+                      "surface-container": "#182028",
+                      "on-surface-variant": "#c4c5d7",
+                      "on-primary-fixed-variant": "#0036bc",
+                      "secondary": "#5de6ff",
+                      "surface-dim": "#0c141c",
+                      "on-primary": "#002486",
+                      "on-tertiary": "#2d3135",
+                      "secondary-container": "#00cbe6",
+                      "primary-fixed-dim": "#b8c4ff",
+                      "on-secondary-fixed": "#001f25",
+                      "on-surface": "#dbe3ee",
+                      "surface-tint": "#b8c4ff",
+                      "background": "#0c141c",
+                      "tertiary-fixed": "#e0e2e8",
+                      "primary-container": "#6c88ff",
+                      "on-background": "#dbe3ee",
+                      "on-primary-fixed": "#001355"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "container-padding": "24px",
+                      "unit": "4px",
+                      "module-gap": "1px",
+                      "gutter": "12px"
+              },
+              "fontFamily": {
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "meta-xs": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-sm": [
+                              "Inter"
+                      ],
+                      "data-md": [
+                              "JetBrains Mono"
+                      ],
+                      "data-lg": [
+                              "JetBrains Mono"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "meta-xs": [
+                              "10px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "data-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "data-lg": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: #0c141c; /* config background */
+            color: #dbe3ee; /* config on-background */
+        }
+        
+        /* Module Grid setup */
+        .hud-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1px;
+            background-color: #232b33; /* outline-variant color for hairlines */
+            padding: 1px; /* Outer border */
+        }
+        
+        .hud-module {
+            background-color: #12171D; /* Card Surface */
+            padding: 16px;
+            position: relative;
+        }
+
+        /* Custom Scrollbar for archive */
+        .archive-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .archive-scroll::-webkit-scrollbar-track {
+            background: #0c141c;
+        }
+        .archive-scroll::-webkit-scrollbar-thumb {
+            background: #444654;
+        }
+
+        /* Forms styling override to match hud */
+        input[type="checkbox"], input[type="radio"] {
+            background-color: #0c141c;
+            border-color: #444654;
+            color: #b8c4ff;
+        }
+        input[type="text"], select {
+            background-color: #0c141c;
+            border-color: #444654;
+            color: #dbe3ee;
+        }
+        input:focus, select:focus {
+            border-color: #5de6ff;
+            box-shadow: 0 0 0 1px #5de6ff;
+            outline: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col font-body-md antialiased pt-16 pb-14 md:pb-0">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface-container dark:bg-surface-container border-b border-outline-variant dark:border-outline-variant flat no shadows">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-primary" style="font-variation-settings: 'FILL' 1;">hub</span>
+<h1 class="font-headline-sm text-headline-sm font-bold tracking-widest text-primary dark:text-primary">GLOF SENTRY // NATIONAL MONITORING</h1>
+</div>
+<div class="hidden md:flex gap-6 items-center">
+<!-- Desktop Nav (Extrapolated from BottomNav) -->
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors flex items-center gap-1" href="#"><span class="material-symbols-outlined">dashboard</span> COMMAND</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors flex items-center gap-1" href="#"><span class="material-symbols-outlined">warning</span> RISK</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors flex items-center gap-1" href="#"><span class="material-symbols-outlined">map</span> MAP</a>
+<a class="font-label-caps text-label-caps text-primary dark:text-primary font-bold active:scale-[0.98] transition-transform duration-150 flex items-center gap-1" href="#"><span class="material-symbols-outlined">analytics</span> DETAIL</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors flex items-center gap-1" href="#"><span class="material-symbols-outlined">admin_panel_settings</span> ADMIN</a>
+</div>
+<div class="font-data-md text-data-md text-primary dark:text-primary">
+            UTC 14:32 // NOMINAL
+        </div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow p-container-padding flex flex-col gap-6 max-w-7xl mx-auto w-full">
+<!-- Page Header -->
+<div class="flex justify-between items-end border-b border-outline-variant pb-2">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface">Report Export</h2>
+<p class="font-data-md text-data-md text-on-surface-variant mt-1">SYS_OP: Automated Scheduling &amp; Manual Extraction</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 bg-transparent border border-outline-variant text-on-surface font-label-caps text-label-caps hover:bg-surface-variant transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">history</span> VIEW LOGS
+                </button>
+<button class="px-4 py-2 bg-gradient-to-r from-[#4f46e5] to-[#06b6d4] text-white font-label-caps text-label-caps shadow-[0_0_8px_rgba(93,230,255,0.2)] hover:shadow-[0_0_12px_rgba(93,230,255,0.4)] transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">rocket_launch</span> GENERATE NOW
+                </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="hud-grid mt-4">
+<!-- Configuration Module (Col 1-8) -->
+<div class="hud-module col-span-12 lg:col-span-8 flex flex-col">
+<div class="font-label-caps text-label-caps text-on-surface border-b border-outline-variant pb-2 mb-4 flex justify-between">
+<span>Export Configuration</span>
+<span class="text-secondary">ACTIVE</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 flex-grow">
+<!-- Left Col: Content & Format -->
+<div class="space-y-6">
+<div>
+<label class="block font-meta-xs text-meta-xs text-on-surface-variant mb-2 uppercase">Data Sources</label>
+<div class="space-y-2">
+<label class="flex items-center gap-2 cursor-pointer p-2 border border-outline-variant bg-surface hover:bg-surface-variant transition-colors">
+<input checked="" class="form-checkbox rounded-none h-4 w-4 text-primary focus:ring-secondary" type="checkbox"/>
+<span class="font-data-md text-data-md">Telemetry: Hydrological</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer p-2 border border-outline-variant bg-surface hover:bg-surface-variant transition-colors">
+<input checked="" class="form-checkbox rounded-none h-4 w-4 text-primary focus:ring-secondary" type="checkbox"/>
+<span class="font-data-md text-data-md">Telemetry: Geotechnical</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer p-2 border border-outline-variant bg-surface hover:bg-surface-variant transition-colors">
+<input class="form-checkbox rounded-none h-4 w-4 text-primary focus:ring-secondary" type="checkbox"/>
+<span class="font-data-md text-data-md">System Incident Logs</span>
+</label>
+</div>
+</div>
+<div>
+<label class="block font-meta-xs text-meta-xs text-on-surface-variant mb-2 uppercase">Output Format</label>
+<div class="flex gap-2">
+<label class="flex-1 text-center cursor-pointer">
+<input checked="" class="peer sr-only" name="format" type="radio" value="pdf"/>
+<div class="p-2 border border-outline-variant bg-surface peer-checked:border-secondary peer-checked:text-secondary peer-checked:shadow-[0_0_8px_rgba(93,230,255,0.2)] transition-all font-data-md text-data-md">
+                                        .PDF
+                                    </div>
+</label>
+<label class="flex-1 text-center cursor-pointer">
+<input class="peer sr-only" name="format" type="radio" value="csv"/>
+<div class="p-2 border border-outline-variant bg-surface peer-checked:border-secondary peer-checked:text-secondary peer-checked:shadow-[0_0_8px_rgba(93,230,255,0.2)] transition-all font-data-md text-data-md">
+                                        .CSV
+                                    </div>
+</label>
+<label class="flex-1 text-center cursor-pointer">
+<input class="peer sr-only" name="format" type="radio" value="json"/>
+<div class="p-2 border border-outline-variant bg-surface peer-checked:border-secondary peer-checked:text-secondary peer-checked:shadow-[0_0_8px_rgba(93,230,255,0.2)] transition-all font-data-md text-data-md">
+                                        .JSON
+                                    </div>
+</label>
+</div>
+</div>
+</div>
+<!-- Right Col: Schedule & Routing -->
+<div class="space-y-6">
+<div>
+<label class="block font-meta-xs text-meta-xs text-on-surface-variant mb-2 uppercase">Automated Schedule</label>
+<select class="w-full p-2 border border-outline-variant bg-surface font-data-md text-data-md text-on-surface focus:ring-0 focus:border-secondary rounded-none">
+<option>Manual Trigger Only</option>
+<option>Daily (00:00 UTC)</option>
+<option selected="">Weekly (Sunday, 00:00 UTC)</option>
+<option>Monthly (1st, 00:00 UTC)</option>
+</select>
+</div>
+<div>
+<label class="block font-meta-xs text-meta-xs text-on-surface-variant mb-2 uppercase">Institutional Routing</label>
+<div class="space-y-2">
+<label class="flex items-center justify-between cursor-pointer p-2 border border-outline-variant bg-surface hover:bg-surface-variant transition-colors">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-tertiary">domain</span>
+<span class="font-data-md text-data-md">Forward to SDMA HQ</span>
+</div>
+<div class="relative inline-block w-8 h-4">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<div class="block w-8 h-4 bg-surface-variant border border-outline-variant peer-checked:bg-secondary/20 peer-checked:border-secondary transition-all"></div>
+<div class="absolute left-0 top-0 w-4 h-4 bg-tertiary peer-checked:translate-x-4 peer-checked:bg-secondary transition-all border border-outline-variant peer-checked:border-secondary"></div>
+</div>
+</label>
+<label class="flex items-center justify-between cursor-pointer p-2 border border-outline-variant bg-surface hover:bg-surface-variant transition-colors">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-tertiary">science</span>
+<span class="font-data-md text-data-md">Regional Node Archive</span>
+</div>
+<div class="relative inline-block w-8 h-4">
+<input class="peer sr-only" type="checkbox"/>
+<div class="block w-8 h-4 bg-surface-variant border border-outline-variant peer-checked:bg-secondary/20 peer-checked:border-secondary transition-all"></div>
+<div class="absolute left-0 top-0 w-4 h-4 bg-tertiary peer-checked:translate-x-4 peer-checked:bg-secondary transition-all border border-outline-variant peer-checked:border-secondary"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-4 flex justify-end gap-3 border-t border-outline-variant">
+<button class="px-4 py-1.5 text-on-surface-variant hover:text-on-surface font-label-caps text-label-caps transition-colors">DISCARD CHANGES</button>
+<button class="px-4 py-1.5 bg-primary/10 border border-primary text-primary hover:bg-primary/20 font-label-caps text-label-caps transition-colors">SAVE CONFIGURATION</button>
+</div>
+<span class="absolute bottom-2 right-4 font-meta-xs text-meta-xs text-outline-variant">CFG-MOD-01</span>
+</div>
+<!-- Report Archive (Col 9-12) -->
+<div class="hud-module col-span-12 lg:col-span-4 flex flex-col h-[500px]">
+<div class="font-label-caps text-label-caps text-on-surface border-b border-outline-variant pb-2 mb-4 flex justify-between items-center">
+<span>Extraction Archive</span>
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">folder_open</span>
+</div>
+<div class="overflow-y-auto archive-scroll pr-2 space-y-2 flex-grow">
+<!-- Archive Item -->
+<div class="p-3 border border-outline-variant bg-surface hover:border-outline transition-colors group cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<span class="font-data-md text-data-md text-primary">REP-20231024-W</span>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant bg-surface-variant px-1">.PDF</span>
+</div>
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mb-2">
+                            Generated: 2023-10-24 00:00:02 UTC
+                        </div>
+<div class="flex justify-between items-end border-t border-surface-variant pt-2">
+<div class="font-meta-xs text-meta-xs text-outline font-mono truncate max-w-[150px]" title="SHA256: 8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4">
+                                chk: 8f434346...
+                            </div>
+<span class="material-symbols-outlined text-[16px] text-tertiary group-hover:text-secondary transition-colors">download</span>
+</div>
+</div>
+<!-- Archive Item -->
+<div class="p-3 border border-outline-variant bg-surface hover:border-outline transition-colors group cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<span class="font-data-md text-data-md text-primary">REP-20231017-W</span>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant bg-surface-variant px-1">.PDF</span>
+</div>
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mb-2">
+                            Generated: 2023-10-17 00:00:05 UTC
+                        </div>
+<div class="flex justify-between items-end border-t border-surface-variant pt-2">
+<div class="font-meta-xs text-meta-xs text-outline font-mono truncate max-w-[150px]">
+                                chk: 2a9b4f71...
+                            </div>
+<span class="material-symbols-outlined text-[16px] text-tertiary group-hover:text-secondary transition-colors">download</span>
+</div>
+</div>
+<!-- Archive Item -->
+<div class="p-3 border border-outline-variant bg-surface hover:border-outline transition-colors group cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<span class="font-data-md text-data-md text-primary">REP-20231010-W</span>
+<span class="font-meta-xs text-meta-xs text-on-surface-variant bg-surface-variant px-1">.CSV</span>
+</div>
+<div class="font-meta-xs text-meta-xs text-on-surface-variant mb-2">
+                            Generated: 2023-10-10 00:00:01 UTC
+                        </div>
+<div class="flex justify-between items-end border-t border-surface-variant pt-2">
+<div class="font-meta-xs text-meta-xs text-outline font-mono truncate max-w-[150px]">
+                                chk: 5c88da4b...
+                            </div>
+<span class="material-symbols-outlined text-[16px] text-tertiary group-hover:text-secondary transition-colors">download</span>
+</div>
+</div>
+</div>
+<div class="pt-2 text-center border-t border-outline-variant mt-2">
+<a class="font-label-caps text-label-caps text-secondary hover:underline" href="#">VIEW ALL ARCHIVES</a>
+</div>
+<span class="absolute bottom-2 right-4 font-meta-xs text-meta-xs text-outline-variant">DB-NODE-ARC</span>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter h-14 bg-surface-dim dark:bg-surface-dim border-t border-outline-variant dark:border-outline-variant flat no shadows">
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">dashboard</span>
+<span class="font-label-caps text-label-caps text-on-surface mt-1">COMMAND</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">warning</span>
+<span class="font-label-caps text-label-caps text-on-surface mt-1">RISK</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">map</span>
+<span class="font-label-caps text-label-caps text-on-surface mt-1">MAP</span>
+</a>
+<!-- Active Tab: Detail/Report Export maps logically to Analytics/Detail -->
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary border-t-2 border-secondary pt-1 opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined font-material-symbols">analytics</span>
+<span class="font-label-caps text-label-caps text-on-surface mt-1">DETAIL</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-tertiary-container dark:text-on-tertiary-container pt-1.5 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined font-material-symbols">admin_panel_settings</span>
+<span class="font-label-caps text-label-caps text-on-surface mt-1">ADMIN</span>
+</a>
+</nav>
+</body></html>
