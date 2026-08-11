@@ -1,0 +1,86 @@
+/**
+ * Deterministic Agency Data Integration Connectors Dataset for GLOF Sentry
+ * 
+ * DISCLAIMER:
+ * Synthetic agency connector status and API gateway metadata for demonstration testing.
+ */
+
+import { AgencyConnector } from '@/lib/types/glof';
+
+export const mockAgencyConnectors: AgencyConnector[] = [
+  {
+    id: 'CONN-ISRO-01',
+    name: 'ISRO Bhuvan (Satellite Observation Ingest)',
+    agency: 'ISRO',
+    category: 'SATELLITE_SAR',
+    status: 'ONLINE',
+    latencyMs: 42,
+    syncRatePct: 100,
+    lastSyncUTC: '14:35:02 UTC',
+    activeKeyMasked: 'bhv_live_9f8a2c1...e4b',
+    dataFeedUrl: 'https://bhuvan.isro.gov.in/demo/api/v2/cryo-sar',
+    protocol: 'WMS_OGC',
+    packetThroughputKBs: 480.5,
+    description: 'Level-2A multispectral and RISAT-1A SAR interferometric swath imagery pipeline.',
+  },
+  {
+    id: 'CONN-CWC-02',
+    name: 'Central Water Commission (CWC Hydrology Telemetry)',
+    agency: 'CWC',
+    category: 'HYDROLOGY',
+    status: 'DEGRADED',
+    latencyMs: 850,
+    syncRatePct: 78,
+    lastSyncUTC: '14:30:15 UTC',
+    activeKeyMasked: 'cwc_hyd_x72b9a...110',
+    dataFeedUrl: 'https://cwc.gov.in/demo/api/v3/basin-discharge',
+    protocol: 'REST_GEOJSON',
+    packetThroughputKBs: 120.2,
+    description: 'Basin river gauge stage sensors and Chungthang Dam discharge telemetry. High latency near timeout threshold.',
+  },
+  {
+    id: 'CONN-IMD-03',
+    name: 'India Meteorological Department (IMD Radar & AWS)',
+    agency: 'IMD',
+    category: 'METEOROLOGY',
+    status: 'ONLINE',
+    latencyMs: 110,
+    syncRatePct: 99,
+    lastSyncUTC: '14:34:40 UTC',
+    activeKeyMasked: 'imd_wx_88a4e1...9c2',
+    dataFeedUrl: 'https://mausam.imd.gov.in/demo/api/himalaya-radar',
+    protocol: 'MQTT_TELEMETRY',
+    packetThroughputKBs: 340.8,
+    description: 'Doppler weather radar precipitation reflectivity and high-altitude automatic weather station feeds.',
+  },
+  {
+    id: 'CONN-ESA-04',
+    name: 'ESA Copernicus Open Access (Sentinel-1/2 Hub)',
+    agency: 'ESA_SENTINEL',
+    category: 'SATELLITE_SAR',
+    status: 'ONLINE',
+    latencyMs: 95,
+    syncRatePct: 100,
+    lastSyncUTC: '14:35:10 UTC',
+    activeKeyMasked: 'cop_s1s2_33d7...8fa',
+    dataFeedUrl: 'https://dataspace.copernicus.eu/demo/odata/v1',
+    protocol: 'REST_GEOJSON',
+    packetThroughputKBs: 820.0,
+    description: 'European Space Agency Sentinel-1 SAR and Sentinel-2 optical constellation automated pass ingestion.',
+  },
+  {
+    id: 'CONN-USGS-05',
+    name: 'USGS EarthExplorer (Landsat-9 Thermal TIR)',
+    agency: 'USGS',
+    category: 'THERMAL_IR',
+    status: 'ONLINE',
+    latencyMs: 240,
+    syncRatePct: 95,
+    lastSyncUTC: '14:28:00 UTC',
+    activeKeyMasked: 'usgs_ee_1109a...77b',
+    dataFeedUrl: 'https://m2m.cr.usgs.gov/demo/api/v1/tir-thermal',
+    protocol: 'REST_GEOJSON',
+    packetThroughputKBs: 210.4,
+    description: 'Landsat-9 TIRS-2 surface temperature anomaly scenes for moraine thaw thermal tracking.',
+  },
+];
